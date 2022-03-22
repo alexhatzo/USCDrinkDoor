@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class Order {
@@ -20,13 +21,15 @@ public class Order {
 
     public void Update_Status(){}
 
-    public int Get_Order_ID(){}
+    public int Get_Order_ID(){ return OrderID; }
 
-    public int Get_User_ID(){}
+    public int Get_User_ID(){ return UserID; }
 
-    public int Get_Seller_ID(){}
+    public int Get_Seller_ID(){ return SellerID; }
 
-    public List<Item> Get_Items(){}
+    public List<Item> Get_Items(){
+        return new ArrayList<>();
+    }
 
 
 }

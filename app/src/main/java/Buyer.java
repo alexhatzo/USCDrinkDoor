@@ -5,13 +5,13 @@ public class Buyer extends User{
     Order currentOrder;
     List<Order> pastOrders;
     int dailyCaffeine;
-    String location;
+    Location location;
     String name;
     String birthday;
     int userID;
 
 
-    public Buyer(String name, String birthday, String location, int userID) {
+    public Buyer(String name, String birthday, Location location, int userID) {
         this.name = name;
         this.birthday = birthday;
         this.location = location;
@@ -19,17 +19,19 @@ public class Buyer extends User{
     }
 
     //getters
-    public String getName() {}
+    public String getName() { return name;}
 
-    public String getBirthday() {}
+    public String getBirthday() { return  birthday;}
 
-    public Order getCurrentOrder() {}
+    //fix
+    public Order getCurrentOrder() { return null;}
 
-    public String getPastOrders() {}
+    //fix
+    public String getPastOrders() { return null;}
 
-    public String getLocation() {}
+    public Location getLocation() { return location;}
 
-    public int getUserID() {}
+    public int getUserID() { return userID;}
 
     //setters
     public void setName() {}

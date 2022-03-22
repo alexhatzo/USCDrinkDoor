@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class ShoppingCart {
@@ -20,13 +21,15 @@ public class ShoppingCart {
 
     public void Display_Cart(){}
 
-    public int Get_User_ID(){}
+    public int Get_User_ID(){ return UserID; }
 
-    public int Get_Seller_ID(){}
+    public int Get_Seller_ID(){ return SellerID; }
 
-    public int Get_Cart_ID(){}
+    public int Get_Cart_ID(){ return CartID; }
 
-    public List<Item> Get_Items(){}
+    public List<Item> Get_Items(){
+        return new ArrayList<>();
+    }
 
     public void Submit_Order(){
         // Create order object here

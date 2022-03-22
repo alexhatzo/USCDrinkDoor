@@ -18,17 +18,17 @@ public class Item {
     }
 
     //getters
-    public String getName() {}
+    public String getName() { return itemName; }
 
-    public String getDescription() {}
+    public String getDescription() { return description; }
 
-    public int getUserID() {}
+    public int getItemID() { return itemID; }
 
-    public int getPrice() {}
+    public int getPrice() { return price; }
 
-    public int getCaffeine() {}
+    public int getCaffeine() { return caffeineMg; }
 
-    public int getSellerID() {}
+    public int getSellerID() { return sellerID; }
 
     //setters
     public void changeName() {}
