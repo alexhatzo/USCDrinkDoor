@@ -12,4 +12,13 @@
     <string name="login_failed">"Login failed"</string>
     <string name="MAPS_API_KEY">"AIzaSyB2y2zZkPVbLTr-QFiEAMcXTspOJDaC5OY"</string>
 
+    // Seller Profile:
+    <string name="seller_name">Seller</string>
+    <string name="seller_id">Seller ID:</string>
+    <string name="address">Address</string>
+    <string name="menu">Menu</string>
+    <string name="order">Orders</string>
+    <string name="wallet">Wallet</string>
+    <string name="logoff">Sign Off</string>
+
 </resources>
