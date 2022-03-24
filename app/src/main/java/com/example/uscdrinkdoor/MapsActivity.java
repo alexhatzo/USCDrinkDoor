@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import android.content.Intent;
+import android.view.View;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -65,5 +66,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap.addMarker(new MarkerOptions().position(USC).title("Marker at USC"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(USC,17));
+    }
+
+    public void clickAccount(View view) {
+        Intent intent = new Intent(this, Seller_Profile.class);
+        startActivity(intent);
     }
 }
