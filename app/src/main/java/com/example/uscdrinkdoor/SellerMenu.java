@@ -52,6 +52,9 @@ public class SellerMenu extends AppCompatActivity{
         menu.add(new Item("Iced Coffee", "Iced Caffeinated Coffee", 5, 50));
         menu.add(new Item("Tea", "Hot Green Tea", 3, 20));
 
+        ItemAdapter itemAdapter = new ItemAdapter(this, R.layout.menu_row, menu);
+
+        listview.setAdapter(itemAdapter);
 
 
         //create a shopping cart with user id, seller id, shopping cart id
