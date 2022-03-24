@@ -62,19 +62,27 @@ public class CreateAccount extends AppCompatActivity {
         saveBtn = findViewById(R.id.saveInfo);
 
 
-
-        Map<String, Object> user = new HashMap<>();
-        user.put("emailAddress", currentUser.getEmail());
-        user.put("name", name.getText().toString());
-        user.put("address", address.getText().toString());
-        user.put("zip", zip.getText().toString());
-        user.put("phone", phone.getText().toString());
-        user.put("store", storeAccount.isChecked());
         //add location lat and long using google geo API
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
+                String ns = name.getText().toString();
+                String as = address.getText().toString();
+                String zs =  zip.getText().toString();
+                String ps = phone.getText().toString();
+
+
+                Map<String, Object> user = new HashMap<>();
+                user.put("emailAddress", currentUser.getEmail());
+                user.put("name", ns );
+                user.put("address", as);
+                user.put("zip", zs);
+                user.put("phone", ps);
+                user.put("store", storeAccount.isChecked());
+                Log.d(TAG, "onClick: " + ns + as + zs+ ps);
+
                 db.collection("users").document(emailAddress.getText().toString())
                         .set(user)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
