@@ -114,18 +114,15 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            //                             ||
-                            //must pass in user for intent \/
-                            updateUI();
+                            isValid = true;
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                            Toast.makeText(LoginActivity.this, "Authentication failed. E-mail is already in use.",
                                     Toast.LENGTH_SHORT).show();
-                            //null for refresh
-                            updateUI();
                         }
+                        updateUI();
                     }
                 });
     }
@@ -143,7 +140,6 @@ public class LoginActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             isValid = true;
                             //must pass in user for intent \/
-                            updateUI();
 
                         } else {
                             // If sign in fails, display a message to the user.
@@ -152,8 +148,8 @@ public class LoginActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
 
                             //null for refresh
-                            updateUI();
                         }
+                        updateUILogin();
                     }
                 });
     }
@@ -194,7 +190,7 @@ public class LoginActivity extends AppCompatActivity {
             return dbPassword2[0];
     }
 
-    public void updateUI(){
+    public void updateUILogin(){
         if(!isValid && attemptCount>0){
 
             attemptCount --;
@@ -209,6 +205,26 @@ public class LoginActivity extends AppCompatActivity {
             attempts.setText("Login successful! Redirecting");
             Intent homePage = new Intent(LoginActivity.this, Seller_Profile.class);
             startActivity(homePage);
+            findViewById(R.id.loadingPanel).setVisibility(View.GONE);
+
+        }
+    }
+
+    public void updateUI(){
+        if(!isValid && attemptCount>0){
+
+            attemptCount --;
+            attempts.setText("Incorrect attempt, remaining attempts:" + attemptCount);
+
+        }else if(attemptCount ==0) {
+            loginbtn.setEnabled(false);
+            attempts.setText("Account has been locked. Reset your password." );
+
+        }else{
+
+            attempts.setText("Sign up successful! Redirecting");
+            Intent createAccount = new Intent(LoginActivity.this, CreateAccount.class);
+            startActivity(createAccount);
             findViewById(R.id.loadingPanel).setVisibility(View.GONE);
 
         }
