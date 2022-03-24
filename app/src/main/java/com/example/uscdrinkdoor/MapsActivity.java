@@ -64,6 +64,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng USC = new LatLng(34.0224, -118.2851);
 
         mMap.addMarker(new MarkerOptions().position(USC).title("Marker at USC"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(USC,15));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(USC,17));
     }
 }
