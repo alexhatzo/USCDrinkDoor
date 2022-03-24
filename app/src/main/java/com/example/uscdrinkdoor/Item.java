@@ -1,3 +1,5 @@
+package com.example.uscdrinkdoor;
+
 import java.util.*;
 
 public class Item {
@@ -8,13 +10,11 @@ public class Item {
     int caffeineMg;
     int sellerID;
 
-    public Item(String itemName, String description, int itemID, int price, int caffeineMg, int sellerID) {
+    public Item(String itemName, String description, int price, int caffeineMg) {
         this.itemName = itemName;
         this.description = description;
-        this.itemID = itemID;
         this.price = price;
         this.caffeineMg = caffeineMg;
-        this.sellerID = sellerID;
     }
 
     //getters
@@ -22,13 +22,13 @@ public class Item {
 
     public String getDescription() { return description; }
 
-    public int getItemID() { return itemID; }
+    public int getItemID() { return this.itemID; }
 
     public int getPrice() { return price; }
 
     public int getCaffeine() { return caffeineMg; }
 
-    public int getSellerID() { return sellerID; }
+    public int getSellerID() { return this.sellerID; }
 
     //setters
     public void changeName() {}

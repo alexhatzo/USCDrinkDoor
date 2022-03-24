@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:text="Name"
+        />
+
+    <TextView
+        android:id="@+id/Description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Name"
+        android:maxLength="50"
+        android:singleLine="true"
+        style="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
+        android:text="Description"
+        />
+
+    <TextView
+        android:id="@+id/Price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Description"
+        android:maxLength="50"
+        android:singleLine="true"
+        style="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
+        android:text="Price"
+        />
+
+    <TextView
+        android:id="@+id/Caffeine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Price"
+        android:maxLength="50"
+        android:singleLine="true"
+        style="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
+        android:text="Caffeine"
+        />
+
+    <Button
+        android:id="@+id/Add"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_toRightOf="@+id/Name"
+        android:layout_marginLeft="20dp"
+        android:backgroundTint="@color/teal_200"
+        android:textSize="4sp"
+        android:textColor="@color/black"
+        style="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
+        android:text="Add to Cart"
+        />
+
+
+
+</RelativeLayout>
