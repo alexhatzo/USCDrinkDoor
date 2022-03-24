@@ -34,6 +34,7 @@ public class ShoppingCart {
     public void Submit_Order(){
         // Create order object here
         // Pass order object to seller
+        // Pass order object to buyer
 
     }
 }
