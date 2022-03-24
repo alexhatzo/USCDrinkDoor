@@ -21,6 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".Seller_Profile"
             android:exported="false" />
@@ -40,7 +41,7 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyB2y2zZkPVbLTr-QFiEAMcXTspOJDaC5OY" />
+            android:value="AIzaSyDewc_xqcDgxGJNJAEb0D3ipsKtxD3KqOI" />
 
         <activity
             android:name=".MapsActivity"

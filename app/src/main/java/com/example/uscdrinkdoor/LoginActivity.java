@@ -203,7 +203,7 @@ public class LoginActivity extends AppCompatActivity {
         }else{
 
             attempts.setText("Login successful! Redirecting");
-            Intent homePage = new Intent(LoginActivity.this, Seller_Profile.class);
+            Intent homePage = new Intent(LoginActivity.this, MapsActivity.class);
             startActivity(homePage);
             findViewById(R.id.loadingPanel).setVisibility(View.GONE);
 
