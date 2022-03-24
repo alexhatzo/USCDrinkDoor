@@ -51,11 +51,8 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mAuth = FirebaseAuth.getInstance();
 
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
-            reload();
-        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login2);
 
@@ -65,6 +62,7 @@ public class LoginActivity extends AppCompatActivity {
         password = findViewById(R.id.password);
 
         loginbtn = findViewById(R.id.btnlogin);
+        createbtn = findViewById(R.id.createaccount);
 
         attempts = findViewById(R.id.attempts);
 
@@ -72,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                 String inputUsername = username.getText().toString();
+                 String inputUsername = email.getText().toString();
                  String inputPassword = password.getText().toString();
 
 
@@ -84,6 +82,24 @@ public class LoginActivity extends AppCompatActivity {
 
 
                  }
+
+            }
+        });
+
+        createbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String inputUsername = email.getText().toString();
+                String inputPassword = password.getText().toString();
+
+
+                if(inputUsername.isEmpty() || inputPassword.isEmpty() ){
+                    Toast.makeText(LoginActivity.this, "Make sure you have filled both fields", Toast.LENGTH_SHORT  ).show();
+                }else{
+
+                    createAccount(inputUsername, inputPassword);
+
+                }
 
             }
         });
@@ -105,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(EmailPasswordActivity.this, "Authentication failed.",
+                            Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                             //null for refresh
                             updateUI();
