@@ -92,6 +92,16 @@
             android:textColor="@color/black"
             android:textAllCaps="false"
             />
-    </LinearLayout>
 
+    </LinearLayout>
+    <Button
+        android:id="@+id/Goback"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:text="<-"
+        android:textSize="25dp"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/white"
+        tools:ignore="MissingConstraints"
+        android:onClick="goback"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
