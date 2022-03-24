@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                      Toast.makeText(LoginActivity.this, "Make sure you have filled both fields", Toast.LENGTH_SHORT  ).show();
                  }else{
 
-                     authUser(inputUsername, inputPassword);
+                     signIn(inputUsername, inputPassword);
 
 
                  }
@@ -135,11 +135,13 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
+
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-
+                            isValid = true;
                             //must pass in user for intent \/
                             updateUI();
 
