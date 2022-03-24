@@ -23,6 +23,10 @@
             android:name=".Seller_Profile"
             android:exported="false" />
 
+        <activity
+            android:name=".User_Profile"
+            android:exported="false" />
+
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
