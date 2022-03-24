@@ -8,7 +8,7 @@ public class User_Profile extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_seller_profile);
+        setContentView(R.layout.activity_user_profile);
     }
 
 
