@@ -1,5 +1,7 @@
 import android.location.Location;
 
+import com.example.uscdrinkdoor.Item;
+
 import java.util.List;
 
 public class Seller extends User{

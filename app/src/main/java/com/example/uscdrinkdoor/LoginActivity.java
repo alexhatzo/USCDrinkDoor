@@ -173,7 +173,6 @@ public class LoginActivity extends AppCompatActivity {
                             isValid = true;
                         }
 
-
                     } else {
                         Log.d("TAG", "No such document");
                     }
