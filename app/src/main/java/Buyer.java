@@ -2,51 +2,46 @@ import java.util.*;
 
 
 public class Buyer extends User{
-    Order currentOrder;
-    List<Order> pastOrders;
-    int dailyCaffeine;
+
+    //user data
+    int userID;
+
+    //user information
     Location location;
     String name;
     String birthday;
-    int userID;
+
+    //user components
+    Order currentOrder;
+    List<Order> pastOrders;
+    int dailyCaffeine;
 
 
-    public Buyer(String name, String birthday, Location location, int userID) {
+    public Buyer(String name, String birthday, Location location) {
         this.name = name;
         this.birthday = birthday;
         this.location = location;
-        this.userID = userID;
     }
 
     //getters
     public String getName() { return name;}
 
-    public String getBirthday() { return  birthday;}
-
-    //fix
-    public Order getCurrentOrder() { return null;}
-
-    //fix
-    public String getPastOrders() { return null;}
+    public String getBirthday() { return birthday;}
 
     public Location getLocation() { return location;}
 
-    public int getUserID() { return userID;}
-
     //setters
-    public void setName() {}
+    public void setName(String name) {this.name = name;}
 
-    public void setBirthday() {}
+    public void setBirthday(String birthday) {this.birthday = birthday;}
 
-    public void setLocation() {}
+    public void setLocation(Location location) {this.location = location;}
 
-    //add order
-    public void addOrder() {}
+    //add current order
+    public void addOrder(Order order) {this.currentOrder = order;}
 
-    //login and logout
-    public void login() {}
-
-    public void logout() {}
+    //add to past orders
+    public void addPastOrder(Order order) {this.pastOrders.add(order);}
 
 
 
