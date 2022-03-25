@@ -28,7 +28,7 @@
             android:textColor="@color/black" />
 
         <Button
-            android:id="@+id/Menu"
+            android:id="@+id/sellerMenu"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.25"
@@ -39,7 +39,7 @@
             android:textColor="@color/black" />
 
         <Button
-            android:id="@+id/Order"
+            android:id="@+id/userOrder"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.25"

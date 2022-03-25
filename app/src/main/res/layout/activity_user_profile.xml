@@ -18,7 +18,7 @@
         tools:ignore="MissingConstraints">
 
         <Button
-            android:id="@+id/Name"
+            android:id="@+id/sellerName"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:backgroundTint="@color/white"
@@ -30,7 +30,19 @@
             />
 
         <Button
-            android:id="@+id/Phone"
+            android:id="@+id/userEmail"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:backgroundTint="@color/white"
+            android:textSize="20sp"
+            android:layout_weight="0.5"
+            android:text="@string/user_email"
+            android:textColor="@color/black"
+            android:textAllCaps="false"
+            />
+
+        <Button
+            android:id="@+id/userPhone"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:backgroundTint="@color/white"
@@ -42,7 +54,7 @@
             />
 
         <Button
-            android:id="@+id/Birthday"
+            android:id="@+id/userBirthday"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:backgroundTint="@color/white"
@@ -54,7 +66,7 @@
             />
 
         <Button
-            android:id="@+id/Address"
+            android:id="@+id/sellerAddress"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:backgroundTint="@color/white"
@@ -66,7 +78,7 @@
             />
 
         <Button
-            android:id="@+id/Order"
+            android:id="@+id/userOrder"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:backgroundTint="@color/white"
@@ -78,7 +90,7 @@
             />
 
         <Button
-            android:id="@+id/Cart"
+            android:id="@+id/userCart"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:backgroundTint="@color/white"
@@ -90,7 +102,7 @@
             />
 
         <Button
-            android:id="@+id/Caffeine"
+            android:id="@+id/userCaffeine"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:backgroundTint="@color/white"
@@ -102,7 +114,7 @@
             />
 
         <Button
-            android:id="@+id/Logoff"
+            android:id="@+id/sellerLogoff"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:backgroundTint="@color/white"

@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sellerId"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Seller_Profile">
@@ -16,7 +17,7 @@
         tools:layout_editor_absoluteY="0dp">
 
         <Button
-            android:id="@+id/Name"
+            android:id="@+id/sellerName"
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:backgroundTint="@color/white"
@@ -26,17 +27,17 @@
             android:textSize="20sp" />
 
         <Button
-            android:id="@+id/SellerID"
+            android:id="@+id/sellerEmail"
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:backgroundTint="@color/white"
-            android:text="@string/seller_id"
+            android:text="@string/seller_email"
             android:textAllCaps="false"
             android:textColor="@color/black"
             android:textSize="20sp" />
 
         <Button
-            android:id="@+id/Address"
+            android:id="@+id/sellerAddress"
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:backgroundTint="@color/white"
@@ -46,9 +47,29 @@
             android:textSize="20sp" />
 
         <Button
-            android:id="@+id/Wallet"
+            android:id="@+id/sellerMenu"
             android:layout_width="match_parent"
             android:layout_height="80dp"
+            android:backgroundTint="@color/white"
+            android:text="@string/menu"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/sellerOrders"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:backgroundTint="@color/white"
+            android:text="@string/order"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/sellerWallet"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
             android:backgroundTint="@color/white"
             android:text="@string/wallet"
             android:textAllCaps="false"
@@ -56,14 +77,15 @@
             android:textSize="20sp" />
 
         <Button
-            android:id="@+id/Logoff"
+            android:id="@+id/sellerLogoff"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="100dp"
             android:backgroundTint="@color/white"
             android:text="@string/logoff"
             android:textAllCaps="false"
             android:textColor="@color/black"
             android:textSize="20sp" />
+
     </LinearLayout>
 
     <LinearLayout

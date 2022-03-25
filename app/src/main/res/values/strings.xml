@@ -15,6 +15,7 @@
     // Seller Profile:
     <string name="seller_name">Seller</string>
     <string name="seller_id">Seller ID:</string>
+    <string name="seller_email">Email</string>
     <string name="address">Address</string>
     <string name="menu">Menu</string>
     <string name="order">Orders</string>
@@ -24,6 +25,8 @@
     // User Profile:
     <string name="user_name">User</string>
     <string name="phone">Phone</string>
+    <string name="user_email">Email</string>
+    <string name="user_id">User ID:</string>
     <string name="birthday">Birthday</string>
     <string name="cart">Cart</string>
     <string name="caffeine">Caffeine</string>

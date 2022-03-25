@@ -33,6 +33,7 @@ public class CreateAccount extends AppCompatActivity {
     private EditText address;
     private EditText zip;
     private EditText phone;
+    private EditText birthday;
 
     private Switch storeAccount;
 
@@ -54,7 +55,7 @@ public class CreateAccount extends AppCompatActivity {
         address = findViewById(R.id.address);
         zip = findViewById(R.id.zip);
         phone = findViewById(R.id.phoneNumber);
-
+        birthday = findViewById(R.id.birthday);
 
 
         storeAccount = findViewById(R.id.storeSwitch);
@@ -72,7 +73,7 @@ public class CreateAccount extends AppCompatActivity {
                 String as = address.getText().toString();
                 String zs =  zip.getText().toString();
                 String ps = phone.getText().toString();
-
+                String bs = birthday.getText().toString();
 
                 Map<String, Object> user = new HashMap<>();
                 user.put("emailAddress", currentUser.getEmail());
@@ -80,6 +81,7 @@ public class CreateAccount extends AppCompatActivity {
                 user.put("address", as);
                 user.put("zip", zs);
                 user.put("phone", ps);
+                user.put("birthday", bs);
                 user.put("store", storeAccount.isChecked());
                 Log.d(TAG, "onClick: " + ns + as + zs+ ps);
 
