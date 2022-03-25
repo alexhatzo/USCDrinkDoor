@@ -5,13 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-import java.util.Collections;
 
 import java.util.ArrayList;
 
@@ -32,10 +29,10 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
         convertView = layoutInflater.inflate(mResource, parent, false);
 
-        TextView name = convertView.findViewById(R.id.Name);
+        TextView name = convertView.findViewById(R.id.userName);
         TextView description = convertView.findViewById(R.id.Description);
         TextView price = convertView.findViewById(R.id.Price);
-        TextView caffeine = convertView.findViewById(R.id.Caffeine);
+        TextView caffeine = convertView.findViewById(R.id.userCaffeine);
 
         name.setText(getItem(position).getName());
         description.setText(getItem(position).getDescription());
