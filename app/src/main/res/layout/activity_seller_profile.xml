@@ -17,7 +17,7 @@
         tools:layout_editor_absoluteY="0dp">
 
         <Button
-            android:id="@+id/userName"
+            android:id="@+id/sellerName"
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:backgroundTint="@color/white"
@@ -37,7 +37,7 @@
             android:textSize="20sp" />
 
         <Button
-            android:id="@+id/userAddress"
+            android:id="@+id/sellerAddress"
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:backgroundTint="@color/white"
@@ -57,7 +57,7 @@
             android:textSize="20sp" />
 
         <Button
-            android:id="@+id/Logoff"
+            android:id="@+id/sellerOrders"
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:backgroundTint="@color/white"
@@ -77,7 +77,7 @@
             android:textSize="20sp" />
 
         <Button
-            android:id="@+id/userLogoff"
+            android:id="@+id/sellerLogoff"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:backgroundTint="@color/white"

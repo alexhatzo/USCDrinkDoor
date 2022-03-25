@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/userName"
+        android:id="@+id/sellerName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/TextAppearance.AppCompat.Title"
@@ -17,7 +17,7 @@
         android:id="@+id/Description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/userName"
+        android:layout_below="@+id/sellerName"
         android:maxLength="50"
         android:singleLine="true"
         style="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
@@ -52,7 +52,7 @@
         android:layout_width="60dp"
         android:layout_height="30dp"
         android:layout_marginLeft="20dp"
-        android:layout_toRightOf="@+id/userName"
+        android:layout_toRightOf="@+id/sellerName"
         android:backgroundTint="@color/teal_200"
         android:text="Add to Cart"
         android:textColor="@color/black"

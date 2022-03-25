@@ -35,14 +35,14 @@ public class User_Profile extends AppCompatActivity{
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
-        userName = findViewById(R.id.userName);
-        userAddress = findViewById(R.id.userAddress);
+        userName = findViewById(R.id.sellerName);
+        userAddress = findViewById(R.id.sellerAddress);
         userEmail  = findViewById(R.id.userEmail);
         userOrder  = findViewById(R.id.userOrder);
         userCaffeine = findViewById(R.id.userCaffeine);
         userBirthday  = findViewById(R.id.userBirthday);
         userCart  = findViewById(R.id.userCart);
-        userLogoff  = findViewById(R.id.userLogoff) ;
+        userLogoff  = findViewById(R.id.sellerLogoff) ;
 
 
 

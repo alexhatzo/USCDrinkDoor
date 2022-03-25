@@ -36,15 +36,14 @@ public class Seller_Profile extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seller_profile);
-    }
 
-        sellerAddress = findViewById(R.id.userAddress);
-        sellerName = findViewById(R.id.userName);
+        sellerAddress = findViewById(R.id.sellerAddress);
+        sellerName = findViewById(R.id.sellerName);
         sellerEmail = findViewById(R.id.sellerEmail);
         sellerMenu = findViewById(R.id.sellerMenu);
         sellerWallet = findViewById(R.id.sellerWallet);
-        sellerOrders = findViewById(R.id.userOrder);
-        sellerLogoff = findViewById(R.id.userLogoff);
+        sellerOrders = findViewById(R.id.sellerOrders);
+        sellerLogoff = findViewById(R.id.sellerLogoff);
 
 
         DocumentReference docRef =  db.collection("users").document(currentUser.getEmail());
