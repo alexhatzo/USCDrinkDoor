@@ -36,6 +36,7 @@ public class Seller_Profile extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seller_profile);
+    }
 
         sellerAddress = findViewById(R.id.userAddress);
         sellerName = findViewById(R.id.userName);

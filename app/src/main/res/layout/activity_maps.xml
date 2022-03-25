@@ -34,6 +34,7 @@
             android:layout_weight="0.25"
             android:backgroundTint="@color/white"
             android:text="Menu"
+            android:onClick="clickMenu"
             android:textAllCaps="false"
             android:textColor="@color/black" />
 
