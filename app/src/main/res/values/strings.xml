@@ -23,7 +23,7 @@
 
     // User Profile:
     <string name="user_name">User</string>
-    <string name="user_id">User ID:</string>
+    <string name="phone">Phone</string>
     <string name="birthday">Birthday</string>
     <string name="cart">Cart</string>
     <string name="caffeine">Caffeine</string>
