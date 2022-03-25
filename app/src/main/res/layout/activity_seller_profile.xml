@@ -6,102 +6,113 @@
     android:layout_height="match_parent"
     tools:context=".Seller_Profile">
 
-
     <LinearLayout
         android:id="@+id/Seller_Profile"
-        android:layout_width="410dp"
-        android:layout_height="730dp"
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
         android:orientation="vertical"
+        tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp"
-        tools:ignore="MissingConstraints">
+        tools:layout_editor_absoluteY="0dp">
 
         <Button
             android:id="@+id/Name"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="80dp"
             android:backgroundTint="@color/white"
             android:text="@string/seller_name"
-            android:textSize="20sp"
-            android:textColor="@color/black"
             android:textAllCaps="false"
-            />
+            android:textColor="@color/black"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/SellerID"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="80dp"
             android:backgroundTint="@color/white"
-            android:textSize="20sp"
             android:text="@string/seller_id"
-            android:textColor="@color/black"
             android:textAllCaps="false"
-            />
+            android:textColor="@color/black"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/Address"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="80dp"
             android:backgroundTint="@color/white"
             android:text="@string/address"
-            android:textSize="20sp"
-            android:textColor="@color/black"
             android:textAllCaps="false"
-            />
-
-        <Button
-            android:id="@+id/Menu"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:backgroundTint="@color/white"
-            android:text="@string/menu"
-            android:textSize="20sp"
             android:textColor="@color/black"
-            android:textAllCaps="false"
-            />
-
-        <Button
-            android:id="@+id/Order"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:backgroundTint="@color/white"
-            android:text="@string/order"
-            android:textSize="20sp"
-            android:textColor="@color/black"
-            android:textAllCaps="false"
-            />
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/Wallet"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="80dp"
             android:backgroundTint="@color/white"
             android:text="@string/wallet"
-            android:textSize="20sp"
-            android:textColor="@color/black"
             android:textAllCaps="false"
-            />
+            android:textColor="@color/black"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/Logoff"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="80dp"
             android:backgroundTint="@color/white"
             android:text="@string/logoff"
-            android:textSize="20sp"
-            android:textColor="@color/black"
             android:textAllCaps="false"
-            />
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <Button
+            android:id="@+id/Home"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.25"
+            android:backgroundTint="@color/white"
+            android:onClick="clickHome"
+            android:text="Home"
+            android:textAllCaps="false"
+            android:textColor="@color/black" />
+
+        <Button
+            android:id="@+id/Menu"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.25"
+            android:backgroundTint="@color/white"
+            android:onClick="clickMenu"
+            android:text="Menu"
+            android:textAllCaps="false"
+            android:textColor="@color/black" />
+
+        <Button
+            android:id="@+id/Order"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.25"
+            android:backgroundTint="@color/white"
+            android:text="Order"
+            android:textAllCaps="false"
+            android:textColor="@color/black" />
+
+        <Button
+            android:id="@+id/Account_Profile"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.25"
+            android:backgroundTint="@color/white"
+            android:onClick="clickAccount"
+            android:text="Account"
+            android:textAllCaps="false"
+            android:textColor="@color/black" />
 
     </LinearLayout>
-    <Button
-        android:id="@+id/Goback"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:text="<-"
-        android:textSize="25dp"
-        android:textColor="@color/black"
-        android:backgroundTint="@color/white"
-        tools:ignore="MissingConstraints"
-        android:onClick="goback"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

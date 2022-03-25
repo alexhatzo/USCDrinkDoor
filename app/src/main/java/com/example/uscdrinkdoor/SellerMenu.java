@@ -61,7 +61,19 @@ public class SellerMenu extends AppCompatActivity{
             //add items to shopping cart
             //check out --> pass intent to shopping cart with shopping cart id
 
+    }
+    public void clickAccount(View view) {
+        Intent intent = new Intent(this, Seller_Profile.class);
+        startActivity(intent);
+    }
 
+    public void clickMenu(View view) {
+        Intent intent = new Intent(this, SellerMenu.class);
+        startActivity(intent);
+    }
 
+    public void clickHome(View view) {
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
     }
 }

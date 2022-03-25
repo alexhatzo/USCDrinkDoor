@@ -14,7 +14,17 @@ public class Seller_Profile extends AppCompatActivity {
         setContentView(R.layout.activity_seller_profile);
     }
 
-    public void goback(View view) {
+    public void clickAccount(View view) {
+        Intent intent = new Intent(this, Seller_Profile.class);
+        startActivity(intent);
+    }
+
+    public void clickMenu(View view) {
+        Intent intent = new Intent(this, SellerMenu.class);
+        startActivity(intent);
+    }
+
+    public void clickHome(View view) {
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
     }
