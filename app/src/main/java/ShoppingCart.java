@@ -8,13 +8,13 @@ public class ShoppingCart {
     private int CartID;
     private int UserID;
     private int SellerID;
-    private List<Item> Items;
+    private List<Item> items;
 
     public ShoppingCart(int userID, int sellerID, int cartID){
         UserID = userID;
         SellerID = sellerID;
         CartID = cartID;
-        Items = new ArrayList<Item>();
+        items = new ArrayList<Item>();
     }
 
     public void Add_Item(Item i){}
@@ -35,8 +35,9 @@ public class ShoppingCart {
 
     public void Submit_Order(){
         // Create order object here
+        Order order = new Order(this.UserID, this.SellerID, this.items);
         // Pass order object to seller
-        // Pass order object to buyer
+
 
     }
 }
