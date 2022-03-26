@@ -33,10 +33,17 @@ import java.util.ArrayList;
 
 public class SellerMenu extends AppCompatActivity{
 
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
+    private static final String TAG = "SellerMenu";
+
     ListView listview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 

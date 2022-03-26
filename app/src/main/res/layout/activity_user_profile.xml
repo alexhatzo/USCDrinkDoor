@@ -18,7 +18,7 @@
         tools:ignore="MissingConstraints">
 
         <Button
-            android:id="@+id/sellerName"
+            android:id="@+id/userName"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:backgroundTint="@color/white"
@@ -54,7 +54,7 @@
             />
 
         <Button
-            android:id="@+id/sellerAddress"
+            android:id="@+id/userAddress"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:backgroundTint="@color/white"
@@ -102,7 +102,7 @@
             />
 
         <Button
-            android:id="@+id/sellerLogoff"
+            android:id="@+id/userLogoff"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:backgroundTint="@color/white"

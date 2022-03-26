@@ -3,8 +3,10 @@ package com.example.uscdrinkdoor;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -35,14 +37,14 @@ public class User_Profile extends AppCompatActivity{
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
-        userName = findViewById(R.id.sellerName);
-        userAddress = findViewById(R.id.sellerAddress);
+        userName = findViewById(R.id.userName);
+        userAddress = findViewById(R.id.userAddress);
         userEmail  = findViewById(R.id.userEmail);
         userOrder  = findViewById(R.id.userOrder);
         userCaffeine = findViewById(R.id.userCaffeine);
         userBirthday  = findViewById(R.id.userBirthday);
         userCart  = findViewById(R.id.userCart);
-        userLogoff  = findViewById(R.id.sellerLogoff) ;
+        userLogoff  = findViewById(R.id.userLogoff) ;
 
 
 
@@ -73,14 +75,44 @@ public class User_Profile extends AppCompatActivity{
 
 
         });
+       userOrder.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+//               Intent to orders
+//               Intent orders = new Intent(User_Profile.this, User_order.class);
+//                startActivity(orders);
+           }
+
+       });
+
+
+        userCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+ //              Intent to cart
+//               Intent cart = new Intent(User_Profile.this, cart.class);
+//                startActivity(cart);
+            }
+        });
+
+        userLogoff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAuth.signOut();
+                Intent logOut = new Intent(User_Profile.this, LoginActivity.class);
+                startActivity(logOut);
+            }
+        });
+
     }
     public void updateUI(DocumentSnapshot document){
         userAddress.setText((String)document.get("address"));
         userName.setText((String)document.get("name"));
         userEmail.setText((String)document.get("emailAddress"));
-        userEmail.setText((String)document.get("Birthday"));
-        userEmail.setText((String)document.get("caffeine"));
+        userBirthday.setText((String)document.get("Birthday"));
+        userCaffeine.setText((String)document.get("caffeine"));
         //add phone number
     }
+
 
 }

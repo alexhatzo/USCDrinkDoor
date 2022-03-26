@@ -29,7 +29,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
         convertView = layoutInflater.inflate(mResource, parent, false);
 
-        TextView name = convertView.findViewById(R.id.sellerName);
+        TextView name = convertView.findViewById(R.id.userName);
         TextView description = convertView.findViewById(R.id.Description);
         TextView price = convertView.findViewById(R.id.Price);
         TextView caffeine = convertView.findViewById(R.id.userCaffeine);
