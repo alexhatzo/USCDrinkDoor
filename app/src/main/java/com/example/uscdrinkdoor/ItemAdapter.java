@@ -31,7 +31,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
         TextView name = convertView.findViewById(R.id.userName);
         TextView description = convertView.findViewById(R.id.Description);
-        TextView price = convertView.findViewById(R.id.Price);
+        TextView price = convertView.findViewById(R.id.productPrice);
         TextView caffeine = convertView.findViewById(R.id.userCaffeine);
 
         name.setText(getItem(position).getName());

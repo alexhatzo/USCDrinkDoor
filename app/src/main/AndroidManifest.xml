@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.USCDrinkDoor">
         <activity
+            android:name=".AddProductToMenu"
+            android:exported="false" />
+        <activity
             android:name=".CreateAccount"
             android:exported="false" />
         <activity
@@ -21,7 +24,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".Seller_Profile"
             android:exported="false" />
@@ -46,8 +48,7 @@
         <activity
             android:name=".MapsActivity"
             android:exported="true"
-            android:label="@string/title_activity_maps"></activity>
-
+            android:label="@string/title_activity_maps" />
         <activity
             android:name=".SellerMenu"
             android:exported="true" />
