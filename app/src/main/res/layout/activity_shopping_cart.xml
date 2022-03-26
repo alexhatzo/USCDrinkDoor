@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SellerMenu">
+    tools:context=".ShoppingCartActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -22,22 +22,22 @@
             app:layout_constraintVertical_bias="0.0"></ListView>
 
         <Button
-            android:id="@+id/Checkout"
+            android:id="@+id/Submit_Order"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:backgroundTint="@color/white"
             android:onClick="clickCheckout"
             android:layout_alignBottom="@id/listView"
-            android:text="Checkout"
+            android:text="Submit Order"
             android:textAllCaps="false"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/Checkout">
+            android:layout_below="@id/Submit_Order">
 
-        <Button
+            <Button
                 android:id="@+id/Home"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"

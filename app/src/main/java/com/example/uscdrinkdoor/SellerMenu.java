@@ -137,4 +137,9 @@ public class SellerMenu extends AppCompatActivity{
         startActivity(intent);
     }
 
+    public void clickCheckout(View view) {
+        Intent intent = new Intent(this, ShoppingCartActivity.class);
+        startActivity(intent);
+    }
+
 }

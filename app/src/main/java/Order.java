@@ -11,8 +11,7 @@ public class Order {
     private int SellerID;
     private List<Item> Items;
 
-    public Order(int orderID, int userID, int sellerID, List<Item> items){
-        OrderID = orderID;
+    public Order(int userID, int sellerID, List<Item> items){
         UserID = userID;
         SellerID = sellerID;
         Items = new ArrayList<Item>();
@@ -23,7 +22,7 @@ public class Order {
 
     public void Update_Status(){}
 
-    public int Get_Order_ID(){ return OrderID; }
+    public int Get_Order_ID(){ return this.OrderID; }
 
     public int Get_User_ID(){ return UserID; }
 
