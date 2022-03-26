@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ClipData;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,17 +40,45 @@ public class SellerMenu extends AppCompatActivity{
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     private static final String TAG = "SellerMenu";
+    boolean storeAccount;
 
     ListView listview;
+
+    final Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         FirebaseUser currentUser = mAuth.getCurrentUser();
+        String emailAddress = currentUser.getEmail();
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
         listview = findViewById(R.id.listView);
+
+
+        DocumentReference docRef = db.collection("users").document(emailAddress);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+
+                        Log.d("TAG", "DocumentSnapshot data: " + document.getData());
+                        storeAccount = (boolean) document.get("store");
+
+                    } else {
+                        Log.d("TAG", "No such document");
+                    }
+                } else {
+                    Log.d("TAG", "get failed with ", task.getException());
+                }
+
+
+            }
+        });
 
         //need to receive intent for which seller id and user id
 
@@ -55,13 +86,35 @@ public class SellerMenu extends AppCompatActivity{
         //instantiate list for the seller.menu for layout
         ArrayList<Item> menu = new ArrayList<Item>();
 
-        menu.add(new Item("Coffee", "Hot Caffeinated Coffee", 5, 50));
-        menu.add(new Item("Iced Coffee", "Iced Caffeinated Coffee", 5, 50));
-        menu.add(new Item("Tea", "Hot Green Tea", 3, 20));
 
-        ItemAdapter itemAdapter = new ItemAdapter(this, R.layout.menu_row, menu);
+        db.collection("users").document(emailAddress).collection("Menu")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                menu.add(new Item((String) document.get("Name"), (String)document.get("description"), (long)document.get("Price"), (long)document.get("Caffeine")));
+                            }
 
-        listview.setAdapter(itemAdapter);
+                            ItemAdapter itemAdapter = new ItemAdapter(context, R.layout.menu_row, menu);
+
+                            listview.setAdapter(itemAdapter);
+
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+
+
+
+
+                });
+
+//        menu.add(new Item("Coffee", "Hot Caffeinated Coffee", 5, 50));
+//        menu.add(new Item("Iced Coffee", "Iced Caffeinated Coffee", 5, 50));
+//        menu.add(new Item("Tea", "Hot Green Tea", 3, 20));
 
 
         //create a shopping cart with user id, seller id, shopping cart id
@@ -83,4 +136,5 @@ public class SellerMenu extends AppCompatActivity{
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
     }
+
 }

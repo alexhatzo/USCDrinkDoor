@@ -6,11 +6,11 @@ public class Item {
     String itemName;
     String description;
     int itemID;
-    int price;
-    int caffeineMg;
+    long price;
+    long caffeineMg;
     int sellerID;
 
-    public Item(String itemName, String description, int price, int caffeineMg) {
+    public Item(String itemName, String description, long price, long caffeineMg) {
         this.itemName = itemName;
         this.description = description;
         this.price = price;
@@ -24,9 +24,9 @@ public class Item {
 
     public int getItemID() { return this.itemID; }
 
-    public int getPrice() { return price; }
+    public long getPrice() { return price; }
 
-    public int getCaffeine() { return caffeineMg; }
+    public long getCaffeine() { return caffeineMg; }
 
     public int getSellerID() { return this.sellerID; }
 
