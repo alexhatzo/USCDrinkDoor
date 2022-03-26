@@ -42,6 +42,18 @@
             />
 
         <Button
+            android:id="@+id/userPhone"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:backgroundTint="@color/white"
+            android:textSize="20sp"
+            android:layout_weight="0.5"
+            android:text="@string/phone"
+            android:textColor="@color/black"
+            android:textAllCaps="false"
+            />
+
+        <Button
             android:id="@+id/userBirthday"
             android:layout_width="match_parent"
             android:layout_height="0dp"

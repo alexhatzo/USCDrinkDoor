@@ -24,8 +24,8 @@
 
     // User Profile:
     <string name="user_name">User</string>
+    <string name="phone">Phone</string>
     <string name="user_email">Email</string>
-
     <string name="user_id">User ID:</string>
     <string name="birthday">Birthday</string>
     <string name="cart">Cart</string>
