@@ -38,6 +38,7 @@ import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
 import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -62,6 +63,7 @@ public class MapsActivity extends AppCompatActivity
     private static final int DEFAULT_ZOOM = 15;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean locationPermissionGranted;
+    private List<LatLng> latLngList = new ArrayList<LatLng>();
 
     // The geographical location where the device is currently located. That is, the last-known
     // location retrieved by the Fused Location Provider.
@@ -126,6 +128,8 @@ public class MapsActivity extends AppCompatActivity
 
         // Get the current location of the device and set the position of the map.
         getDeviceLocation();
+
+        SearchNearby();
     }
 
     /**
@@ -222,4 +226,17 @@ public class MapsActivity extends AppCompatActivity
             Log.e("Exception: %s", e.getMessage());
         }
     }
+
+    private void SearchNearby(){
+
+        latLngList.add(new LatLng(34.0213, -118.2824));
+        latLngList.add(new LatLng(34.0223, -118.2846));
+        latLngList.add(new LatLng(34.0187, -118.2852));
+
+        for (int i = 0; i < latLngList.size(); i++){
+             map.addMarker(new MarkerOptions().position(latLngList.get(i)));
+        }
+    }
+
+
 }
