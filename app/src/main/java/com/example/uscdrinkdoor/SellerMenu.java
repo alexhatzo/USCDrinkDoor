@@ -141,7 +141,7 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
 
     @Override
     public void sendToEdit(String name) {
-        Intent productEdit = new Intent(SellerMenu.this, AddProductToMenu.class).putExtra("name", name);
+        Intent productEdit = new Intent(this, AddProductToMenu.class).putExtra("name", name);
         startActivity(productEdit);
     }
 

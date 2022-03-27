@@ -88,30 +88,34 @@ public class MapsActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-//        FirebaseUser currentUser = mAuth.getCurrentUser();
-//        String userEmail = currentUser.getEmail();
-//
-//        DocumentReference docRef = db.collection("users").document(userEmail);
-//        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    DocumentSnapshot document = task.getResult();
-//                    if (document.exists()) {
-//
-//                        Log.d("TAG", "DocumentSnapshot data: " + document.getData());
-//                        store = (boolean) document.get("store");
-//
-//                    } else {
-//                        Log.d("TAG", "No such document");
-//                    }
-//                } else {
-//                    Log.d("TAG", "get failed with ", task.getException());
-//                }
-//
-//
-//            }
-//        });
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        String userEmail = currentUser.getEmail();
+
+        DocumentReference docRef = db.collection("users").document(userEmail);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+
+                        Log.d("TAG", "DocumentSnapshot data: " + document.getData());
+                        store = (boolean) document.get("store");
+                        if (store == false){
+                            Button btn = (Button) findViewById(R.id.sellerMenu);
+                            btn.setText("Cart");
+                        }
+
+                    } else {
+                        Log.d("TAG", "No such document");
+                    }
+                } else {
+                    Log.d("TAG", "get failed with ", task.getException());
+                }
+
+
+            }
+        });
 
         super.onCreate(savedInstanceState);
 
@@ -124,10 +128,7 @@ public class MapsActivity extends AppCompatActivity
         // Retrieve the content view that renders the map.
         setContentView(R.layout.activity_maps);
 
-        if (store == false){
-            Button btn = (Button) findViewById(R.id.sellerMenu);
-            btn.setText("Shopping Cart");
-        }
+
 
         // Construct a PlacesClient
         Places.initialize(getApplicationContext(), "AIzaSyDewc_xqcDgxGJNJAEb0D3ipsKtxD3KqOI");
