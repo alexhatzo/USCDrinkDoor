@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -52,10 +53,10 @@ import java.util.List;
  * An activity that displays a map showing the place at the device's current location.
  */
 public class MapsActivity extends AppCompatActivity
-        implements OnMapReadyCallback {
+        implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
-//    FirebaseFirestore db = FirebaseFirestore.getInstance();
-//    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     boolean store=false;
 
@@ -74,8 +75,8 @@ public class MapsActivity extends AppCompatActivity
     private static final int DEFAULT_ZOOM = 15;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean locationPermissionGranted;
-    private List<LatLng> latLngList = new ArrayList<LatLng>();
-
+    private List<LatLng> latLngList = new ArrayList<>();
+    private List<Marker> markers = new ArrayList<>();
     // The geographical location where the device is currently located. That is, the last-known
     // location retrieved by the Fused Location Provider.
     private Location lastKnownLocation;
@@ -123,6 +124,11 @@ public class MapsActivity extends AppCompatActivity
         // Retrieve the content view that renders the map.
         setContentView(R.layout.activity_maps);
 
+        if (store == false){
+            Button btn = (Button) findViewById(R.id.sellerMenu);
+            btn.setText("Shopping Cart");
+        }
+
         // Construct a PlacesClient
         Places.initialize(getApplicationContext(), "AIzaSyDewc_xqcDgxGJNJAEb0D3ipsKtxD3KqOI");
         placesClient = Places.createClient(this);
@@ -166,6 +172,7 @@ public class MapsActivity extends AppCompatActivity
         // Get the current location of the device and set the position of the map.
         getDeviceLocation();
 
+        // Get nearby stores
         SearchNearby();
     }
 
@@ -269,12 +276,35 @@ public class MapsActivity extends AppCompatActivity
         latLngList.add(new LatLng(34.0213, -118.2824));
         latLngList.add(new LatLng(34.0223, -118.2846));
         latLngList.add(new LatLng(34.0187, -118.2852));
+        List<String> s = new ArrayList<>();
+        s.add("a");
+        s.add("b");
+        s.add("c");
+
 
         for (int i = 0; i < latLngList.size(); i++){
-             map.addMarker(new MarkerOptions().position(latLngList.get(i)));
+             Marker marker = map.addMarker(new MarkerOptions().position(latLngList.get(i)).title(s.get(i)));
+            marker.setTag(0);
         }
+        map.setOnMarkerClickListener(this);
     }
 
+
+    @Override
+    public boolean onMarkerClick(@NonNull Marker marker) {
+        Integer clickCount = (Integer) marker.getTag();
+
+        if (clickCount != 0) {
+            marker.setTag(0);
+            Intent intent = new Intent(this, Seller_Profile.class);
+            startActivity(intent);
+        }
+        else {
+            clickCount++;
+            marker.setTag(clickCount);
+        }
+        return false;
+    }
 
     public void clickAccount(View view) {
         Intent intent = new Intent(this, Seller_Profile.class);
