@@ -50,13 +50,13 @@
                 android:textColor="@color/black" />
 
             <Button
-                android:id="@+id/Add_Product"
+                android:id="@+id/Menu"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.25"
                 android:backgroundTint="@color/white"
-                android:text="Add Product"
-                android:onClick="addProduct"
+                android:text="Menu"
+                android:onClick="clickMenu"
                 android:textAllCaps="false"
                 android:textColor="@color/black" />
 
