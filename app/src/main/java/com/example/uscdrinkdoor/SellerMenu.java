@@ -62,6 +62,7 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
 
         listview = findViewById(R.id.listView);
 
+        Button checkout = findViewById(R.id.Checkout);
 
         DocumentReference docRef = db.collection("users").document(emailAddress);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -73,6 +74,13 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
 
                         Log.d("TAG", "DocumentSnapshot data: " + document.getData());
                         storeAccount = (boolean) document.get("store");
+
+                        if (storeAccount){
+                            checkout.setText("Add Product");
+                        }
+                        else{
+                            checkout.setText("Checkout");
+                        }
 
                     } else {
                         Log.d("TAG", "No such document");
@@ -115,14 +123,7 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
                 });
 
 
-//        menu.add(new Item("Coffee", "Hot Caffeinated Coffee", 5, 50));
-//        menu.add(new Item("Iced Coffee", "Iced Caffeinated Coffee", 5, 50));
-//        menu.add(new Item("Tea", "Hot Green Tea", 3, 20));
 
-
-        //create a shopping cart with user id, seller id, shopping cart id
-            //add items to shopping cart
-            //check out --> pass intent to shopping cart (save shopping cart to database so seller can use)
 
     }
 
@@ -149,8 +150,8 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
         startActivity(intent);
     }
 
-    public void addProduct(View view) {
-        Intent intent = new Intent(this, AddProductToMenu.class);
+    public void clickMenu(View view) {
+        Intent intent = new Intent(this, SellerMenu.class);
         startActivity(intent);
     }
 
@@ -160,10 +161,14 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
     }
 
     public void clickCheckout(View view) {
-        //if cart not empty
-        Intent intent = new Intent(this, ShoppingCartActivity.class);
+        Intent intent;
+        if (storeAccount){
+            intent = new Intent(this, AddProductToMenu.class);
+        }
+        else{
+            intent = new Intent(this, ShoppingCartActivity.class);
+        }
         startActivity(intent);
-        //if cart is empty, need to display message
     }
 
 }
