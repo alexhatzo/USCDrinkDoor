@@ -100,7 +100,7 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
-                                menu.add(new Item((String) document.get("Name"), (String)document.get("description"), (long)document.get("Price"), (long)document.get("Caffeine")));
+                                menu.add(new Item((String) document.get("Name"), (String)document.get("description"), (long)document.get("Price"), (long)document.get("Caffeine"), (String) document.get("Email")));
                             }
 
                             ItemAdapter itemAdapter = new ItemAdapter(context, R.layout.menu_row, menu);
@@ -111,9 +111,6 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
                     }
-
-
-
 
                 });
 
@@ -137,6 +134,14 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
             }
         }
 
+
+
+    }
+
+    @Override
+    public void sendToEdit(String name) {
+        Intent productEdit = new Intent(SellerMenu.this, AddProductToMenu.class).putExtra("name", name);
+        startActivity(productEdit);
     }
 
     public void clickAccount(View view) {

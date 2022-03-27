@@ -1,20 +1,18 @@
 package com.example.uscdrinkdoor;
 
-import java.util.*;
-
 public class Item {
     String itemName;
     String description;
-    int itemID;
     long price;
     long caffeineMg;
-    int sellerID;
+    String sellerEmail;
 
-    public Item(String itemName, String description, long price, long caffeineMg) {
+    public Item(String itemName, String description, long price, long caffeineMg, String email) {
         this.itemName = itemName;
         this.description = description;
         this.price = price;
         this.caffeineMg = caffeineMg;
+        this.sellerEmail = email;
     }
 
     //getters
@@ -22,13 +20,11 @@ public class Item {
 
     public String getDescription() { return description; }
 
-    public int getItemID() { return this.itemID; }
-
     public long getPrice() { return price; }
 
     public long getCaffeine() { return caffeineMg; }
 
-    public int getSellerID() { return this.sellerID; }
+    public String getSellerEmail() { return this.sellerEmail; }
 
     //setters
     public void changeName() {}

@@ -105,7 +105,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
                 if(!store) {
                     clickListener.onAddToCartClick(getItem(position).getName());
                 }else{
-                    sendToEdit();
+                    clickListener.sendToEdit(getItem(position).getName());
                 }
 
             }
@@ -118,10 +118,8 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
     public interface ItemClickListener {
         public void onAddToCartClick(String name);
+        public void sendToEdit(String name);
     }
 
-    public void sendToEdit() {
-        Intent product = new Intent(ItemAdapter.this, AddProductToMenu.class);
-        startActivity(product);
-    }
+
 }
