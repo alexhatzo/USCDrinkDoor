@@ -49,6 +49,8 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
     //instantiate list for the seller.menu for layout
     ArrayList<Item> menu = new ArrayList<Item>();
 
+    ShoppingCart cart = new ShoppingCart();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -129,7 +131,6 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
 
     @Override
     public void onAddToCartClick(int id) {
-        ShoppingCart cart = new ShoppingCart();
         for (int i=0; i<menu.size(); i++){
             if (menu.get(i).getItemID() == id){
                 cart.Add_Item(menu.get(i));
