@@ -27,7 +27,6 @@
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:backgroundTint="@color/white"
-            android:onClick="clickCheckout"
             android:layout_alignBottom="@id/listView"
             android:text="Submit Order"
             android:textAllCaps="false"/>

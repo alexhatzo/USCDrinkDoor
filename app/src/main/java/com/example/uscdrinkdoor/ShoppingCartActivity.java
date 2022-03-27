@@ -46,10 +46,26 @@ public class ShoppingCartActivity extends AppCompatActivity{
         listview = findViewById(R.id.listView);
 
         ArrayList<Item> cart = new ArrayList<Item>();
-        //set cart to ShoppingCart item list
+        //set cart to com.example.uscdrinkdoor.ShoppingCart item list
 
         ItemAdapter itemAdapter = new ItemAdapter(context, R.layout.cart_row, cart);
 
         listview.setAdapter(itemAdapter);
     }
+
+    public void clickAccount(View view) {
+        Intent intent = new Intent(this, Seller_Profile.class);
+        startActivity(intent);
+    }
+
+    public void clickMenu(View view) {
+        Intent intent = new Intent(this, SellerMenu.class);
+        startActivity(intent);
+    }
+
+    public void clickHome(View view) {
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
+    }
+
 }

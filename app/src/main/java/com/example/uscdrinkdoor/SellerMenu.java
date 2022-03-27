@@ -34,7 +34,7 @@ import com.google.firebase.firestore.Source;
 import java.sql.Array;
 import java.util.ArrayList;
 
-public class SellerMenu extends AppCompatActivity{
+public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemClickListener{
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -45,6 +45,9 @@ public class SellerMenu extends AppCompatActivity{
     ListView listview;
 
     final Context context = this;
+
+    //instantiate list for the seller.menu for layout
+    ArrayList<Item> menu = new ArrayList<Item>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +87,7 @@ public class SellerMenu extends AppCompatActivity{
 
 
         //instantiate list for the seller.menu for layout
-        ArrayList<Item> menu = new ArrayList<Item>();
+        //ArrayList<Item> menu = new ArrayList<Item>();
 
 
         db.collection("users").document(emailAddress).collection("Menu")
@@ -112,6 +115,7 @@ public class SellerMenu extends AppCompatActivity{
 
                 });
 
+
 //        menu.add(new Item("Coffee", "Hot Caffeinated Coffee", 5, 50));
 //        menu.add(new Item("Iced Coffee", "Iced Caffeinated Coffee", 5, 50));
 //        menu.add(new Item("Tea", "Hot Green Tea", 3, 20));
@@ -119,16 +123,28 @@ public class SellerMenu extends AppCompatActivity{
 
         //create a shopping cart with user id, seller id, shopping cart id
             //add items to shopping cart
-            //check out --> pass intent to shopping cart with shopping cart id
+            //check out --> pass intent to shopping cart (save shopping cart to database so seller can use)
 
     }
+
+    @Override
+    public void onAddToCartClick(int id) {
+        ShoppingCart cart = new ShoppingCart();
+        for (int i=0; i<menu.size(); i++){
+            if (menu.get(i).getItemID() == id){
+                cart.Add_Item(menu.get(i));
+            }
+        }
+
+    }
+
     public void clickAccount(View view) {
         Intent intent = new Intent(this, Seller_Profile.class);
         startActivity(intent);
     }
 
-    public void clickMenu(View view) {
-        Intent intent = new Intent(this, SellerMenu.class);
+    public void addProduct(View view) {
+        Intent intent = new Intent(this, AddProductToMenu.class);
         startActivity(intent);
     }
 
@@ -138,8 +154,10 @@ public class SellerMenu extends AppCompatActivity{
     }
 
     public void clickCheckout(View view) {
+        //if cart not empty
         Intent intent = new Intent(this, ShoppingCartActivity.class);
         startActivity(intent);
+        //if cart is empty, need to display message
     }
 
 }

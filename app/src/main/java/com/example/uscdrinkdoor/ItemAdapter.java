@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,11 +16,13 @@ import java.util.ArrayList;
 public class ItemAdapter extends ArrayAdapter<Item> {
     private Context mContext;
     private int mResource;
+    private ItemClickListener clickListener;
 
     public ItemAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Item> objects) {
         super(context, resource, objects);
         this.mContext = context;
         this.mResource = resource;
+        this.clickListener = (ItemClickListener) context;
     }
 
     @NonNull
@@ -43,10 +46,21 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         String caffeineString = String.valueOf(getItem(position).getCaffeine()) + " mg";
         caffeine.setText(caffeineString);
 
+        Button addToCart = convertView.findViewById(R.id.Add);
 
+        addToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickListener.onAddToCartClick(getItem(position).getItemID());
+            }
+        });
 
 
 
         return convertView;
+    }
+
+    public interface ItemClickListener {
+        public void onAddToCartClick(int id);
     }
 }

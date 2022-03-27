@@ -1,3 +1,5 @@
+package com.example.uscdrinkdoor;
+
 import com.example.uscdrinkdoor.Item;
 
 import java.util.ArrayList;

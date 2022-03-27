@@ -1,3 +1,5 @@
+package com.example.uscdrinkdoor;
+
 import com.example.uscdrinkdoor.Item;
 
 import java.util.ArrayList;
@@ -10,16 +12,13 @@ public class ShoppingCart {
     private int SellerID;
     private List<Item> items;
 
-    public ShoppingCart(int userID, int sellerID, int cartID){
-        UserID = userID;
-        SellerID = sellerID;
-        CartID = cartID;
+    public ShoppingCart(){
         items = new ArrayList<Item>();
     }
 
-    public void Add_Item(Item i){}
+    public void Add_Item(Item i){items.add(i);}
 
-    public void Remove_Item(Item i){}
+    public void Remove_Item(Item i){items.remove(i);}
 
     public void Display_Cart(){}
 
