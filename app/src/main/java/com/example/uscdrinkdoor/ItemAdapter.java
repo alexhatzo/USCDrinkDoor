@@ -1,6 +1,7 @@
 package com.example.uscdrinkdoor;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,29 +47,6 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         String userEmail = currentUser.getEmail();
 
-        DocumentReference docRef = db.collection("users").document(userEmail);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-
-                        Log.d("TAG", "DocumentSnapshot data: " + document.getData());
-                        store = (boolean) document.get("store");
-
-                    } else {
-                        Log.d("TAG", "No such document");
-                    }
-                } else {
-                    Log.d("TAG", "get failed with ", task.getException());
-                }
-
-
-            }
-        });
-
-
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
 
         convertView = layoutInflater.inflate(mResource, parent, false);
@@ -89,18 +67,46 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
         Button addToCart = convertView.findViewById(R.id.Add);
 
-        if(store){
-            addToCart.setText("Edit Product");
-        }else{
-            addToCart.setText("Add To Cart");
-        }
+
+        DocumentReference docRef = db.collection("users").document(userEmail);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+
+                        Log.d("TAG", "DocumentSnapshot data: " + document.getData());
+                        store = (boolean) document.get("store");
+
+                        if(store){
+                            addToCart.setText("Edit Product");
+                        }else{
+                            addToCart.setText("Add To Cart");
+                        }
+
+                    } else {
+                        Log.d("TAG", "No such document");
+                    }
+                } else {
+                    Log.d("TAG", "get failed with ", task.getException());
+                }
+
+
+            }
+        });
+
+
 
 
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickListener.onAddToCartClick(getItem(position).getName());
-
+                if(!store) {
+                    clickListener.onAddToCartClick(getItem(position).getName());
+                }else{
+                    sendToEdit();
+                }
 
             }
         });
@@ -112,5 +118,10 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
     public interface ItemClickListener {
         public void onAddToCartClick(String name);
+    }
+
+    public void sendToEdit() {
+        Intent product = new Intent(ItemAdapter.this, AddProductToMenu.class);
+        startActivity(product);
     }
 }
