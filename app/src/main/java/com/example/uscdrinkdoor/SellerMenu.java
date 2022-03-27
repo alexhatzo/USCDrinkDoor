@@ -130,9 +130,9 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
     }
 
     @Override
-    public void onAddToCartClick(int id) {
+    public void onAddToCartClick(String name) {
         for (int i=0; i<menu.size(); i++){
-            if (menu.get(i).getItemID() == id){
+            if (menu.get(i).getName().equals(name)){
                 cart.Add_Item(menu.get(i));
             }
         }

@@ -47,10 +47,12 @@ public class LoginActivity extends AppCompatActivity {
 
     boolean isValid = false;
 
+
     int attemptCount = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         mAuth = FirebaseAuth.getInstance();
 
         super.onCreate(savedInstanceState);
@@ -63,6 +65,9 @@ public class LoginActivity extends AppCompatActivity {
 
         loginbtn = findViewById(R.id.btnlogin);
         createbtn = findViewById(R.id.createaccount);
+
+
+
 
         attempts = findViewById(R.id.attempts);
 
@@ -89,6 +94,8 @@ public class LoginActivity extends AppCompatActivity {
         createbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
                 String inputUsername = email.getText().toString();
                 String inputPassword = password.getText().toString();
 

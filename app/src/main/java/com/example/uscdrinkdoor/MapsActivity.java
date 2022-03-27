@@ -1,6 +1,7 @@
 package com.example.uscdrinkdoor;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -37,6 +38,11 @@ import com.google.android.libraries.places.api.model.PlaceLikelihood;
 import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
 import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,6 +53,11 @@ import java.util.List;
  */
 public class MapsActivity extends AppCompatActivity
         implements OnMapReadyCallback {
+
+//    FirebaseFirestore db = FirebaseFirestore.getInstance();
+//    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
+    boolean store=false;
 
     private static final String TAG = MapsActivity.class.getSimpleName();
     private GoogleMap map;
@@ -75,6 +86,32 @@ public class MapsActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+//        FirebaseUser currentUser = mAuth.getCurrentUser();
+//        String userEmail = currentUser.getEmail();
+//
+//        DocumentReference docRef = db.collection("users").document(userEmail);
+//        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    DocumentSnapshot document = task.getResult();
+//                    if (document.exists()) {
+//
+//                        Log.d("TAG", "DocumentSnapshot data: " + document.getData());
+//                        store = (boolean) document.get("store");
+//
+//                    } else {
+//                        Log.d("TAG", "No such document");
+//                    }
+//                } else {
+//                    Log.d("TAG", "get failed with ", task.getException());
+//                }
+//
+//
+//            }
+//        });
+
         super.onCreate(savedInstanceState);
 
         // Retrieve location and camera position from saved instance state.
@@ -236,6 +273,22 @@ public class MapsActivity extends AppCompatActivity
         for (int i = 0; i < latLngList.size(); i++){
              map.addMarker(new MarkerOptions().position(latLngList.get(i)));
         }
+    }
+
+
+    public void clickAccount(View view) {
+        Intent intent = new Intent(this, Seller_Profile.class);
+        startActivity(intent);
+    }
+
+    public void clickMenu(View view) {
+        Intent intent = new Intent(this, SellerMenu.class);
+        startActivity(intent);
+    }
+
+    public void clickHome(View view) {
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
     }
 
 
