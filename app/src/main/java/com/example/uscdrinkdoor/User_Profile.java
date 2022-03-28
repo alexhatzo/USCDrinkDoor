@@ -27,13 +27,14 @@ public class User_Profile extends AppCompatActivity{
     private Button userEmail;
     private Button userOrder;
     private Button userCaffeine;
-    private Button userBirthday;
-    private Button userCart;
+    private Button userPhone;
     private Button userLogoff;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_user_profile);
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
@@ -45,11 +46,12 @@ public class User_Profile extends AppCompatActivity{
         userEmail  = findViewById(R.id.userEmail);
         userOrder  = findViewById(R.id.userOrder);
         userCaffeine = findViewById(R.id.userCaffeine);
-        userBirthday  = findViewById(R.id.userBirthday);
-        userCart  = findViewById(R.id.userCart);
         userLogoff  = findViewById(R.id.userLogoff) ;
+        userPhone = findViewById(R.id.userPhone);
 
         DocumentReference docRef =  db.collection("users").document(currentUser.getEmail());
+
+        //get general order data and display on screen
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -107,9 +109,9 @@ public class User_Profile extends AppCompatActivity{
         userAddress.setText((String)document.get("address"));
         userName.setText((String)document.get("name"));
         userEmail.setText((String)document.get("emailAddress"));
-        userBirthday.setText((String)document.get("birthday"));
-        //userCaffeine.setText((String)document.get("caffeine"));
-        //add phone number
+        userPhone.setText((String)document.get("phone"));
+        userCaffeine.setText((String)document.get("caffeine"));
+        
     }
 
     public void clickAccount(View view) {
