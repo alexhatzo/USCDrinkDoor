@@ -78,7 +78,7 @@ public class ShoppingCartActivity extends AppCompatActivity{
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
-                                cart.add(new Item((String) document.get("Name"), (String)document.get("description"), (long)document.get("Price"), (long)document.get("Caffeine"), (String) document.get("Email")));
+                                cart.add(new Item((String) document.get("Name"), (String)document.get("description"), (long) document.get("Price"), (long) document.get("Caffeine"), (String) document.get("Email")));
                             }
 
                             ItemAdapter itemAdapter = new ItemAdapter(context, R.layout.cart_row, cart);
