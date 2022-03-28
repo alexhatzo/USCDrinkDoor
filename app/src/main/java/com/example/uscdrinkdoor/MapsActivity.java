@@ -111,7 +111,7 @@ public class MapsActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        order = findViewById(R.id.userOrder);
+        //order = findViewById(R.id.userOrder);
 
 
         DocumentReference docRef = db.collection("users").document(userEmail);
@@ -165,35 +165,35 @@ public class MapsActivity extends AppCompatActivity
         mapFragment.getMapAsync(this);
 
 
-        Button account = findViewById(R.id.Account_Profile);
-        //account button
-        account.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent;
-                if(store){
-                    intent = new Intent(MapsActivity.this, Seller_Profile.class);
-                }
-                else{
-                    intent = new Intent(MapsActivity.this, User_Profile.class);
-                }
-                startActivity(intent);
-            }
-        });
+//        Button account = findViewById(R.id.Account_Profile);
+//        //account button
+//        account.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent;
+//                if(store){
+//                    intent = new Intent(MapsActivity.this, Seller_Profile.class);
+//                }
+//                else{
+//                    intent = new Intent(MapsActivity.this, User_Profile.class);
+//                }
+//                startActivity(intent);
+//            }
+//        });
 
-        order.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent;
-                if(store){
-                    intent = new Intent(MapsActivity.this, SellerOrderListActivity.class);
-                }
-                else{
-                    intent = new Intent(MapsActivity.this, OrderCompleteActivity.class);
-                }
-                startActivity(intent);
-            }
-        });
+//        order.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent;
+//                if(store){
+//                    intent = new Intent(MapsActivity.this, SellerOrderListActivity.class);
+//                }
+//                else{
+//                    intent = new Intent(MapsActivity.this, OrderCompleteActivity.class);
+//                }
+//                startActivity(intent);
+//            }
+//        });
 
         //cart or seller menu button
 //        btn.setOnClickListener(new View.OnClickListener() {
@@ -429,14 +429,14 @@ public class MapsActivity extends AppCompatActivity
     }
 
     public void clickAccount(View view) {
-//        Intent intent;
-//        if (store) {
-//            intent = new Intent(this, Seller_Profile.class);
-//        }
-//        else{
-//            intent = new Intent(this, User_Profile.class);
-//        }
-//        startActivity(intent);
+        Intent intent;
+        if(store){
+            intent = new Intent(MapsActivity.this, Seller_Profile.class);
+        }
+        else{
+            intent = new Intent(MapsActivity.this, User_Profile.class);
+        }
+        startActivity(intent);
     }
 
     public void clickMenu(View view) {
@@ -446,6 +446,17 @@ public class MapsActivity extends AppCompatActivity
         }
         else{
             intent = new Intent(MapsActivity.this, ShoppingCartActivity.class);
+        }
+        startActivity(intent);
+    }
+
+    public void clickOrder(View view){
+        Intent intent;
+        if(store){
+            intent = new Intent(MapsActivity.this, SellerOrderListActivity.class);
+        }
+        else{
+            intent = new Intent(MapsActivity.this, OrderCompleteActivity.class);
         }
         startActivity(intent);
     }

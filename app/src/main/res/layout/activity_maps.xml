@@ -47,6 +47,7 @@
             android:text="Order"
             android:textAllCaps="false"
             android:textColor="@color/black"
+            android:onClick="clickOrder"
             android:backgroundTint="@color/white"/>
 
         <Button
@@ -56,6 +57,7 @@
             android:layout_weight="0.25"
             android:text="Account"
             android:textAllCaps="false"
+            android:onClick="clickAccount"
             android:textColor="@color/black"
             android:backgroundTint="@color/white"
             />
