@@ -1,134 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:scrollbarStyle="insideOverlay"
     tools:context=".User_Profile">
 
     <LinearLayout
         android:id="@+id/User_Profile"
         android:layout_width="410dp"
-        android:layout_height="730dp"
-        android:orientation="vertical"
+        android:layout_height="635dp"
         android:layout_weight="0.5"
+        android:isScrollContainer="true"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp"
-        tools:ignore="MissingConstraints">
+        tools:layout_editor_absoluteY="0dp">
 
         <Button
             android:id="@+id/userName"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:backgroundTint="@color/white"
             android:layout_weight="0.5"
+            android:backgroundTint="@color/white"
             android:text="@string/user_name"
-            android:textSize="20sp"
-            android:textColor="@color/black"
             android:textAllCaps="false"
-            />
+            android:textColor="@color/black"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/userEmail"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:backgroundTint="@color/white"
-            android:textSize="20sp"
             android:layout_weight="0.5"
+            android:backgroundTint="@color/white"
             android:text="@string/user_email"
-            android:textColor="@color/black"
             android:textAllCaps="false"
-            />
+            android:textColor="@color/black"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/userPhone"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:backgroundTint="@color/white"
-            android:textSize="20sp"
             android:layout_weight="0.5"
+            android:backgroundTint="@color/white"
             android:text="@string/phone"
-            android:textColor="@color/black"
             android:textAllCaps="false"
-            />
-
-        <Button
-            android:id="@+id/userBirthday"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:backgroundTint="@color/white"
-            android:text="@string/birthday"
-            android:layout_weight="0.5"
-            android:textSize="20sp"
             android:textColor="@color/black"
-            android:textAllCaps="false"
-            />
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/userAddress"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_weight="0.5"
             android:backgroundTint="@color/white"
             android:text="@string/address"
-            android:textSize="20sp"
-            android:layout_weight="0.5"
-            android:textColor="@color/black"
             android:textAllCaps="false"
-            />
+            android:textColor="@color/black"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/userOrder"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_weight="0.5"
             android:backgroundTint="@color/white"
             android:text="@string/order"
-            android:layout_weight="0.5"
-            android:textSize="20sp"
-            android:textColor="@color/black"
             android:textAllCaps="false"
-            />
-
-        <Button
-            android:id="@+id/userCart"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:backgroundTint="@color/white"
-            android:text="@string/cart"
-            android:layout_weight="0.5"
-            android:textSize="20sp"
             android:textColor="@color/black"
-            android:textAllCaps="false"
-            />
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/userCaffeine"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_weight="0.5"
             android:backgroundTint="@color/white"
             android:text="@string/caffeine"
-            android:layout_weight="0.5"
-            android:textSize="20sp"
-            android:textColor="@color/black"
             android:textAllCaps="false"
-            />
+            android:textColor="@color/black"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/userLogoff"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_weight="0.5"
             android:backgroundTint="@color/white"
             android:text="@string/logoff"
-            android:layout_weight="0.5"
-            android:textSize="20sp"
-            android:textColor="@color/black"
             android:textAllCaps="false"
-            />
+            android:textColor="@color/black"
+            android:textSize="20sp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
         app:layout_constraintBottom_toBottomOf="parent">
+
         <Button
             android:id="@+id/Home"
             android:layout_width="0dp"

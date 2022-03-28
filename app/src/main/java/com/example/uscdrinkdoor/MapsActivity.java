@@ -427,7 +427,7 @@ public class MapsActivity extends AppCompatActivity
             intent = new Intent(MapsActivity.this, SellerMenu.class);
         }
         else{
-            intent = new Intent(MapsActivity.this, ShoppingCart.class);
+            intent = new Intent(MapsActivity.this, ShoppingCartActivity.class);
         }
         startActivity(intent);
     }

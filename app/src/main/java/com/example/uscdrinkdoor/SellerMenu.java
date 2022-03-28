@@ -35,6 +35,7 @@ import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemClickListener{
 
@@ -196,6 +197,7 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
                 toAdd = menu.get(i);
             }
         }
+        UUID uuid = UUID.randomUUID();
 
         Map<String, Object> product = new HashMap<>();
         product.put("Name", toAdd.getName());
@@ -206,7 +208,7 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
 
 
         //save new product to db
-        db.collection("users").document(userEmail).collection("Cart").document(name)
+        db.collection("users").document(userEmail).collection("Cart").document(uuid.toString())
                 .set(product)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override

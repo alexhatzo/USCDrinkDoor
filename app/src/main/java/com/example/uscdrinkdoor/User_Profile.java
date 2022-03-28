@@ -27,13 +27,14 @@ public class User_Profile extends AppCompatActivity{
     private Button userEmail;
     private Button userOrder;
     private Button userCaffeine;
-    private Button userBirthday;
-    private Button userCart;
+    private Button userPhone;
     private Button userLogoff;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_user_profile);
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
@@ -42,16 +43,15 @@ public class User_Profile extends AppCompatActivity{
         userEmail  = findViewById(R.id.userEmail);
         userOrder  = findViewById(R.id.userOrder);
         userCaffeine = findViewById(R.id.userCaffeine);
-        userBirthday  = findViewById(R.id.userBirthday);
-        userCart  = findViewById(R.id.userCart);
         userLogoff  = findViewById(R.id.userLogoff) ;
+        userPhone = findViewById(R.id.userPhone);
 
 
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_profile);
-
+        // reference to specific order
         DocumentReference docRef =  db.collection("users").document(currentUser.getEmail());
+
+        //get general order data and display on screen
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -75,6 +75,7 @@ public class User_Profile extends AppCompatActivity{
 
 
         });
+
        userOrder.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
@@ -86,14 +87,7 @@ public class User_Profile extends AppCompatActivity{
        });
 
 
-        userCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
- //              Intent to cart
-//               Intent cart = new Intent(User_Profile.this, cart.class);
-//                startActivity(cart);
-            }
-        });
+
 
         userLogoff.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,9 +103,11 @@ public class User_Profile extends AppCompatActivity{
         userAddress.setText((String)document.get("address"));
         userName.setText((String)document.get("name"));
         userEmail.setText((String)document.get("emailAddress"));
-        userBirthday.setText((String)document.get("birthday"));
-        //userCaffeine.setText((String)document.get("caffeine"));
+        userPhone.setText((String)document.get("phone"));
+        userCaffeine.setText((String)document.get("caffeine"));
+
         //add phone number
+
     }
 
     public void clickAccount(View view) {
