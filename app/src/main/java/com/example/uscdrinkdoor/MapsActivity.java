@@ -107,6 +107,9 @@ public class MapsActivity extends AppCompatActivity
         FirebaseUser currentUser = mAuth.getCurrentUser();
         String userEmail = currentUser.getEmail();
 
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_maps);
+
         DocumentReference docRef = db.collection("users").document(userEmail);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -135,8 +138,6 @@ public class MapsActivity extends AppCompatActivity
         });
 
 
-        super.onCreate(savedInstanceState);
-
         // Retrieve location and camera position from saved instance state.
         if (savedInstanceState != null) {
             lastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
@@ -144,7 +145,6 @@ public class MapsActivity extends AppCompatActivity
         }
 
         // Retrieve the content view that renders the map.
-        setContentView(R.layout.activity_maps);
 
 
 

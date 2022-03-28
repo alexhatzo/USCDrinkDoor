@@ -54,7 +54,7 @@ public class OrderCompleteActivity extends AppCompatActivity {
                                 cart.add(new Item((String) document.get("Name"), (String)document.get("description"), (long) document.get("Price"), (long) document.get("Caffeine"), (String) document.get("Email")));
                             }
 
-                            ItemAdapter itemAdapter = new ItemAdapter(context, R.layout.cart_row, cart);
+                            CartItemAdapter itemAdapter = new CartItemAdapter(context, R.layout.cart_row, cart);
 
                             listview.setAdapter(itemAdapter);
 

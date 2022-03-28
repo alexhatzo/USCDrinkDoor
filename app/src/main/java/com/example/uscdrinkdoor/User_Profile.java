@@ -38,6 +38,9 @@ public class User_Profile extends AppCompatActivity{
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_user_profile);
+
         userName = findViewById(R.id.userName);
         userAddress = findViewById(R.id.userAddress);
         userEmail  = findViewById(R.id.userEmail);
@@ -46,9 +49,6 @@ public class User_Profile extends AppCompatActivity{
         userLogoff  = findViewById(R.id.userLogoff) ;
         userPhone = findViewById(R.id.userPhone);
 
-
-
-        // reference to specific order
         DocumentReference docRef =  db.collection("users").document(currentUser.getEmail());
 
         //get general order data and display on screen
@@ -75,28 +75,34 @@ public class User_Profile extends AppCompatActivity{
 
 
         });
-
-       userOrder.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
+//       userOrder.setOnClickListener(new View.OnClickListener() {
+//           @Override
+//           public void onClick(View view) {
 //               Intent to orders
 //               Intent orders = new Intent(User_Profile.this, User_order.class);
 //                startActivity(orders);
-           }
-
-       });
-
-
+//           }
+//
+//       });
 
 
-        userLogoff.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mAuth.signOut();
-                Intent logOut = new Intent(User_Profile.this, LoginActivity.class);
-                startActivity(logOut);
-            }
-        });
+//        userCart.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//               Intent to cart
+//               Intent cart = new Intent(User_Profile.this, cart.class);
+//                startActivity(cart);
+//            }
+//        });
+//
+//        userLogoff.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                mAuth.signOut();
+//                Intent logOut = new Intent(User_Profile.this, LoginActivity.class);
+//                startActivity(logOut);
+//            }
+//        });
 
     }
     public void updateUI(DocumentSnapshot document){
@@ -105,9 +111,7 @@ public class User_Profile extends AppCompatActivity{
         userEmail.setText((String)document.get("emailAddress"));
         userPhone.setText((String)document.get("phone"));
         userCaffeine.setText((String)document.get("caffeine"));
-
-        //add phone number
-
+        
     }
 
     public void clickAccount(View view) {
