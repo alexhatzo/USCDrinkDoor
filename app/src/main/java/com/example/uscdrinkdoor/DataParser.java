@@ -53,6 +53,32 @@ public class DataParser {
         return routes;
     }
 
+    public String parsetime(JSONObject json) {
+        JSONArray jRoutes;
+        JSONArray jLegs;
+        JSONArray jSteps;
+        int time = 0;
+        try {
+            jRoutes = json.getJSONArray("routes");
+            /** Traversing all routes */
+            for (int i = 0; i < jRoutes.length(); i++) {
+                jLegs = ((JSONObject) jRoutes.get(i)).getJSONArray("legs");
+                /** Traversing all legs */
+                for (int j = 0; j < jLegs.length(); j++) {
+                    time = time + Integer.parseInt(((JSONObject) jLegs.get(j)).getJSONArray("duration").getString(Integer.parseInt("value")));
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        int hours = time / 3600;
+        int minutes = (time - hours * 3600) / 60;
+        int seconds = time - hours * 3600 - minutes * 60;
+        String c = ("Estimated Delivery Time: " + hours + " hours " +
+                minutes + " mins" + seconds + " seconds");
+        return c;
+    }
+
     private List<LatLng> decodePoly(String encoded) {
 
         List<LatLng> poly = new ArrayList<>();

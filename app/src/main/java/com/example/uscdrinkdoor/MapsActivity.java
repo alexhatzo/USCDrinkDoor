@@ -44,19 +44,33 @@ import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.io.IOUtils;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.JsonArray;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -78,6 +92,7 @@ public class MapsActivity extends AppCompatActivity
     private PlacesClient placesClient;
 
     private Polyline currentPolyline;
+    private String est_time;
 
 
     // The entry point to the Fused Location Provider.
@@ -413,6 +428,7 @@ public class MapsActivity extends AppCompatActivity
     }
 
     private void getRoute(Marker marker, String transport) {
+        // marker.setSnippet(Estimated Delivery Time)
         String origin = "origin=" + lastKnownLocation.getLatitude() + "," + lastKnownLocation.getLongitude();
         String dest = "&destination=" + marker.getPosition().latitude + "," + marker.getPosition().longitude;
         String mode = "&mode=" + transport;
@@ -423,6 +439,11 @@ public class MapsActivity extends AppCompatActivity
 
     @Override
     public void onTaskDone(Object... values) {
+        if (est_time != null){
+            est_time = null;
+            clicked.setSnippet((String) values[0]);
+
+        }
         if (currentPolyline != null)
             currentPolyline.remove();
         currentPolyline = map.addPolyline((PolylineOptions) values[0]);

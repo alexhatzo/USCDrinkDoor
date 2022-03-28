@@ -2,14 +2,18 @@ package com.example.uscdrinkdoor;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.util.Pair;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,6 +43,7 @@ public class PointsParser extends AsyncTask<String, Integer, List<List<HashMap<S
 
             // Starts parsing data
             routes = parser.parse(jObject);
+
             Log.d("mylog", "Executing routes");
             Log.d("mylog", routes.toString());
 
@@ -52,6 +57,7 @@ public class PointsParser extends AsyncTask<String, Integer, List<List<HashMap<S
     // Executes in UI thread, after the parsing process
     @Override
     protected void onPostExecute(List<List<HashMap<String, String>>> result) {
+        taskCallback.onTaskDone()
         ArrayList<LatLng> points;
         PolylineOptions lineOptions = null;
         // Traversing through all the routes
