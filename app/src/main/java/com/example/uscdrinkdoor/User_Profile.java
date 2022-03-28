@@ -109,9 +109,24 @@ public class User_Profile extends AppCompatActivity{
         userAddress.setText((String)document.get("address"));
         userName.setText((String)document.get("name"));
         userEmail.setText((String)document.get("emailAddress"));
-        userBirthday.setText((String)document.get("Birthday"));
-        userCaffeine.setText((String)document.get("caffeine"));
+        userBirthday.setText((String)document.get("birthday"));
+        //userCaffeine.setText((String)document.get("caffeine"));
         //add phone number
+    }
+
+    public void clickAccount(View view) {
+        Intent intent = new Intent(this, User_Profile.class);
+        startActivity(intent);
+    }
+
+    public void clickCart(View view) {
+        Intent intent = new Intent(this, ShoppingCartActivity.class);
+        startActivity(intent);
+    }
+
+    public void clickHome(View view) {
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
     }
 
 

@@ -68,7 +68,7 @@ public class MapsActivity extends AppCompatActivity
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
-    boolean store=false;
+    boolean store;
 
     private static final String TAG = MapsActivity.class.getSimpleName();
     private GoogleMap map;
@@ -100,6 +100,8 @@ public class MapsActivity extends AppCompatActivity
     private static final String KEY_CAMERA_POSITION = "camera_position";
     private static final String KEY_LOCATION = "location";
 
+    Button btn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -117,7 +119,7 @@ public class MapsActivity extends AppCompatActivity
                         Log.d("TAG", "DocumentSnapshot data: " + document.getData());
                         store = (boolean) document.get("store");
                         if (store == false){
-                            Button btn = (Button) findViewById(R.id.sellerMenu);
+                            btn = (Button) findViewById(R.id.sellerMenu);
                             btn.setText("Cart");
                         }
 
@@ -130,7 +132,9 @@ public class MapsActivity extends AppCompatActivity
 
 
             }
+
         });
+
 
         super.onCreate(savedInstanceState);
 
@@ -156,7 +160,46 @@ public class MapsActivity extends AppCompatActivity
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
+
+        Button account = findViewById(R.id.Account_Profile);
+        //account button
+        account.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent;
+                if(store){
+                    intent = new Intent(MapsActivity.this, Seller_Profile.class);
+                }
+                else{
+                    intent = new Intent(MapsActivity.this, User_Profile.class);
+                }
+                startActivity(intent);
+
+            }
+        });
+
+        //cart or seller menu button
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent;
+                if(store){
+                    intent = new Intent(MapsActivity.this, SellerMenu.class);
+                }
+                else{
+                    intent = new Intent(MapsActivity.this, ShoppingCart.class);
+                }
+                startActivity(intent);
+
+            }
+        });
+
+
+
     }
+
 
     /**
      * Saves the state of the map when the activity is paused.
@@ -371,13 +414,19 @@ public class MapsActivity extends AppCompatActivity
     }
 
     public void clickAccount(View view) {
-        Intent intent = new Intent(this, Seller_Profile.class);
-        startActivity(intent);
+//        Intent intent;
+//        if (store) {
+//            intent = new Intent(this, Seller_Profile.class);
+//        }
+//        else{
+//            intent = new Intent(this, User_Profile.class);
+//        }
+//        startActivity(intent);
     }
 
     public void clickMenu(View view) {
-        Intent intent = new Intent(this, SellerMenu.class);
-        startActivity(intent);
+//        Intent intent = new Intent(this, SellerMenu.class);
+//        startActivity(intent);
     }
 
     public void clickHome(View view) {
