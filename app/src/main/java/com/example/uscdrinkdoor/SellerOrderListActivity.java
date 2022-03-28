@@ -21,7 +21,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SellerOrderListActivity extends AppCompatActivity {
+public class SellerOrderListActivity extends AppCompatActivity implements OrderIDAdapter.OrderClickListener {
     ListView listview;
 
     final Context context = this;
@@ -70,7 +70,7 @@ public class SellerOrderListActivity extends AppCompatActivity {
 
     public void viewOrder(String id) {
         //send intent to wherever next
-        Intent view = new Intent(this, AddProductToMenu.class).putExtra("id", id);
+        Intent view = new Intent(this, SellerOrderPage.class).putExtra("id", id);
         startActivity(view);
     }
 

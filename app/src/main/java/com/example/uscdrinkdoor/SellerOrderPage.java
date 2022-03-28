@@ -3,10 +3,12 @@ package com.example.uscdrinkdoor;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -37,9 +39,14 @@ public class SellerOrderPage extends AppCompatActivity {
     private TextView orderTime;
     private TextView orderTotal;
 
+
+    private ListView listview;
+
     String orderID;
 
-    ArrayList<orderItem> order;
+    Context context = this;
+
+    ArrayList<orderItem> order = new ArrayList<orderItem>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +54,7 @@ public class SellerOrderPage extends AppCompatActivity {
         setContentView(R.layout.activity_seller_order_page);
 
         String currentEmail = mAuth.getCurrentUser().getEmail();
-        orderID = getIntent().getStringExtra("orderID");
+        orderID = getIntent().getStringExtra("id");
 
 
         orderTitle = findViewById(R.id.orderTitle);
@@ -60,6 +67,8 @@ public class SellerOrderPage extends AppCompatActivity {
         orderTotal = findViewById(R.id.orderTotal);
 
         orderTitle.append(" " + orderID);
+
+        listview = findViewById(R.id.orderLv);
 
         DocumentReference docRef =  db.collection("users").document(currentEmail).collection("Orders").document(orderID);
                 docRef.get()
@@ -87,12 +96,13 @@ public class SellerOrderPage extends AppCompatActivity {
                                     if(task.isSuccessful()){
                                         for (QueryDocumentSnapshot document : task.getResult()) {
                                             Log.d(TAG, document.getId() + " => " + document.getData());
-                                            order.add(new orderItem((String) document.get("Name"), (long) document.get("Price"), (String)document.get("description")));
+                                            order.add(new orderItem((String) document.get("Name"), (long)document.get("Price"), (String)document.get("description")));
                                         }
 //
-//                                        ItemAdapter itemAdapter = new ItemAdapter(context, R.layout.menu_row, menu);
+
+                                        OrderPageAdapter itemAdapter = new OrderPageAdapter(context, R.layout.cart_row, order);
 //
-//                                        listview.setAdapter(itemAdapter);
+                                        listview.setAdapter(itemAdapter);
 
                                     } else {
                                         Log.d(TAG, "Error getting documents: ", task.getException());
