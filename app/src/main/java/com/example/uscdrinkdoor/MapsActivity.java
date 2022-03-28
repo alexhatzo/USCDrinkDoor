@@ -186,10 +186,10 @@ public class MapsActivity extends AppCompatActivity
             public void onClick(View view) {
                 Intent intent;
                 if(store){
-                    intent = new Intent(MapsActivity.this, Seller_Profile.class);
+                    intent = new Intent(MapsActivity.this, SellerOrderListActivity.class);
                 }
                 else{
-                    intent = new Intent(MapsActivity.this, User_Profile.class);
+                    intent = new Intent(MapsActivity.this, OrderCompleteActivity.class);
                 }
                 startActivity(intent);
             }
