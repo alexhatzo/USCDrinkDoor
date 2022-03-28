@@ -30,6 +30,8 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -48,6 +50,7 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -56,7 +59,7 @@ import java.util.List;
  * An activity that displays a map showing the place at the device's current location.
  */
 public class MapsActivity extends AppCompatActivity
-        implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+        implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, TaskLoadedCallback {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -69,6 +72,9 @@ public class MapsActivity extends AppCompatActivity
 
     // The entry point to the Places API.
     private PlacesClient placesClient;
+
+    private Polyline currentPolyline;
+
 
     // The entry point to the Fused Location Provider.
     private FusedLocationProviderClient fusedLocationProviderClient;
@@ -290,8 +296,6 @@ public class MapsActivity extends AppCompatActivity
              marker.setSnippet("Click twice to see menu");
 
         }
-
-
         map.setOnMarkerClickListener(this);
     }
 
@@ -301,29 +305,33 @@ public class MapsActivity extends AppCompatActivity
 
         if(clicked == null){
             clicked = marker;
-            getRoute();
+            getRoute(marker);
         }
         else if (clicked.equals(marker)){
             clicked = null;
-            Intent intent = new Intent(this, Seller_Profile.class);
+            Intent intent = new Intent(this, SellerMenu.class);
             startActivity(intent);
         }
         else {
             clicked = marker;
-            getRoute();
+            getRoute(marker);
         }
         return false;
     }
 
-    private void getRoute() {
-        OkHttpClient client = new OkHttpClient()
-        Request request = new Request.Builder()
-                .url("https://maps.googleapis.com/maps/api/directions/json?origin=34.0213,-118.2824&destination=34.0223,-118.2846&key=AIzaSyDewc_xqcDgxGJNJAEb0D3ipsKtxD3KqOI")
-                .method("GET", null)
-                .build();
-        Response response = client.newCall(request).execute();
+    private void getRoute(Marker marker) {
+        String origin = "origin=" + lastKnownLocation.getLatitude() + "," + lastKnownLocation.getLongitude();
+        String dest = "destination=" + marker.getPosition().latitude + "," + marker.getPosition().longitude;
+        String key = "&key=AIzaSyDewc_xqcDgxGJNJAEb0D3ipsKtxD3KqOI";
+        String urlrequest = "https://maps.googleapis.com/maps/api/directions/json?" + origin + "&" + dest + key;
+        new FetchURL(MapsActivity.this).execute(urlrequest, "driving");
     }
-
+    @Override
+    public void onTaskDone(Object... values) {
+        if (currentPolyline != null)
+            currentPolyline.remove();
+        currentPolyline = map.addPolyline((PolylineOptions) values[0]);
+    }
 
     public void clickAccount(View view) {
         Intent intent = new Intent(this, Seller_Profile.class);
