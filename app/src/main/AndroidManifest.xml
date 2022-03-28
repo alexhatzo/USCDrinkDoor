@@ -58,7 +58,10 @@
             android:exported="true" />
         <activity
             android:name=".ShoppingCartActivity"
-            android:exported="true" />
+            android:exported="true"/>
+        <activity
+            android:name=".SellerOrderListActivity"
+            android:exported="true"/>
     </application>
 
 </manifest>
