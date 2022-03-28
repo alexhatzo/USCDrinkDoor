@@ -70,11 +70,9 @@ public class DataParser {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        double minutes = (double)time / 60;
-        double seconds = (double)time - minutes * 60;
-        String c = ("Estimated Delivery Time: " +time);
-                //+
-                //minutes + " mins" + seconds + " seconds");
+        int minutes = time / 60;
+        String c = ("Estimated Delivery Time: " + time);
+                //minutes + " minutes");
         return c;
     }
 
