@@ -21,7 +21,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SellerOrderListActivity extends AppCompatActivity implements OrderIDAdapter.OrderClickListener {
+public class SellerOrderListActivity extends AppCompatActivity implements OrderIDAdapter.OrderClickListener{
     ListView listview;
 
     final Context context = this;
