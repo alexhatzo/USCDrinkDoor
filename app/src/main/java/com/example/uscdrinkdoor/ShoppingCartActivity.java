@@ -31,6 +31,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.Source;
 
+import java.math.BigInteger;
 import java.sql.Array;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -118,9 +119,10 @@ public class ShoppingCartActivity extends AppCompatActivity{
                 order.put("Time Ordered", sdf3.format(timestamp));
                 order.put("Total Amount", newOrder.getTotal());
 
-                UUID uuid = UUID.randomUUID();
+                String uuid = String.format("%040d", new BigInteger(UUID.randomUUID().toString().replace("-", ""), 16));
+                String uuid16digits = uuid.substring(uuid.length() - 16);
                 //save new order to db
-               db.collection("users").document(sellerEmail).collection("Orders").document(uuid.toString())
+               db.collection("users").document(sellerEmail).collection("Orders").document(uuid16digits)
                         .set(order)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
 

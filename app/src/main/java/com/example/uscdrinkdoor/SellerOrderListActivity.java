@@ -70,7 +70,7 @@ public class SellerOrderListActivity extends AppCompatActivity implements OrderI
 
     public void viewOrder(String id) {
         //send intent to wherever next
-        Intent view = new Intent(this, AddProductToMenu.class).putExtra("id", id);
+        Intent view = new Intent(this, SellerOrderPage.class).putExtra("id", id);
         startActivity(view);
     }
 

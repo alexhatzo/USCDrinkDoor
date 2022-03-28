@@ -23,66 +23,43 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
-public class OrderIDAdapter extends ArrayAdapter<String> {
+public class OrderPageAdapter extends ArrayAdapter<orderItem> {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-
-    boolean store=false;
 
 
     private Context mContext;
     private int mResource;
-    private OrderClickListener clickListener;
 
-    public OrderIDAdapter(@NonNull Context context, int resource, @NonNull ArrayList<String> objects) {
+    public OrderPageAdapter(@NonNull Context context, int resource, @NonNull ArrayList<orderItem> objects) {
         super(context, resource, objects);
         this.mContext = context;
         this.mResource = resource;
-        this.clickListener = (OrderClickListener) context;
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        String userEmail = currentUser.getEmail();
 
-        LayoutInflater layoutInflater = LayoutInflater.from(mContext);
+       LayoutInflater layoutInflater = LayoutInflater.from(mContext);
 
-        convertView = layoutInflater.inflate(mResource, parent, false);;
+        convertView = layoutInflater.inflate(mResource, parent, false);
 
-        //order ID
-        TextView orderIDText = convertView.findViewById(R.id.orderID);
+        TextView name = convertView.findViewById(R.id.userName);
+        TextView description = convertView.findViewById(R.id.Description);
+        TextView price = convertView.findViewById(R.id.Price);
 
-        //grab order ID
-        String orderID = getItem(position);
+        String productName = getItem(position).getProductName();
 
-        //fill order ID
-        orderIDText.setText(orderID);
+        name.setText(productName);
+        description.setText(getItem(position).getDescription());
 
-        //Button
-        Button view = convertView.findViewById(R.id.View);
-
-
-
-
-
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickListener.viewOrder(orderID);
-
-            }
-        });
-
-
+        String priceString = "$" + String.valueOf(getItem(position).getPrice());
+        price.setText(priceString);
 
         return convertView;
     }
 
-    public interface OrderClickListener {
-        public void viewOrder(String id);
-    }
 
 
 }
