@@ -83,6 +83,7 @@ public class AddProductToMenu extends AppCompatActivity {
             });
         }
 
+        //add products to the menu
         addProductbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

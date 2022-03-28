@@ -33,6 +33,8 @@ import com.google.firebase.firestore.Source;
 
 import java.sql.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemClickListener{
 
@@ -142,12 +144,44 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
     }
 
     @Override
-    public void onAddToCartClick(String name) {
+    public void onAddToCartClick(String name, String userEmail) {
+        Map<String, Object> product = new HashMap<>();
+        product.put("Name", ns);
+        product.put("Price", ps );
+        product.put("Caffeine", cs);
+        product.put("description", ds);
+        product.put("Email", currentUser.getEmail());
+
+        Log.d(TAG, "onClick: " + ns + ps + cs+ ds);
+
+        //save new product to db
+        db.collection("users").document(userEmail).collection("Cart").document(name)
+                .set(product)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG, "Product successfully added!");
+                        Toast.makeText(AddProductToMenu.this, "Product successfully added! ", Toast.LENGTH_SHORT  ).show();
+
+                        updateUIonSave();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error adding product", e);
+
+                    }
+                });
+
+
         for (int i=0; i<menu.size(); i++){
             if (menu.get(i).getName().equals(name)){
                 cart.Add_Item(menu.get(i));
             }
         }
+
+
 
 
 
