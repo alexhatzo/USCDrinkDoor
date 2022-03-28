@@ -6,9 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".OrderCompleteActivity">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"></LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:id="@+id/Order_Confirmation"
@@ -38,7 +47,7 @@
         <ListView
             android:id="@+id/listView"
             android:layout_width="match_parent"
-            android:layout_height="594dp"
+            android:layout_height="503dp"
             android:layout_below="@id/Order_Confirmation"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -50,14 +59,15 @@
         <TextView
             android:id="@+id/time"
             android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:textColor="@color/black"
-            android:backgroundTint="@color/white"
+            android:layout_height="59dp"
             android:layout_below="@id/listView"
+            android:layout_marginTop="0dp"
+            android:backgroundTint="@color/white"
             android:text="Estimated Delivery Time:"
-            android:textSize="@dimen/activity_vertical_margin"
             android:textAlignment="center"
-            android:textAllCaps="false"/>
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -81,8 +91,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.25"
                 android:backgroundTint="@color/white"
-                android:text="Cart"
                 android:onClick="clickCart"
+                android:text="Cart"
                 android:textAllCaps="false"
                 android:textColor="@color/black" />
 
@@ -91,21 +101,21 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.25"
+                android:backgroundTint="@color/white"
                 android:text="Order"
                 android:textAllCaps="false"
-                android:textColor="@color/black"
-                android:backgroundTint="@color/white"/>
+                android:textColor="@color/black" />
 
             <Button
                 android:id="@+id/Account_Profile"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.25"
+                android:backgroundTint="@color/white"
+                android:onClick="clickAccount"
                 android:text="Account"
                 android:textAllCaps="false"
-                android:textColor="@color/black"
-                android:backgroundTint="@color/white"
-                android:onClick="clickAccount"/>
+                android:textColor="@color/black" />
 
 
         </LinearLayout>

@@ -95,6 +95,7 @@ public class MapsActivity extends AppCompatActivity
     private Location lastKnownLocation;
 
     private Marker clicked;
+    private Button order;
 
     // Keys for storing activity state.
     private static final String KEY_CAMERA_POSITION = "camera_position";
@@ -109,6 +110,9 @@ public class MapsActivity extends AppCompatActivity
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        order = findViewById(R.id.userOrder);
+
 
         DocumentReference docRef = db.collection("users").document(userEmail);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -164,6 +168,20 @@ public class MapsActivity extends AppCompatActivity
         Button account = findViewById(R.id.Account_Profile);
         //account button
         account.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent;
+                if(store){
+                    intent = new Intent(MapsActivity.this, Seller_Profile.class);
+                }
+                else{
+                    intent = new Intent(MapsActivity.this, User_Profile.class);
+                }
+                startActivity(intent);
+            }
+        });
+
+        order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent;

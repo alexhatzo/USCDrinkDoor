@@ -139,10 +139,13 @@ public class ShoppingCartActivity extends AppCompatActivity{
                                                 @Override
                                                 public void onSuccess(DocumentReference documentReference) {
                                                     Log.d(TAG, "Item successfully added to order!");
+
                                                 }
                                             });
 
                                     products.clear();
+                                    Intent orderComplete = new Intent(ShoppingCartActivity.this, OrderCompleteActivity.class);
+                                    startActivity(orderComplete);
                                 }
 
 
