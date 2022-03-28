@@ -102,7 +102,8 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
         //instantiate list for the seller.menu for layout
         //ArrayList<Item> menu = new ArrayList<Item>();
 
-
+        //MUST ACCESS DB THROUGH EMAIL FROM INTENT! USER ALSO HAS EMAIL BUT NO MENU
+        //THIS MUST BE SOLVED WHEN WE FIX THE MAP STORES
         db.collection("users").document(emailAddress).collection("Menu")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -145,14 +146,21 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
 
     @Override
     public void onAddToCartClick(String name, String userEmail) {
-        Map<String, Object> product = new HashMap<>();
-        product.put("Name", ns);
-        product.put("Price", ps );
-        product.put("Caffeine", cs);
-        product.put("description", ds);
-        product.put("Email", currentUser.getEmail());
+        Item toAdd = null;
 
-        Log.d(TAG, "onClick: " + ns + ps + cs+ ds);
+        for (int i=0; i<menu.size(); i++){
+            if (menu.get(i).getName().equals(name)){
+                toAdd = menu.get(i);
+            }
+        }
+
+        Map<String, Object> product = new HashMap<>();
+        product.put("Name", toAdd.getName());
+        product.put("Price", toAdd.getPrice() );
+        product.put("Caffeine", toAdd.getCaffeine());
+        product.put("description", toAdd.getDescription());
+        product.put("Email", toAdd.getSellerEmail());
+
 
         //save new product to db
         db.collection("users").document(userEmail).collection("Cart").document(name)
@@ -161,9 +169,8 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
                     @Override
                     public void onSuccess(Void unused) {
                         Log.d(TAG, "Product successfully added!");
-                        Toast.makeText(AddProductToMenu.this, "Product successfully added! ", Toast.LENGTH_SHORT  ).show();
+                        Toast.makeText(SellerMenu.this, "Product added to cart! ", Toast.LENGTH_SHORT  ).show();
 
-                        updateUIonSave();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -173,17 +180,6 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
 
                     }
                 });
-
-
-        for (int i=0; i<menu.size(); i++){
-            if (menu.get(i).getName().equals(name)){
-                cart.Add_Item(menu.get(i));
-            }
-        }
-
-
-
-
 
     }
     @Override
