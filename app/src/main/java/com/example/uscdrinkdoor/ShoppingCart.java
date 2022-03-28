@@ -34,7 +34,6 @@ public class ShoppingCart {
 
     public void Submit_Order(){
         // Create order object here
-        Order order = new Order(this.UserID, this.SellerID, this.items);
         // Pass order object to seller
 
 

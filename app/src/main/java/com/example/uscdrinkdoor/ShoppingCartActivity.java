@@ -40,6 +40,10 @@ public class ShoppingCartActivity extends AppCompatActivity{
 
     private static final String TAG = "ShoppingCartActivity";
 
+    ArrayList<Item> cart = new ArrayList<Item>();
+
+    Order newOrder;
+
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
@@ -53,8 +57,7 @@ public class ShoppingCartActivity extends AppCompatActivity{
 
         listview = findViewById(R.id.listView);
 
-        ArrayList<Item> cart = new ArrayList<Item>();
-        //set cart to com.example.uscdrinkdoor.ShoppingCart item list
+
 
         db.collection("users").document(emailAddress).collection("Cart")
                 .get()
@@ -77,6 +80,11 @@ public class ShoppingCartActivity extends AppCompatActivity{
                     }
 
                 });
+
+        String sellerEmail = cart.get(0).getSellerEmail();
+
+        newOrder = new Order(emailAddress, sellerEmail, cart);
+
 
 
     }

@@ -9,15 +9,14 @@ public class Order {
 
     public String Status; // "Active" or "Past"
     private int OrderID;
-    private int UserID;
-    private int SellerID;
-    private List<Item> Items;
+    private String userEmail;
+    private String sellerEmail;
+    private List<Item> items = new ArrayList<Item>();;
 
-    public Order(int userID, int sellerID, List<Item> items){
-        UserID = userID;
-        SellerID = sellerID;
-        Items = new ArrayList<Item>();
-        Items.addAll(items);
+    public Order(String userEmail, String sellerEmail, List<Item> items){
+        this.userEmail = userEmail;
+        this.sellerEmail = sellerEmail;
+        this.items = items;
     }
 
     public void Display_Order(){}
@@ -26,9 +25,9 @@ public class Order {
 
     public int Get_Order_ID(){ return this.OrderID; }
 
-    public int Get_User_ID(){ return UserID; }
+    public String Get_User_ID(){ return this.userEmail; }
 
-    public int Get_Seller_ID(){ return SellerID; }
+    public String Get_Seller_ID(){ return this.sellerEmail; }
 
     public List<Item> Get_Items(){
         return new ArrayList<>();
