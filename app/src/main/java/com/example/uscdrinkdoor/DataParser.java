@@ -56,7 +56,6 @@ public class DataParser {
     public String parsetime(JSONObject json) {
         JSONArray jRoutes;
         JSONArray jLegs;
-        JSONArray jSteps;
         int time = 0;
         try {
             jRoutes = json.getJSONArray("routes");

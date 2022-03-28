@@ -92,7 +92,6 @@ public class MapsActivity extends AppCompatActivity
     private PlacesClient placesClient;
 
     private Polyline currentPolyline;
-    private String est_time;
 
 
     // The entry point to the Fused Location Provider.
@@ -439,14 +438,14 @@ public class MapsActivity extends AppCompatActivity
 
     @Override
     public void onTaskDone(Object... values) {
-        if (est_time != null){
-            est_time = null;
-            clicked.setSnippet((String) values[0]);
-
-        }
         if (currentPolyline != null)
             currentPolyline.remove();
         currentPolyline = map.addPolyline((PolylineOptions) values[0]);
+    }
+
+    @Override
+    public void onSecondTaskDone(Object... values) {
+        clicked.setSnippet((String) values[0]);
     }
 
     public void clickAccount(View view) {
