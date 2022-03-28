@@ -37,6 +37,9 @@ public class User_Profile extends AppCompatActivity{
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_user_profile);
+
         userName = findViewById(R.id.userName);
         userAddress = findViewById(R.id.userAddress);
         userEmail  = findViewById(R.id.userEmail);
@@ -45,11 +48,6 @@ public class User_Profile extends AppCompatActivity{
         userBirthday  = findViewById(R.id.userBirthday);
         userCart  = findViewById(R.id.userCart);
         userLogoff  = findViewById(R.id.userLogoff) ;
-
-
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_profile);
 
         DocumentReference docRef =  db.collection("users").document(currentUser.getEmail());
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -75,34 +73,34 @@ public class User_Profile extends AppCompatActivity{
 
 
         });
-       userOrder.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
+//       userOrder.setOnClickListener(new View.OnClickListener() {
+//           @Override
+//           public void onClick(View view) {
 //               Intent to orders
 //               Intent orders = new Intent(User_Profile.this, User_order.class);
 //                startActivity(orders);
-           }
+//           }
+//
+//       });
 
-       });
 
-
-        userCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
- //              Intent to cart
+//        userCart.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//               Intent to cart
 //               Intent cart = new Intent(User_Profile.this, cart.class);
 //                startActivity(cart);
-            }
-        });
-
-        userLogoff.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mAuth.signOut();
-                Intent logOut = new Intent(User_Profile.this, LoginActivity.class);
-                startActivity(logOut);
-            }
-        });
+//            }
+//        });
+//
+//        userLogoff.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                mAuth.signOut();
+//                Intent logOut = new Intent(User_Profile.this, LoginActivity.class);
+//                startActivity(logOut);
+//            }
+//        });
 
     }
     public void updateUI(DocumentSnapshot document){
