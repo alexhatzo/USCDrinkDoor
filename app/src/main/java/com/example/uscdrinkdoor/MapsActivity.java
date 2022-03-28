@@ -294,7 +294,6 @@ public class MapsActivity extends AppCompatActivity
         for (int i = 0; i < latLngList.size(); i++){
              Marker marker = map.addMarker(new MarkerOptions().position(latLngList.get(i)).title(s.get(i)));
              marker.setSnippet("Click twice to see menu");
-
         }
         map.setOnMarkerClickListener(this);
     }
@@ -302,10 +301,19 @@ public class MapsActivity extends AppCompatActivity
 
     @Override
     public boolean onMarkerClick(@NonNull Marker marker) {
+//
+        Button drive = (Button) findViewById(R.id.driving);
+        Button walk = (Button) findViewById(R.id.walking);
+        drive.setVisibility(View.VISIBLE);
+        walk.setVisibility(View.VISIBLE);
+
+//                playButton.setVisibility(View.GONE);
+//                stopButton.setVisibility(View.VISIBLE);
+
 
         if(clicked == null){
             clicked = marker;
-            getRoute(marker);
+            getRoute(marker, "driving");
         }
         else if (clicked.equals(marker)){
             clicked = null;
@@ -314,18 +322,20 @@ public class MapsActivity extends AppCompatActivity
         }
         else {
             clicked = marker;
-            getRoute(marker);
+            getRoute(marker, "driving");
         }
         return false;
     }
 
-    private void getRoute(Marker marker) {
+    private void getRoute(Marker marker, String transport) {
         String origin = "origin=" + lastKnownLocation.getLatitude() + "," + lastKnownLocation.getLongitude();
-        String dest = "destination=" + marker.getPosition().latitude + "," + marker.getPosition().longitude;
+        String dest = "&destination=" + marker.getPosition().latitude + "," + marker.getPosition().longitude;
+        String mode = "&mode=" + transport;
         String key = "&key=AIzaSyDewc_xqcDgxGJNJAEb0D3ipsKtxD3KqOI";
-        String urlrequest = "https://maps.googleapis.com/maps/api/directions/json?" + origin + "&" + dest + key;
-        new FetchURL(MapsActivity.this).execute(urlrequest, "driving");
+        String urlrequest = "https://maps.googleapis.com/maps/api/directions/json?" + origin + dest + mode + key;
+        new FetchURL(MapsActivity.this).execute(urlrequest, transport);
     }
+
     @Override
     public void onTaskDone(Object... values) {
         if (currentPolyline != null)
@@ -346,5 +356,13 @@ public class MapsActivity extends AppCompatActivity
     public void clickHome(View view) {
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
+    }
+
+    public void SelectWalking(View view) {
+        getRoute(clicked, "walking");
+    }
+
+    public void SelectDriving(View view) {
+        getRoute(clicked, "driving");
     }
 }
