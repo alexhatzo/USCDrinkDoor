@@ -56,7 +56,9 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         TextView price = convertView.findViewById(R.id.productPrice);
         TextView caffeine = convertView.findViewById(R.id.userCaffeine);
 
-        name.setText(getItem(position).getName());
+        String productName = getItem(position).getName();
+
+        name.setText(productName);
         description.setText(getItem(position).getDescription());
 
         String priceString = "$" + String.valueOf(getItem(position).getPrice());
@@ -103,9 +105,10 @@ public class ItemAdapter extends ArrayAdapter<Item> {
             @Override
             public void onClick(View v) {
                 if(!store) {
-                    clickListener.onAddToCartClick(getItem(position).getName());
+                    clickListener.onAddToCartClick(productName);
                 }else{
-                    clickListener.sendToEdit(getItem(position).getName());
+                    Log.d("Item Adapter", "onClick: Name of editing product" + productName);
+                    clickListener.sendToEdit(productName);
                 }
 
             }
