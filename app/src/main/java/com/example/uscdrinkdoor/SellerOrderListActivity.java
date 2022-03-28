@@ -19,15 +19,16 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class OrderCompleteActivity extends AppCompatActivity {
+public class SellerOrderListActivity extends AppCompatActivity {
     ListView listview;
 
     final Context context = this;
 
-    private static final String TAG = "OrderCompleteActivity";
+    private static final String TAG = "SellerOrderListActivity";
 
-    ArrayList<Item> cart = new ArrayList<Item>();
+    ArrayList<String> orderIDs = new ArrayList<String>();
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -38,12 +39,12 @@ public class OrderCompleteActivity extends AppCompatActivity {
         String emailAddress = currentUser.getEmail();
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_order_complete);
+        setContentView(R.layout.activity_seller_order_list);
 
         listview = findViewById(R.id.listView);
 
 
-        db.collection("users").document(emailAddress).collection("Cart")
+        db.collection("users").document(emailAddress).collection("Orders")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -51,10 +52,10 @@ public class OrderCompleteActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
-                                cart.add(new Item((String) document.get("Name"), (String)document.get("description"), (long) document.get("Price"), (long) document.get("Caffeine"), (String) document.get("Email")));
+                                orderIDs.add((String)document.getId());
                             }
 
-                            CartItemAdapter itemAdapter = new CartItemAdapter(context, R.layout.cart_row, cart);
+                            OrderIDAdapter itemAdapter = new OrderIDAdapter(context, R.layout.order_row, orderIDs);
 
                             listview.setAdapter(itemAdapter);
 
@@ -65,6 +66,12 @@ public class OrderCompleteActivity extends AppCompatActivity {
 
                 });
 
+    }
+
+    public void viewOrder(String id) {
+        //send intent to wherever next
+        Intent view = new Intent(this, AddProductToMenu.class).putExtra("id", id);
+        startActivity(view);
     }
 
     public void clickAccount(View view) {

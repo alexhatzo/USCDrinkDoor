@@ -118,6 +118,11 @@ public class Seller_Profile extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void viewOrders(View view){
+        Intent intent = new Intent(this, SellerOrderListActivity.class);
+        startActivity(intent);
+    }
+
     public void clickHome(View view) {
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
