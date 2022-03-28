@@ -81,6 +81,8 @@ public class MapsActivity extends AppCompatActivity
     // location retrieved by the Fused Location Provider.
     private Location lastKnownLocation;
 
+    private Marker clicked;
+
     // Keys for storing activity state.
     private static final String KEY_CAMERA_POSITION = "camera_position";
     private static final String KEY_LOCATION = "location";
@@ -285,7 +287,7 @@ public class MapsActivity extends AppCompatActivity
 
         for (int i = 0; i < latLngList.size(); i++){
              Marker marker = map.addMarker(new MarkerOptions().position(latLngList.get(i)).title(s.get(i)));
-            marker.setTag(0);
+             marker.setSnippet("Click twice to see menu");
         }
         map.setOnMarkerClickListener(this);
     }
@@ -293,17 +295,19 @@ public class MapsActivity extends AppCompatActivity
 
     @Override
     public boolean onMarkerClick(@NonNull Marker marker) {
-        Integer clickCount = (Integer) marker.getTag();
 
-        if (clickCount != 0) {
-            marker.setTag(0);
+        if(clicked == null){
+            clicked = marker;
+        }
+        else if (clicked.equals(marker)){
+            clicked = null;
             Intent intent = new Intent(this, Seller_Profile.class);
             startActivity(intent);
         }
         else {
-            clickCount++;
-            marker.setTag(clickCount);
+            clicked = marker;
         }
+
         return false;
     }
 
