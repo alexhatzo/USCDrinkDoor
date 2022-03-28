@@ -445,7 +445,9 @@ public class MapsActivity extends AppCompatActivity
 
     @Override
     public void onSecondTaskDone(Object... values) {
-        clicked.setSnippet((String) values[0]);
+        Button btn = (Button) findViewById(R.id.esttime);
+        btn.setVisibility(View.VISIBLE);
+        btn.setText((String) values[0]);
     }
 
     public void clickAccount(View view) {

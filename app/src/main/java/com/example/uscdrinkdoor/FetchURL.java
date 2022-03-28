@@ -38,10 +38,10 @@ public class FetchURL extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-        PointsParser parserTask = new PointsParser(mContext, directionMode);
+        //PointsParser parserTask = new PointsParser(mContext, directionMode);
         // Invokes the thread for parsing the JSON data
         TimeParser parserTask2 = new TimeParser(mContext, directionMode);
-        parserTask.execute(s);
+        //parserTask.execute(s);
         parserTask2.execute(s);
 
     }

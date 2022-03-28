@@ -89,12 +89,13 @@
         android:backgroundTint="@color/white"/>
 
     <Button
-        android:id="@id/time"
+        android:id="@+id/esttime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         android:text="Estimated Delivery time:"
+        android:visibility="gone"
         android:textAllCaps="false"
         android:textSize="10dp"
         android:textColor="@color/black"
