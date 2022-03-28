@@ -38,9 +38,6 @@ public class User_Profile extends AppCompatActivity{
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_profile);
-
         userName = findViewById(R.id.userName);
         userAddress = findViewById(R.id.userAddress);
         userEmail  = findViewById(R.id.userEmail);
@@ -110,8 +107,8 @@ public class User_Profile extends AppCompatActivity{
         userName.setText((String)document.get("name"));
         userEmail.setText((String)document.get("emailAddress"));
         userPhone.setText((String)document.get("phone"));
-        userCaffeine.setText((String)document.get("caffeine"));
-        
+        userCaffeine.setText("Caffeine Intake:" + document.get("Caffeine").toString());
+
     }
 
     public void clickAccount(View view) {

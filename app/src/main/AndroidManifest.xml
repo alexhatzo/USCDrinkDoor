@@ -14,9 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.USCDrinkDoor">
-        <activity
-            android:name=".SellerOrderPage"
-            android:exported="false" />
+
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -24,7 +22,12 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
+        <activity
+            android:name=".SellerOrderPage"
+            android:exported="false" />
+        <activity
+            android:name=".OrderCompleteActivity"
+            android:exported="false" />
         <activity
             android:name=".AddProductToMenu"
             android:exported="false" />
