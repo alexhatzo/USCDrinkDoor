@@ -1,19 +1,22 @@
 package com.example.uscdrinkdoor;
 
 import com.example.uscdrinkdoor.Item;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ShoppingCart {
 
+
     private int CartID;
     private int UserID;
     private int SellerID;
     private List<Item> items;
 
-    public ShoppingCart(){
-        items = new ArrayList<Item>();
+    public ShoppingCart(List<Item> items){
+        this.items = items;
     }
 
     public void Add_Item(Item i){items.add(i);}
@@ -30,6 +33,14 @@ public class ShoppingCart {
 
     public List<Item> Get_Items(){
         return new ArrayList<>();
+    }
+
+    public float calculateTotal(){
+        float total = 0;
+        for(Item i: items){
+            total += i.getPrice();
+        }
+        return total;
     }
 
     public void Submit_Order(){

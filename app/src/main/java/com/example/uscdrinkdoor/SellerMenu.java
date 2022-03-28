@@ -51,8 +51,6 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
     //instantiate list for the seller.menu for layout
     ArrayList<Item> menu = new ArrayList<Item>();
 
-    ShoppingCart cart = new ShoppingCart();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -112,7 +110,7 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
-                                menu.add(new Item((String) document.get("Name"), (String)document.get("description"), (long)document.get("Price"), (long)document.get("Caffeine"), (String) document.get("Email")));
+                                menu.add(new Item((String) document.get("Name"), (String)document.get("description"), (float)document.get("Price"), (float)document.get("Caffeine"), (String) document.get("Email")));
                             }
 
                             ItemAdapter itemAdapter = new ItemAdapter(context, R.layout.menu_row, menu);

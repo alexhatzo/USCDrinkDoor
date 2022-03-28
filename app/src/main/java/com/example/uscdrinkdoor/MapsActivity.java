@@ -286,6 +286,7 @@ public class MapsActivity extends AppCompatActivity
         for (int i = 0; i < latLngList.size(); i++){
              Marker marker = map.addMarker(new MarkerOptions().position(latLngList.get(i)).title(s.get(i)));
              marker.setSnippet("Click twice to see menu");
+
         }
 
 
