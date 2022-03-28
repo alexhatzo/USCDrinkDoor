@@ -44,6 +44,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -275,7 +278,6 @@ public class MapsActivity extends AppCompatActivity
     }
 
     private void SearchNearby(){
-
         latLngList.add(new LatLng(34.0213, -118.2824));
         latLngList.add(new LatLng(34.0223, -118.2846));
         latLngList.add(new LatLng(34.0187, -118.2852));
@@ -299,6 +301,7 @@ public class MapsActivity extends AppCompatActivity
 
         if(clicked == null){
             clicked = marker;
+            getRoute();
         }
         else if (clicked.equals(marker)){
             clicked = null;
@@ -307,10 +310,20 @@ public class MapsActivity extends AppCompatActivity
         }
         else {
             clicked = marker;
+            getRoute();
         }
-
         return false;
     }
+
+    private void getRoute() {
+        OkHttpClient client = new OkHttpClient()
+        Request request = new Request.Builder()
+                .url("https://maps.googleapis.com/maps/api/directions/json?origin=34.0213,-118.2824&destination=34.0223,-118.2846&key=AIzaSyDewc_xqcDgxGJNJAEb0D3ipsKtxD3KqOI")
+                .method("GET", null)
+                .build();
+        Response response = client.newCall(request).execute();
+    }
+
 
     public void clickAccount(View view) {
         Intent intent = new Intent(this, Seller_Profile.class);
@@ -326,6 +339,4 @@ public class MapsActivity extends AppCompatActivity
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
     }
-
-
 }
