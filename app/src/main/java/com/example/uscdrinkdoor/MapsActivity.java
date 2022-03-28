@@ -280,9 +280,9 @@ public class MapsActivity extends AppCompatActivity
         latLngList.add(new LatLng(34.0223, -118.2846));
         latLngList.add(new LatLng(34.0187, -118.2852));
         List<String> s = new ArrayList<>();
-        s.add("a");
-        s.add("b");
-        s.add("c");
+        s.add("Trojan Coffee");
+        s.add("USC Starbucks");
+        s.add("Fertitta Cafe");
 
 
         for (int i = 0; i < latLngList.size(); i++){
