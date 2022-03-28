@@ -30,7 +30,7 @@ public class AddProductToMenu extends AppCompatActivity {
 
     private static final String TAG = "AddProduct";
 
-    Intent intent = getIntent();
+
 
     private EditText price;
     private EditText name;
@@ -42,6 +42,8 @@ public class AddProductToMenu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
+
+        Intent intent = getIntent();
         String editProdName = intent.getStringExtra("name");
 
         super.onCreate(savedInstanceState);
@@ -55,7 +57,7 @@ public class AddProductToMenu extends AppCompatActivity {
         Button addProductbtn = findViewById(R.id.addProductbtn);
 
         //fill up form with saved data for when editing a product
-        if(editProdName == null) {
+        if(editProdName != null) {
             DocumentReference docRef = db.collection("users").document(currentUser.getEmail()).collection("Menu").document(editProdName);
             docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
@@ -85,7 +87,7 @@ public class AddProductToMenu extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                String ns = name.getText().toString();
-               Long ps = Long.parseLong(name.getText().toString());
+               Long ps = Long.parseLong(price.getText().toString());
                Long cs =Long.parseLong(caffeine.getText().toString());
                String ds = description.getText().toString();
 
@@ -128,16 +130,16 @@ public class AddProductToMenu extends AppCompatActivity {
     }
 
     public void updateUIonSave(){
-        name.setText(" ");
-        price.setText(" ");
-        description.setText(" ");
-        caffeine.setText(" ");
+        name.setText("");
+        price.setText("");
+        description.setText("");
+        caffeine.setText("");
     }
 
     public void updateUIonEdit(DocumentSnapshot document){
         name.setText((String)document.get("Name"));
-        price.setText((String)document.get("Name"));
-        description.setText((String)document.get("Name"));
-        caffeine.setText((String)document.get("Name"));
+        price.setText(document.get("Price").toString());
+        description.setText((String)document.get("description"));
+        caffeine.setText(document.get("Caffeine").toString());
     }
 }

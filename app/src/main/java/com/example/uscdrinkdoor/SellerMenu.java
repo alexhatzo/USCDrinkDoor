@@ -77,6 +77,7 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
 
                         if (storeAccount){
                             checkout.setText("Add Product");
+
                         }
                         else{
                             checkout.setText("Checkout");
@@ -123,7 +124,20 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
                 });
 
 
+            checkout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent;
 
+                    if(storeAccount){
+                        intent = new Intent(SellerMenu.this, AddProductToMenu.class);
+                    }else{
+                        intent = new Intent(SellerMenu.this, ShoppingCartActivity.class);
+                    }
+                    startActivity(intent);
+
+                }
+            });
 
     }
 
@@ -138,7 +152,6 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
 
 
     }
-
     @Override
     public void sendToEdit(String name) {
         Intent productEdit = new Intent(this, AddProductToMenu.class).putExtra("name", name);
@@ -160,15 +173,6 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
         startActivity(intent);
     }
 
-    public void clickCheckout(View view) {
-        Intent intent;
-        if (storeAccount){
-            intent = new Intent(this, AddProductToMenu.class);
-        }
-        else{
-            intent = new Intent(this, ShoppingCartActivity.class);
-        }
-        startActivity(intent);
-    }
+
 
 }
