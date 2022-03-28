@@ -88,8 +88,8 @@ public class AddProductToMenu extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                String ns = name.getText().toString();
-               Float ps = Float.parseFloat(price.getText().toString());
-               Float cs =Float.parseFloat(caffeine.getText().toString());
+               Long ps = Long.parseLong(price.getText().toString());
+               Long cs =Long.parseLong(caffeine.getText().toString());
                String ds = description.getText().toString();
 
             //make sure fields are not empty
