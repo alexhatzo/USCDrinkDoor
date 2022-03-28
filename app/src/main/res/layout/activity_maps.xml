@@ -14,6 +14,7 @@
 
     <LinearLayout
         android:layout_below="@id/map"
+        android:id="@+id/function"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
@@ -60,5 +61,29 @@
             />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/walking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="10dp"
+        android:text="Walking"
+        android:onClick="SelectWalking"
+        android:visibility="gone"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/white"/>
+
+    <Button
+        android:id="@+id/driving"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="220dp"
+        android:layout_marginTop="10dp"
+        android:text="Driving"
+        android:onClick="SelectDriving"
+        android:visibility="gone"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/white"/>
 
 </RelativeLayout>

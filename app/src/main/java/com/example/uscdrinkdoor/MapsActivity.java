@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -30,6 +31,8 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -41,10 +44,17 @@ import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -53,7 +63,7 @@ import java.util.List;
  * An activity that displays a map showing the place at the device's current location.
  */
 public class MapsActivity extends AppCompatActivity
-        implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+        implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, TaskLoadedCallback {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -66,6 +76,9 @@ public class MapsActivity extends AppCompatActivity
 
     // The entry point to the Places API.
     private PlacesClient placesClient;
+
+    private Polyline currentPolyline;
+
 
     // The entry point to the Fused Location Provider.
     private FusedLocationProviderClient fusedLocationProviderClient;
@@ -318,19 +331,35 @@ public class MapsActivity extends AppCompatActivity
     }
 
     private void SearchNearby(){
+        List<String> storeData = new ArrayList<>();
 
-        latLngList.add(new LatLng(34.0213, -118.2824));
-        latLngList.add(new LatLng(34.0223, -118.2846));
-        latLngList.add(new LatLng(34.0187, -118.2852));
-        List<String> s = new ArrayList<>();
-        s.add("Trojan Coffee");
-        s.add("USC Starbucks");
-        s.add("Fertitta Cafe");
-        for (int i = 0; i < latLngList.size(); i++){
-             Marker marker = map.addMarker(new MarkerOptions().position(latLngList.get(i)).title(s.get(i)));
-             marker.setSnippet("Click twice to see menu");
-        }
+        //Get store coordinates from database
+        db.collection("users")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                LatLng storeLocation;
+                                if((boolean) document.get("store")){
+                                    double lat = (double) document.get("lat");
+                                    double longitude = (double) document.get("long");
+                                    storeLocation = new LatLng(lat, longitude);
 
+                                    Marker marker = map.addMarker(new MarkerOptions().position(storeLocation).title((String) document.get("name")));
+                                    marker.setSnippet("Click twice to see menu");
+                                    marker.setTag((String)document.get("emailAddress"));
+                                }
+                            }
+
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+
+                });
 
         map.setOnMarkerClickListener(this);
     }
@@ -338,20 +367,50 @@ public class MapsActivity extends AppCompatActivity
 
     @Override
     public boolean onMarkerClick(@NonNull Marker marker) {
+//
+        Button drive = (Button) findViewById(R.id.driving);
+        Button walk = (Button) findViewById(R.id.walking);
+        drive.setVisibility(View.VISIBLE);
+        walk.setVisibility(View.VISIBLE);
+
+//                playButton.setVisibility(View.GONE);
+//                stopButton.setVisibility(View.VISIBLE);
+
 
         if(clicked == null){
             clicked = marker;
+            getRoute(marker, "driving");
+//            Toast.makeText(MapsActivity.this, "Email address is: "+ clicked.getTag().toString(), Toast.LENGTH_SHORT  ).show();
+
         }
         else if (clicked.equals(marker)){
+            String sellerEmail = clicked.getTag().toString();
             clicked = null;
-            Intent intent = new Intent(this, Seller_Profile.class);
+
+            Intent intent = new Intent(this, SellerMenu.class).putExtra("email", sellerEmail);
             startActivity(intent);
         }
         else {
             clicked = marker;
+            getRoute(marker, "driving");
         }
-
         return false;
+    }
+
+    private void getRoute(Marker marker, String transport) {
+        String origin = "origin=" + lastKnownLocation.getLatitude() + "," + lastKnownLocation.getLongitude();
+        String dest = "&destination=" + marker.getPosition().latitude + "," + marker.getPosition().longitude;
+        String mode = "&mode=" + transport;
+        String key = "&key=AIzaSyDewc_xqcDgxGJNJAEb0D3ipsKtxD3KqOI";
+        String urlrequest = "https://maps.googleapis.com/maps/api/directions/json?" + origin + dest + mode + key;
+        new FetchURL(MapsActivity.this).execute(urlrequest, transport);
+    }
+
+    @Override
+    public void onTaskDone(Object... values) {
+        if (currentPolyline != null)
+            currentPolyline.remove();
+        currentPolyline = map.addPolyline((PolylineOptions) values[0]);
     }
 
     public void clickAccount(View view) {
@@ -375,5 +434,11 @@ public class MapsActivity extends AppCompatActivity
         startActivity(intent);
     }
 
+    public void SelectWalking(View view) {
+        getRoute(clicked, "walking");
+    }
 
+    public void SelectDriving(View view) {
+        getRoute(clicked, "driving");
+    }
 }
