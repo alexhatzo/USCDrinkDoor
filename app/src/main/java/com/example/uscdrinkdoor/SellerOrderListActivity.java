@@ -75,7 +75,7 @@ public class SellerOrderListActivity extends AppCompatActivity implements OrderI
     }
 
     public void clickAccount(View view) {
-        Intent intent = new Intent(this, User_Profile.class);
+        Intent intent = new Intent(this, Seller_Profile.class);
         startActivity(intent);
     }
 
