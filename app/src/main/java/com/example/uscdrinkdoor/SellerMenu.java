@@ -66,6 +66,8 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
 
         Button checkout = findViewById(R.id.Checkout);
 
+        Button btn = findViewById(R.id.Menu);
+
         DocumentReference docRef = db.collection("users").document(emailAddress);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -83,6 +85,7 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
                         }
                         else{
                             checkout.setText("Checkout");
+                            btn.setText("Cart");
                         }
 
                     } else {
@@ -142,6 +145,41 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
                 }
             });
 
+        Button account = findViewById(R.id.Account_Profile);
+        //account button
+        account.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent;
+                if(storeAccount){
+                    intent = new Intent(SellerMenu.this, Seller_Profile.class);
+                }
+                else{
+                    intent = new Intent(SellerMenu.this, User_Profile.class);
+                }
+                startActivity(intent);
+
+            }
+        });
+
+        //cart or seller menu button
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent;
+                if(storeAccount){
+                    intent = new Intent(SellerMenu.this, SellerMenu.class);
+                }
+                else{
+                    intent = new Intent(SellerMenu.this, ShoppingCart.class);
+                }
+                startActivity(intent);
+
+            }
+        });
+
+
+
     }
 
     @Override
@@ -189,13 +227,13 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
     }
 
     public void clickAccount(View view) {
-        Intent intent = new Intent(this, Seller_Profile.class);
-        startActivity(intent);
+//        Intent intent = new Intent(this, Seller_Profile.class);
+//        startActivity(intent);
     }
 
     public void clickMenu(View view) {
-        Intent intent = new Intent(this, SellerMenu.class);
-        startActivity(intent);
+//        Intent intent = new Intent(this, SellerMenu.class);
+//        startActivity(intent);
     }
 
     public void clickHome(View view) {

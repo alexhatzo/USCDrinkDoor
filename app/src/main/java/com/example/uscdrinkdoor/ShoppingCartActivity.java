@@ -90,12 +90,12 @@ public class ShoppingCartActivity extends AppCompatActivity{
     }
 
     public void clickAccount(View view) {
-        Intent intent = new Intent(this, Seller_Profile.class);
+        Intent intent = new Intent(this, User_Profile.class);
         startActivity(intent);
     }
 
-    public void clickMenu(View view) {
-        Intent intent = new Intent(this, SellerMenu.class);
+    public void clickCart(View view) {
+        Intent intent = new Intent(this, ShoppingCartActivity.class);
         startActivity(intent);
     }
 
