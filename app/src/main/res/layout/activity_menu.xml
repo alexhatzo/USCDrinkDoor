@@ -27,8 +27,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:backgroundTint="@color/white"
-            android:onClick="clickCheckout"
-            android:layout_alignBottom="@id/listView"
+            android:layout_below="@id/listView"
             android:text="Checkout"
             android:textAllCaps="false"/>
 

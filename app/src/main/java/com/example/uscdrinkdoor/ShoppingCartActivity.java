@@ -38,19 +38,55 @@ public class ShoppingCartActivity extends AppCompatActivity{
 
     final Context context = this;
 
+    private static final String TAG = "ShoppingCartActivity";
+
+    ArrayList<Item> cart = new ArrayList<Item>();
+
+    Order newOrder;
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        String emailAddress = currentUser.getEmail();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_cart);
 
         listview = findViewById(R.id.listView);
 
-        ArrayList<Item> cart = new ArrayList<Item>();
-        //set cart to com.example.uscdrinkdoor.ShoppingCart item list
 
-        ItemAdapter itemAdapter = new ItemAdapter(context, R.layout.cart_row, cart);
 
-        listview.setAdapter(itemAdapter);
+        db.collection("users").document(emailAddress).collection("Cart")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                cart.add(new Item((String) document.get("Name"), (String)document.get("description"), (long)document.get("Price"), (long)document.get("Caffeine"), (String) document.get("Email")));
+                            }
+
+                            ItemAdapter itemAdapter = new ItemAdapter(context, R.layout.cart_row, cart);
+
+                            listview.setAdapter(itemAdapter);
+
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+
+                });
+
+        String sellerEmail = cart.get(0).getSellerEmail();
+
+        newOrder = new Order(emailAddress, sellerEmail, cart);
+
+
+
     }
 
     public void clickAccount(View view) {
