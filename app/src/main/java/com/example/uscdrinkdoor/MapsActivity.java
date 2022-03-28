@@ -283,12 +283,12 @@ public class MapsActivity extends AppCompatActivity
         s.add("Trojan Coffee");
         s.add("USC Starbucks");
         s.add("Fertitta Cafe");
-
-
         for (int i = 0; i < latLngList.size(); i++){
              Marker marker = map.addMarker(new MarkerOptions().position(latLngList.get(i)).title(s.get(i)));
              marker.setSnippet("Click twice to see menu");
         }
+
+
         map.setOnMarkerClickListener(this);
     }
 
