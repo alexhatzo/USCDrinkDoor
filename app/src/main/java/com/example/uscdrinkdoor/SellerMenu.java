@@ -241,6 +241,11 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
 //        startActivity(intent);
     }
 
+    public void checkOut(View view) {
+        Intent intent = new Intent(this, ShoppingCartActivity.class);
+        startActivity(intent);
+    }
+
     public void clickHome(View view) {
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);

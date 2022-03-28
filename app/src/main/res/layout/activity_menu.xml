@@ -66,6 +66,7 @@
                 android:text="Order"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
+                android:onClick="checkOut"
                 android:backgroundTint="@color/white"/>
 
             <Button

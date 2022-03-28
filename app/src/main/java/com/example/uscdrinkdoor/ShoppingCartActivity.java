@@ -52,6 +52,8 @@ public class ShoppingCartActivity extends AppCompatActivity{
 
     Order newOrder;
 
+    String sellerEmail;
+
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
@@ -79,11 +81,15 @@ public class ShoppingCartActivity extends AppCompatActivity{
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                                 cart.add(new Item((String) document.get("Name"), (String)document.get("description"), (long) document.get("Price"), (long) document.get("Caffeine"), (String) document.get("Email")));
+                                sellerEmail = (String) document.get("Email");
                             }
 
-                            ItemAdapter itemAdapter = new ItemAdapter(context, R.layout.cart_row, cart);
+
+                            CartItemAdapter itemAdapter = new CartItemAdapter(context, R.layout.cart_row, cart);
 
                             listview.setAdapter(itemAdapter);
+
+                            newOrder = new Order(emailAddress, sellerEmail, cart);
 
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
@@ -92,9 +98,7 @@ public class ShoppingCartActivity extends AppCompatActivity{
 
                 });
 
-        String sellerEmail = cart.get(0).getSellerEmail();
 
-        newOrder = new Order(emailAddress, sellerEmail, cart);
 
         submitOrder.setOnClickListener(new View.OnClickListener() {
             @Override

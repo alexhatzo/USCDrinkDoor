@@ -174,7 +174,6 @@ public class MapsActivity extends AppCompatActivity
                     intent = new Intent(MapsActivity.this, User_Profile.class);
                 }
                 startActivity(intent);
-
             }
         });
 
@@ -423,7 +422,13 @@ public class MapsActivity extends AppCompatActivity
     }
 
     public void clickMenu(View view) {
-        Intent intent = new Intent(this, SellerMenu.class);
+        Intent intent;
+        if(store){
+            intent = new Intent(MapsActivity.this, SellerMenu.class);
+        }
+        else{
+            intent = new Intent(MapsActivity.this, ShoppingCart.class);
+        }
         startActivity(intent);
     }
 

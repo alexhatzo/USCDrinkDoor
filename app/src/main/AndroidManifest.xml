@@ -53,6 +53,9 @@
         <activity
             android:name=".SellerMenu"
             android:exported="true" />
+        <activity
+            android:name=".ShoppingCartActivity"
+            android:exported="true"/>
 
     </application>
 
