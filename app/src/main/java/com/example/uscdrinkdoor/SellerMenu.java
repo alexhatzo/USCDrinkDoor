@@ -54,7 +54,7 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        String emailAddress = currentUser.getEmail();
+        String emailAddress = getIntent().getStringExtra("email");
 
 
         super.onCreate(savedInstanceState);

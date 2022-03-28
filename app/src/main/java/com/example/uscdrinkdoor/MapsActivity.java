@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -43,9 +44,12 @@ import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -284,17 +288,36 @@ public class MapsActivity extends AppCompatActivity
     }
 
     private void SearchNearby(){
-        latLngList.add(new LatLng(34.0213, -118.2824));
-        latLngList.add(new LatLng(34.0223, -118.2846));
-        latLngList.add(new LatLng(34.0187, -118.2852));
-        List<String> s = new ArrayList<>();
-        s.add("Trojan Coffee");
-        s.add("USC Starbucks");
-        s.add("Fertitta Cafe");
-        for (int i = 0; i < latLngList.size(); i++){
-             Marker marker = map.addMarker(new MarkerOptions().position(latLngList.get(i)).title(s.get(i)));
-             marker.setSnippet("Click twice to see menu");
-        }
+        List<String> storeData = new ArrayList<>();
+
+        //Get store coordinates from database
+        db.collection("users")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                LatLng storeLocation;
+                                if((boolean) document.get("store")){
+                                    double lat = (double) document.get("lat");
+                                    double longitude = (double) document.get("long");
+                                    storeLocation = new LatLng(lat, longitude);
+
+                                    Marker marker = map.addMarker(new MarkerOptions().position(storeLocation).title((String) document.get("name")));
+                                    marker.setSnippet("Click twice to see menu");
+                                    marker.setTag((String)document.get("emailAddress"));
+                                }
+                            }
+
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+
+                });
+
         map.setOnMarkerClickListener(this);
     }
 
@@ -314,10 +337,14 @@ public class MapsActivity extends AppCompatActivity
         if(clicked == null){
             clicked = marker;
             getRoute(marker, "driving");
+//            Toast.makeText(MapsActivity.this, "Email address is: "+ clicked.getTag().toString(), Toast.LENGTH_SHORT  ).show();
+
         }
         else if (clicked.equals(marker)){
+            String sellerEmail = clicked.getTag().toString();
             clicked = null;
-            Intent intent = new Intent(this, SellerMenu.class);
+
+            Intent intent = new Intent(this, SellerMenu.class).putExtra("email", sellerEmail);
             startActivity(intent);
         }
         else {

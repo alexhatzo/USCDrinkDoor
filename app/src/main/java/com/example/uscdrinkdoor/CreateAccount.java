@@ -95,7 +95,8 @@ public class CreateAccount extends AppCompatActivity {
                 user.put("phone", ps);
                 user.put("birthday", bs);
                 user.put("store", storeAccount.isChecked());
-                user.put("coordinates", l);
+                user.put("lat", l.latitude);
+                user.put("long", l.longitude);
                 Log.d(TAG, "onClick: " + ns + as + zs+ ps);
 
                 db.collection("users").document(emailAddress.getText().toString())
