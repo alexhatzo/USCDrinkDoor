@@ -79,8 +79,13 @@ public class SellerOrderListActivity extends AppCompatActivity implements OrderI
         startActivity(intent);
     }
 
-    public void clickCart(View view) {
-        Intent intent = new Intent(this, ShoppingCartActivity.class);
+    public void clickMenu(View view) {
+        Intent intent = new Intent(this, SellerMenu.class);
+        startActivity(intent);
+    }
+
+    public void clickOrder(View view){
+        Intent intent = new Intent(this, SellerOrderListActivity.class);
         startActivity(intent);
     }
 

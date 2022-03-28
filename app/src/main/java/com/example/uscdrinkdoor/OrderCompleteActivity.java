@@ -81,4 +81,9 @@ public class OrderCompleteActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
     }
+
+    public void clickOrder(View view){
+        Intent intent = new Intent(this, OrderCompleteActivity.class);
+        startActivity(intent);
+    }
 }

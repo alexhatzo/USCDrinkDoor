@@ -115,8 +115,8 @@
             android:layout_height="match_parent"
             android:layout_weight="0.25"
             android:backgroundTint="@color/white"
-            android:text="Order"
             android:onClick="clickOrder"
+            android:text="Order"
             android:textAllCaps="false"
             android:textColor="@color/black" />
 
