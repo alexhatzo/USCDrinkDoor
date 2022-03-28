@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,13 +14,16 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CreateAccount extends AppCompatActivity {
@@ -70,10 +75,17 @@ public class CreateAccount extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String ns = name.getText().toString();
-                String as = address.getText().toString();
                 String zs =  zip.getText().toString();
                 String ps = phone.getText().toString();
                 String bs = birthday.getText().toString();
+                String as = address.getText().toString();
+
+                LatLng l = null;
+                try {
+                    l = getCoordinates(as);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
                 Map<String, Object> user = new HashMap<>();
                 user.put("emailAddress", currentUser.getEmail());
@@ -83,6 +95,7 @@ public class CreateAccount extends AppCompatActivity {
                 user.put("phone", ps);
                 user.put("birthday", bs);
                 user.put("store", storeAccount.isChecked());
+                user.put("coordinates", l);
                 Log.d(TAG, "onClick: " + ns + as + zs+ ps);
 
                 db.collection("users").document(emailAddress.getText().toString())
@@ -105,6 +118,13 @@ public class CreateAccount extends AppCompatActivity {
         });
 
 
+    }
+    public LatLng getCoordinates(String s) throws IOException {
+        Geocoder geocoder = new Geocoder(this);
+        List<Address> addressList;
+        addressList = geocoder.getFromLocationName(s,1);
+        LatLng coordinates = new LatLng(addressList.get(0).getLatitude(),addressList.get(0).getLongitude());
+        return coordinates;
     }
 
     public void updateUI(){

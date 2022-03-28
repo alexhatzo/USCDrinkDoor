@@ -33,6 +33,8 @@ import com.google.firebase.firestore.Source;
 
 import java.sql.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemClickListener{
 
@@ -100,7 +102,8 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
         //instantiate list for the seller.menu for layout
         //ArrayList<Item> menu = new ArrayList<Item>();
 
-
+        //MUST ACCESS DB THROUGH EMAIL FROM INTENT! USER ALSO HAS EMAIL BUT NO MENU
+        //THIS MUST BE SOLVED WHEN WE FIX THE MAP STORES
         db.collection("users").document(emailAddress).collection("Menu")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -142,14 +145,41 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
     }
 
     @Override
-    public void onAddToCartClick(String name) {
+    public void onAddToCartClick(String name, String userEmail) {
+        Item toAdd = null;
+
         for (int i=0; i<menu.size(); i++){
             if (menu.get(i).getName().equals(name)){
-                cart.Add_Item(menu.get(i));
+                toAdd = menu.get(i);
             }
         }
 
+        Map<String, Object> product = new HashMap<>();
+        product.put("Name", toAdd.getName());
+        product.put("Price", toAdd.getPrice() );
+        product.put("Caffeine", toAdd.getCaffeine());
+        product.put("description", toAdd.getDescription());
+        product.put("Email", toAdd.getSellerEmail());
 
+
+        //save new product to db
+        db.collection("users").document(userEmail).collection("Cart").document(name)
+                .set(product)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG, "Product successfully added!");
+                        Toast.makeText(SellerMenu.this, "Product added to cart! ", Toast.LENGTH_SHORT  ).show();
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error adding product", e);
+
+                    }
+                });
 
     }
     @Override

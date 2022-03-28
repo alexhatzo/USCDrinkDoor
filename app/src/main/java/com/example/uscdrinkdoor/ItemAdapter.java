@@ -105,7 +105,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
             @Override
             public void onClick(View v) {
                 if(!store) {
-                    clickListener.onAddToCartClick(productName);
+                    clickListener.onAddToCartClick(productName, userEmail);
                 }else{
                     Log.d("Item Adapter", "onClick: Name of editing product" + productName);
                     clickListener.sendToEdit(productName);
@@ -120,7 +120,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
     }
 
     public interface ItemClickListener {
-        public void onAddToCartClick(String name);
+        public void onAddToCartClick(String name, String userEmail);
         public void sendToEdit(String name);
     }
 
