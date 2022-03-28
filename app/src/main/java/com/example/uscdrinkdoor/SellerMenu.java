@@ -50,12 +50,17 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
 
     //instantiate list for the seller.menu for layout
     ArrayList<Item> menu = new ArrayList<Item>();
+    String emailAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        String emailAddress = getIntent().getStringExtra("email");
+        emailAddress = getIntent().getStringExtra("email");
+        String currentEmail = currentUser.getEmail();
 
+        if(emailAddress == null){
+            emailAddress = currentEmail;
+        }
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
@@ -79,7 +84,9 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
 
                         if (storeAccount){
                             checkout.setText("Add Product");
-
+                            if(!currentEmail.equals(emailAddress)){
+                                checkout.setVisibility(View.GONE);
+                            }
                         }
                         else{
                             checkout.setText("Checkout");
