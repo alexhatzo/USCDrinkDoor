@@ -72,7 +72,7 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
 
         Button btn = findViewById(R.id.Menu);
 
-        DocumentReference docRef = db.collection("users").document(emailAddress);
+        DocumentReference docRef = db.collection("users").document(currentEmail);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {

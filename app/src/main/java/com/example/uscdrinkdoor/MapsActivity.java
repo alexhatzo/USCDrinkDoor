@@ -156,6 +156,8 @@ public class MapsActivity extends AppCompatActivity
         });
 
 
+
+
         // Retrieve location and camera position from saved instance state.
         if (savedInstanceState != null) {
             lastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);

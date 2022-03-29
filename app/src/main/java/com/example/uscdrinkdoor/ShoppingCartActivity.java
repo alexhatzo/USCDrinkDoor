@@ -55,6 +55,8 @@ public class ShoppingCartActivity extends AppCompatActivity{
 
     String sellerEmail;
 
+    int dailyCaffeine;
+
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
@@ -98,6 +100,8 @@ public class ShoppingCartActivity extends AppCompatActivity{
                     }
 
                 });
+        
+
 
 
 
