@@ -54,12 +54,15 @@ public class ShoppingCartActivity extends AppCompatActivity{
     Order newOrder;
 
     String sellerEmail;
+    
+    int dailyCaffeine;
 
     Map<String, Object> pastOrder = new HashMap<>();
 
     int orderCaffeine = 0;
     int orderTotal =0;
-
+    int estimated_time =0;
+    
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
@@ -67,6 +70,10 @@ public class ShoppingCartActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Intent intent = getIntent();
+        estimated_time = intent.getIntExtra("Delivery_Time",0);
+
+
         FirebaseUser currentUser = mAuth.getCurrentUser();
         String emailAddress = currentUser.getEmail();
 
@@ -103,6 +110,8 @@ public class ShoppingCartActivity extends AppCompatActivity{
                     }
 
                 });
+        
+
 
 
 
@@ -273,21 +282,25 @@ public class ShoppingCartActivity extends AppCompatActivity{
 
     public void clickAccount(View view) {
         Intent intent = new Intent(this, User_Profile.class);
+        intent.putExtra("Delivery_Time",estimated_time);
         startActivity(intent);
     }
 
     public void clickOrder(View view){
         Intent intent = new Intent(this, OrderCompleteActivity.class);
+        intent.putExtra("Delivery_Time",estimated_time);
         startActivity(intent);
     }
 
     public void clickCart(View view) {
         Intent intent = new Intent(this, ShoppingCartActivity.class);
+        intent.putExtra("Delivery_Time",estimated_time);
         startActivity(intent);
     }
 
     public void clickHome(View view) {
         Intent intent = new Intent(this, MapsActivity.class);
+        intent.putExtra("Delivery_Time",estimated_time);
         startActivity(intent);
     }
 
