@@ -276,6 +276,7 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
 
     public void clickHome(View view) {
         Intent intent = new Intent(this, MapsActivity.class);
+        intent.putExtra("Delivery_Time",estimated_time);
         startActivity(intent);
     }
 

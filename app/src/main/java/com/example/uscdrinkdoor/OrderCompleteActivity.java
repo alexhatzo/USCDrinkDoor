@@ -33,18 +33,18 @@ public class OrderCompleteActivity extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
-    int estimate_time = 0;
+    int estimated_time = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         Intent intent = getIntent();
-        estimate_time = intent.getIntExtra("Delivery_Time",0);
+        estimated_time = intent.getIntExtra("Delivery_Time",0);
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
         String emailAddress = currentUser.getEmail();
         TextView t = (TextView) findViewById(R.id.time);
-        t.setText("Estimated Delivery Time: " + estimate_time);
+        t.setText("Estimated Delivery Time: " + estimated_time);
 
 
         super.onCreate(savedInstanceState);
@@ -83,17 +83,19 @@ public class OrderCompleteActivity extends AppCompatActivity {
 
     public void clickAccount(View view) {
         Intent intent = new Intent(this, User_Profile.class);
+        intent.putExtra("Delivery_Time",estimated_time);
         startActivity(intent);
     }
 
     public void clickCart(View view) {
         Intent intent = new Intent(this, ShoppingCartActivity.class);
-
+        intent.putExtra("Delivery_Time",estimated_time);
         startActivity(intent);
     }
 
     public void clickHome(View view) {
         Intent intent = new Intent(this, MapsActivity.class);
+        intent.putExtra("Delivery_Time",estimated_time);
         startActivity(intent);
     }
 }
