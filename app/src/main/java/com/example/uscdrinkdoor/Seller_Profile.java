@@ -82,9 +82,8 @@ public class Seller_Profile extends AppCompatActivity {
         sellerWallet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent to wallet
-//                Intent menu = new Intent(Seller_Profile.this, SellerMenu.class);
-//                startActivity(menu);
+                Intent wallet = new Intent(Seller_Profile.this, sellerWallet.class);
+                startActivity(wallet);
             }
         });
 
