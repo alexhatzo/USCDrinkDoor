@@ -11,18 +11,17 @@
         <entry key="app/src/main/res/layout/activity_create_account.xml" value="0.24010416666666667" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.2421875" />
         <entry key="app/src/main/res/layout/activity_login2.xml" value="0.34434261598448823" />
-        <entry key="app/src/main/res/layout/activity_maps.xml" value="0.16979166666666667" />
+        <entry key="app/src/main/res/layout/activity_maps.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_menu.xml" value="0.16425170898437502" />
-        <entry key="app/src/main/res/layout/activity_order_complete.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/activity_seller_order_list.xml" value="0.15208333333333332" />
-        <entry key="app/src/main/res/layout/activity_seller_order_page.xml" value="0.28177083333333336" />
-        <entry key="app/src/main/res/layout/activity_seller_profile.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_order_complete.xml" value="0.182518115942029" />
+        <entry key="app/src/main/res/layout/activity_seller_order_list.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_seller_order_page.xml" value="0.2486939852481676" />
+        <entry key="app/src/main/res/layout/activity_seller_profile.xml" value="0.21215515136718752" />
         <entry key="app/src/main/res/layout/activity_shopping_cart.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_user_profile.xml" value="0.23416453928187275" />
-        <entry key="app/src/main/res/layout/cart_row.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/cart_row.xml" value="0.1" />
         <entry key="app/src/main/res/layout/menu_row.xml" value="0.3662963867187499" />
-        <entry key="app/src/main/res/layout/order_row.xml" value="0.15208333333333332" />
-        <entry key="app/src/main/res/layout/orderpage_row.xml" value="0.2838541666666667" />
+        <entry key="app/src/main/res/layout/order_row.xml" value="0.3518082770748415" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/doordrinkLogo.xml" value="0.1905" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/doordrinklogo.xml" value="0.228" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/doordrinklogo_round.xml" value="0.21" />

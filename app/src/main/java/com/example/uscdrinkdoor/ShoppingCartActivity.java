@@ -245,6 +245,11 @@ public class ShoppingCartActivity extends AppCompatActivity{
         startActivity(intent);
     }
 
+    public void clickOrder(View view){
+        Intent intent = new Intent(this, OrderCompleteActivity.class);
+        startActivity(intent);
+    }
+
     public void clickCart(View view) {
         Intent intent = new Intent(this, ShoppingCartActivity.class);
         startActivity(intent);

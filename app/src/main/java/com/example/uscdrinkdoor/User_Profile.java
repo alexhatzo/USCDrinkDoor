@@ -121,6 +121,11 @@ public class User_Profile extends AppCompatActivity{
         startActivity(intent);
     }
 
+    public void clickOrder(View view){
+        Intent intent = new Intent(this, OrderCompleteActivity.class);
+        startActivity(intent);
+    }
+
     public void clickHome(View view) {
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);

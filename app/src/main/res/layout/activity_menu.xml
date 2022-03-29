@@ -55,6 +55,7 @@
                 android:layout_weight="0.25"
                 android:backgroundTint="@color/white"
                 android:text="Menu"
+                android:onClick="clickMenu"
                 android:textAllCaps="false"
                 android:textColor="@color/black" />
 
@@ -66,7 +67,7 @@
                 android:text="Order"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
-                android:onClick="checkOut"
+                android:onClick="clickOrder"
                 android:backgroundTint="@color/white"/>
 
             <Button
@@ -75,6 +76,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.25"
                 android:text="Account"
+                android:onClick="clickAccount"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:backgroundTint="@color/white"

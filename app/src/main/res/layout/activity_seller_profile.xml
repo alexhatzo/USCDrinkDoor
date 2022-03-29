@@ -52,6 +52,7 @@
             android:layout_height="80dp"
             android:backgroundTint="@color/white"
             android:text="@string/menu"
+            android:onClick="clickMenu"
             android:textAllCaps="false"
             android:textColor="@color/black"
             android:textSize="20sp" />
@@ -122,6 +123,7 @@
             android:layout_weight="0.25"
             android:backgroundTint="@color/white"
             android:text="Order"
+            android:onClick="viewOrders"
             android:textAllCaps="false"
             android:textColor="@color/black" />
 

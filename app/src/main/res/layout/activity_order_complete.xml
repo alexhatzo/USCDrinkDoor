@@ -103,6 +103,7 @@
                 android:layout_weight="0.25"
                 android:backgroundTint="@color/white"
                 android:text="Order"
+                android:onClick="clickOrder"
                 android:textAllCaps="false"
                 android:textColor="@color/black" />
 

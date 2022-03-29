@@ -44,19 +44,33 @@ import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.io.IOUtils;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.JsonArray;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -78,6 +92,7 @@ public class MapsActivity extends AppCompatActivity
     private PlacesClient placesClient;
 
     private Polyline currentPolyline;
+    private int estimated_time = 0;
 
 
     // The entry point to the Fused Location Provider.
@@ -95,7 +110,6 @@ public class MapsActivity extends AppCompatActivity
     private Location lastKnownLocation;
 
     private Marker clicked;
-    private Button order;
 
     // Keys for storing activity state.
     private static final String KEY_CAMERA_POSITION = "camera_position";
@@ -111,9 +125,6 @@ public class MapsActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        order = findViewById(R.id.userOrder);
-
-
         DocumentReference docRef = db.collection("users").document(userEmail);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -128,17 +139,13 @@ public class MapsActivity extends AppCompatActivity
                             Button btn = (Button) findViewById(R.id.sellerMenu);
                             btn.setText("Cart");
                         }
-
                     } else {
                         Log.d("TAG", "No such document");
                     }
                 } else {
                     Log.d("TAG", "get failed with ", task.getException());
                 }
-
-
             }
-
         });
 
 
@@ -147,10 +154,6 @@ public class MapsActivity extends AppCompatActivity
             lastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
             cameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
         }
-
-        // Retrieve the content view that renders the map.
-
-
 
         // Construct a PlacesClient
         Places.initialize(getApplicationContext(), "AIzaSyDewc_xqcDgxGJNJAEb0D3ipsKtxD3KqOI");
@@ -164,36 +167,35 @@ public class MapsActivity extends AppCompatActivity
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+//        Button account = findViewById(R.id.Account_Profile);
+//        //account button
+//        account.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent;
+//                if(store){
+//                    intent = new Intent(MapsActivity.this, Seller_Profile.class);
+//                }
+//                else{
+//                    intent = new Intent(MapsActivity.this, User_Profile.class);
+//                }
+//                startActivity(intent);
+//            }
+//        });
 
-        Button account = findViewById(R.id.Account_Profile);
-        //account button
-        account.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent;
-                if(store){
-                    intent = new Intent(MapsActivity.this, Seller_Profile.class);
-                }
-                else{
-                    intent = new Intent(MapsActivity.this, User_Profile.class);
-                }
-                startActivity(intent);
-            }
-        });
-
-        order.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent;
-                if(store){
-                    intent = new Intent(MapsActivity.this, SellerOrderListActivity.class);
-                }
-                else{
-                    intent = new Intent(MapsActivity.this, OrderCompleteActivity.class);
-                }
-                startActivity(intent);
-            }
-        });
+//        order.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent;
+//                if(store){
+//                    intent = new Intent(MapsActivity.this, SellerOrderListActivity.class);
+//                }
+//                else{
+//                    intent = new Intent(MapsActivity.this, OrderCompleteActivity.class);
+//                }
+//                startActivity(intent);
+//            }
+//        });
 
         //cart or seller menu button
 //        btn.setOnClickListener(new View.OnClickListener() {
@@ -388,20 +390,13 @@ public class MapsActivity extends AppCompatActivity
         drive.setVisibility(View.VISIBLE);
         walk.setVisibility(View.VISIBLE);
 
-//                playButton.setVisibility(View.GONE);
-//                stopButton.setVisibility(View.VISIBLE);
-
-
         if(clicked == null){
             clicked = marker;
             getRoute(marker, "driving");
-//            Toast.makeText(MapsActivity.this, "Email address is: "+ clicked.getTag().toString(), Toast.LENGTH_SHORT  ).show();
-
         }
         else if (clicked.equals(marker)){
             String sellerEmail = clicked.getTag().toString();
             clicked = null;
-
             Intent intent = new Intent(this, SellerMenu.class).putExtra("email", sellerEmail);
             startActivity(intent);
         }
@@ -413,6 +408,7 @@ public class MapsActivity extends AppCompatActivity
     }
 
     private void getRoute(Marker marker, String transport) {
+        // marker.setSnippet(Estimated Delivery Time)
         String origin = "origin=" + lastKnownLocation.getLatitude() + "," + lastKnownLocation.getLongitude();
         String dest = "&destination=" + marker.getPosition().latitude + "," + marker.getPosition().longitude;
         String mode = "&mode=" + transport;
@@ -428,15 +424,26 @@ public class MapsActivity extends AppCompatActivity
         currentPolyline = map.addPolyline((PolylineOptions) values[0]);
     }
 
+    @Override
+    public void onSecondTaskDone(Object... values) {
+        if(estimated_time != 0){
+            estimated_time = 0;
+        }
+        estimated_time = Integer.parseInt((String) values[0]);
+        Button btn = (Button) findViewById(R.id.esttime);
+        btn.setVisibility(View.VISIBLE);
+        btn.setText("Estimated Delivery Time: " + estimated_time + " mins");
+    }
+
     public void clickAccount(View view) {
-//        Intent intent;
-//        if (store) {
-//            intent = new Intent(this, Seller_Profile.class);
-//        }
-//        else{
-//            intent = new Intent(this, User_Profile.class);
-//        }
-//        startActivity(intent);
+        Intent intent;
+        if(store){
+            intent = new Intent(MapsActivity.this, Seller_Profile.class);
+        }
+        else{
+            intent = new Intent(MapsActivity.this, User_Profile.class);
+        }
+        startActivity(intent);
     }
 
     public void clickMenu(View view) {
@@ -446,6 +453,17 @@ public class MapsActivity extends AppCompatActivity
         }
         else{
             intent = new Intent(MapsActivity.this, ShoppingCartActivity.class);
+        }
+        startActivity(intent);
+    }
+
+    public void clickOrder(View view){
+        Intent intent;
+        if(store){
+            intent = new Intent(MapsActivity.this, SellerOrderListActivity.class);
+        }
+        else{
+            intent = new Intent(MapsActivity.this, OrderCompleteActivity.class);
         }
         startActivity(intent);
     }

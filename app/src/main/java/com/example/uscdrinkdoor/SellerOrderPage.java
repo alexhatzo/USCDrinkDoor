@@ -3,6 +3,7 @@ package com.example.uscdrinkdoor;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -146,5 +147,25 @@ public class SellerOrderPage extends AppCompatActivity {
         orderEmail.append(document.get("Customer Email").toString());
         orderTotal.append(document.get("Total Amount").toString());
         orderTime.append(document.get("Time Ordered").toString());
+    }
+
+    public void clickAccount(View view) {
+        Intent intent = new Intent(this, Seller_Profile.class);
+        startActivity(intent);
+    }
+
+    public void clickMenu(View view) {
+        Intent intent = new Intent(this, SellerMenu.class);
+        startActivity(intent);
+    }
+
+    public void clickOrder(View view){
+        Intent intent = new Intent(this, SellerOrderListActivity.class);
+        startActivity(intent);
+    }
+
+    public void clickHome(View view) {
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
     }
 }

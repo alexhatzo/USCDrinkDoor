@@ -1,7 +1,9 @@
 package com.example.uscdrinkdoor;
         ;
 
-import com.google.android.gms.maps.model.LatLng;
+        import android.util.Log;
+
+        import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,6 +53,30 @@ public class DataParser {
         } catch (Exception e) {
         }
         return routes;
+    }
+
+    public String parsetime(JSONObject json) {
+        JSONArray jRoutes;
+        JSONArray jLegs;
+        int time = 0;
+        try {
+            jRoutes = json.getJSONArray("routes");
+            /** Traversing all routes */
+            for (int i = 0; i < jRoutes.length(); i++) {
+                jLegs = ((JSONObject) jRoutes.get(i)).getJSONArray("legs");
+                /** Traversing all legs */
+                for (int j = 0; j < jLegs.length(); j++) {
+                    JSONObject a = (JSONObject) jLegs.get(j);
+                    JSONObject b = a.getJSONObject("duration");
+                    time += Integer.parseInt(b.getString("value"));
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        int minutes = time / 60;
+        String c = String.valueOf(minutes);
+        return c;
     }
 
     private List<LatLng> decodePoly(String encoded) {

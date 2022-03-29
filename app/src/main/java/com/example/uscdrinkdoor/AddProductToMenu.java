@@ -143,4 +143,24 @@ public class AddProductToMenu extends AppCompatActivity {
         description.setText((String)document.get("description"));
         caffeine.setText(document.get("Caffeine").toString());
     }
+
+    public void clickAccount(View view) {
+        Intent intent = new Intent(this, Seller_Profile.class);
+        startActivity(intent);
+    }
+
+    public void clickMenu(View view) {
+        Intent intent = new Intent(this, SellerMenu.class);
+        startActivity(intent);
+    }
+
+    public void clickOrder(View view){
+        Intent intent = new Intent(this, SellerOrderListActivity.class);
+        startActivity(intent);
+    }
+
+    public void clickHome(View view) {
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
+    }
 }

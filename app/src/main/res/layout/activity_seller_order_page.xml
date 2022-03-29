@@ -99,13 +99,13 @@
             android:textColor="@color/black" />
 
         <Button
-            android:id="@+id/Cart"
+            android:id="@+id/Menu"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.25"
             android:backgroundTint="@color/white"
-            android:onClick="clickCart"
-            android:text="Cart"
+            android:onClick="clickMenu"
+            android:text="Menu"
             android:textAllCaps="false"
             android:textColor="@color/black" />
 
@@ -115,6 +115,7 @@
             android:layout_height="match_parent"
             android:layout_weight="0.25"
             android:backgroundTint="@color/white"
+            android:onClick="clickOrder"
             android:text="Order"
             android:textAllCaps="false"
             android:textColor="@color/black" />
