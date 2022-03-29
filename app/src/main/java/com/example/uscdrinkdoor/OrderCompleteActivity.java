@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -43,20 +44,37 @@ public class OrderCompleteActivity extends AppCompatActivity {
         listview = findViewById(R.id.listView);
 
 
-        db.collection("users").document(emailAddress).collection("Cart")
-                .get()
+        CollectionReference colRef = db.collection("users").document(emailAddress).collection("Past Orders");
+                colRef.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                cart.add(new Item((String) document.get("Name"), (String)document.get("description"), (long) document.get("Price"), (long) document.get("Caffeine"), (String) document.get("Email")));
+                                if ((boolean) document.get("Current")) {
+
+                                    Log.d(TAG, document.getId() + " => " + document.getData());
+                                    colRef.document(document.getId()).collection("Products").get()
+                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    if (task.isSuccessful()) {
+                                                        for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                                            Log.d(TAG, document.getId() + " => " + document.getData());
+                                                            cart.add(new Item((String) document.get("Product Name"), (String) document.get("Description"), (long) document.get("Price"), (long) document.get("Caffeine"), (String) document.get("Email")));
+
+                                                        }
+                                                        CartItemAdapter itemAdapter = new CartItemAdapter(context, R.layout.cart_row, cart);
+
+                                                        listview.setAdapter(itemAdapter);
+                                                    }
+                                                }
+                                            });
+
+                                }
                             }
 
-                            CartItemAdapter itemAdapter = new CartItemAdapter(context, R.layout.cart_row, cart);
-
-                            listview.setAdapter(itemAdapter);
 
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());

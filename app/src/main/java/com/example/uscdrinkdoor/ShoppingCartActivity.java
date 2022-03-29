@@ -57,6 +57,8 @@ public class ShoppingCartActivity extends AppCompatActivity{
 
     Map<String, Object> pastOrder = new HashMap<>();
 
+    int orderCaffeine = 0;
+    int orderTotal =0;
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -141,8 +143,10 @@ public class ShoppingCartActivity extends AppCompatActivity{
                                pastOrder.put("Description", document.get("description"));
                                pastOrder.put("Time Ordered", sdf3.format(timestamp));
 
+                                orderCaffeine += (long)document.get("Caffeine");
+                                orderTotal += (long) document.get("Price");
                                //add the cart to past orders
-                               db.collection("users").document(emailAddress).collection("Past Orders").document(uuid16digits)
+                               db.collection("users").document(emailAddress).collection("Past Orders").document(uuid16digits).collection("Products").document((String)document.get("Name"))
                                        .set(pastOrder)
                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
                                            @Override
@@ -158,7 +162,7 @@ public class ShoppingCartActivity extends AppCompatActivity{
 
                                            }
                                        });
-
+                               pastOrder.clear();
                                //Deleting product from current user cart
                                colRef.document(document.getId()).delete()
                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -175,6 +179,33 @@ public class ShoppingCartActivity extends AppCompatActivity{
                                        });
 
                            }
+
+                           //Updating order with general info
+                           Map<String, Object> pastOrderInfo = new HashMap<>();
+                            pastOrderInfo.put("Order Caffeine", orderCaffeine);
+                            pastOrderInfo.put("Order Total" , orderTotal);
+                            pastOrderInfo.put("Date", timestamp);
+                            pastOrderInfo.put("Current", true);
+
+                            db.collection("users").document(emailAddress).collection("Past Orders").document(uuid16digits)
+                                   .set(pastOrderInfo)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+                                            Log.d(TAG, "Info successfully added to past orders!");
+
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.d(TAG, "Info failed to add to past orders!");
+
+                                        }
+                                    });
+
+
+
 
                        }
 
@@ -214,7 +245,7 @@ public class ShoppingCartActivity extends AppCompatActivity{
                                         Log.d(TAG, "Order successfully added!");
                                         Toast.makeText(ShoppingCartActivity.this, "Order successfully sent! ", Toast.LENGTH_SHORT).show();
                                         //send user to order complete page
-//                                updateUI();
+                                        //                    updateUI();
 
                                     }
                                 })
