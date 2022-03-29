@@ -34,22 +34,23 @@ public class OrderCompleteActivity extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
-    int estimated_time = 0;
+    Integer estimated_time = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_order_complete);
 
         Intent intent = getIntent();
         estimated_time = intent.getIntExtra("Delivery_Time",0);
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
         String emailAddress = currentUser.getEmail();
-        TextView t = (TextView) findViewById(R.id.time);
-        t.setText("Estimated Delivery Time: " + estimated_time);
+        TextView t = findViewById(R.id.time);
+        t.append(" " +estimated_time.toString());
 
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_order_complete);
+
 
 
         listview = findViewById(R.id.listView);

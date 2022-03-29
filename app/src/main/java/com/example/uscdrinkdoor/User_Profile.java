@@ -92,14 +92,14 @@ public class User_Profile extends AppCompatActivity{
 //            }
 //        });
 //
-//        userLogoff.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                mAuth.signOut();
-//                Intent logOut = new Intent(User_Profile.this, LoginActivity.class);
-//                startActivity(logOut);
-//            }
-//        });
+        userLogoff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAuth.signOut();
+                Intent logOut = new Intent(User_Profile.this, LoginActivity.class);
+                startActivity(logOut);
+            }
+        });
 
     }
     public void updateUI(DocumentSnapshot document){

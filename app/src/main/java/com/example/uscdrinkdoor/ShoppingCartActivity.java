@@ -236,7 +236,7 @@ public class ShoppingCartActivity extends AppCompatActivity{
                                             products.put("Price", i.getPrice());
 
                                             db.collection("users").document(sellerEmail).collection("Orders")
-                                                    .document(uuid.toString()).collection("Products")
+                                                    .document(uuid16digits.toString()).collection("Products")
                                                     .add(products)
                                                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                                         @Override
@@ -247,7 +247,7 @@ public class ShoppingCartActivity extends AppCompatActivity{
                                                     });
                                         }
                                         products.clear();
-                                        Intent orderComplete = new Intent(ShoppingCartActivity.this, OrderCompleteActivity.class);
+                                        Intent orderComplete = new Intent(ShoppingCartActivity.this, OrderCompleteActivity.class).putExtra("Delivery_Time",estimated_time);
                                         startActivity(orderComplete);
 
 

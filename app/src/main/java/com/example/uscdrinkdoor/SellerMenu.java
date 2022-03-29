@@ -149,7 +149,7 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
                     if(storeAccount){
                         intent = new Intent(SellerMenu.this, AddProductToMenu.class);
                     }else{
-                        intent = new Intent(SellerMenu.this, ShoppingCartActivity.class);
+                        intent = new Intent(SellerMenu.this, ShoppingCartActivity.class).putExtra("Delivery_Time",estimated_time);
                     }
                     startActivity(intent);
 
@@ -256,7 +256,7 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
             intent = new Intent(SellerMenu.this, SellerMenu.class);
         }
         else{
-            intent = new Intent(SellerMenu.this, ShoppingCart.class);
+            intent = new Intent(SellerMenu.this, ShoppingCartActivity.class);
             intent.putExtra("Delivery_Time",estimated_time);
         }
         startActivity(intent);

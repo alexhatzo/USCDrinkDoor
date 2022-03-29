@@ -53,6 +53,7 @@ public class SellerOrderPage extends AppCompatActivity {
     Context context = this;
 
     ArrayList<orderItem> order = new ArrayList<orderItem>();
+    String customerEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,11 +128,23 @@ public class SellerOrderPage extends AppCompatActivity {
 
                             }
                         });
-
+                goBack.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(SellerOrderPage.this, SellerOrderListActivity.class);
+                        startActivity(intent);
+                    }
+                });
                 completeOrder.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                      docRef.update("completed",true);
+
+                        docRef.update("Completed",true);
+                        db.collection("users").document(customerEmail).collection("Past Orders").document(orderID)
+                                .update("Current", false);
+                        Intent intent = new Intent(SellerOrderPage.this, SellerOrderPage.class).putExtra("id",orderID);
+                        startActivity(intent);
+
                       }
 
                 });
@@ -139,6 +152,8 @@ public class SellerOrderPage extends AppCompatActivity {
     }
 
     public void updateUI(DocumentSnapshot document){
+        customerEmail = document.get("Customer Email").toString();
+
         orderCompleted.append(document.get("Completed").toString());
 
         orderName.append(document.get("Customer Name").toString());
