@@ -75,7 +75,7 @@ public class DataParser {
             e.printStackTrace();
         }
         int minutes = time / 60;
-        String c = ("Estimated Delivery Time: " + minutes + " mins");
+        String c = String.valueOf(minutes);
         return c;
     }
 

@@ -92,6 +92,7 @@ public class MapsActivity extends AppCompatActivity
     private PlacesClient placesClient;
 
     private Polyline currentPolyline;
+    private int estimated_time = 0;
 
 
     // The entry point to the Fused Location Provider.
@@ -402,10 +403,6 @@ public class MapsActivity extends AppCompatActivity
         drive.setVisibility(View.VISIBLE);
         walk.setVisibility(View.VISIBLE);
 
-//                playButton.setVisibility(View.GONE);
-//                stopButton.setVisibility(View.VISIBLE);
-
-
         if(clicked == null){
             clicked = marker;
             getRoute(marker, "driving");
@@ -445,9 +442,13 @@ public class MapsActivity extends AppCompatActivity
 
     @Override
     public void onSecondTaskDone(Object... values) {
+        if(estimated_time != 0){
+            estimated_time = 0;
+        }
+        estimated_time = Integer.parseInt((String) values[0]);
         Button btn = (Button) findViewById(R.id.esttime);
         btn.setVisibility(View.VISIBLE);
-        btn.setText((String) values[0]);
+        btn.setText("Estimated Delivery Time: " + estimated_time + " mins");
     }
 
     public void clickAccount(View view) {
