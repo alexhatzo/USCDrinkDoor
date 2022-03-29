@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,13 +33,23 @@ public class OrderCompleteActivity extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
+    int estimate_time = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        Intent intent = getIntent();
+        estimate_time = intent.getIntExtra("Delivery_Time",0);
+
         FirebaseUser currentUser = mAuth.getCurrentUser();
         String emailAddress = currentUser.getEmail();
+        TextView t = (TextView) findViewById(R.id.time);
+        t.setText("Estimated Delivery Time: " + estimate_time);
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_complete);
+
 
         listview = findViewById(R.id.listView);
 
@@ -77,16 +88,12 @@ public class OrderCompleteActivity extends AppCompatActivity {
 
     public void clickCart(View view) {
         Intent intent = new Intent(this, ShoppingCartActivity.class);
+
         startActivity(intent);
     }
 
     public void clickHome(View view) {
         Intent intent = new Intent(this, MapsActivity.class);
-        startActivity(intent);
-    }
-
-    public void clickOrder(View view){
-        Intent intent = new Intent(this, OrderCompleteActivity.class);
         startActivity(intent);
     }
 }

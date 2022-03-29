@@ -59,6 +59,8 @@ public class ShoppingCartActivity extends AppCompatActivity{
 
     Map<String, Object> pastOrder = new HashMap<>();
 
+    int estimated_time;
+
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
@@ -66,6 +68,10 @@ public class ShoppingCartActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Intent intent = getIntent();
+        estimated_time = intent.getIntExtra("Delivery_Time",0);
+
+
         FirebaseUser currentUser = mAuth.getCurrentUser();
         String emailAddress = currentUser.getEmail();
 

@@ -103,8 +103,6 @@ public class MapsActivity extends AppCompatActivity
     private static final int DEFAULT_ZOOM = 15;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean locationPermissionGranted;
-    private List<LatLng> latLngList = new ArrayList<>();
-    private List<Marker> markers = new ArrayList<>();
     // The geographical location where the device is currently located. That is, the last-known
     // location retrieved by the Fused Location Provider.
     private Location lastKnownLocation;
@@ -400,6 +398,7 @@ public class MapsActivity extends AppCompatActivity
             String sellerEmail = clicked.getTag().toString();
             clicked = null;
             Intent intent = new Intent(this, SellerMenu.class).putExtra("email", sellerEmail);
+            intent.putExtra("Delivery_Time",estimated_time);
             startActivity(intent);
         }
         else {
@@ -444,6 +443,7 @@ public class MapsActivity extends AppCompatActivity
         }
         else{
             intent = new Intent(MapsActivity.this, User_Profile.class);
+            intent.putExtra("Delivery_Time",estimated_time);
         }
         startActivity(intent);
     }
@@ -455,6 +455,7 @@ public class MapsActivity extends AppCompatActivity
         }
         else{
             intent = new Intent(MapsActivity.this, ShoppingCartActivity.class);
+            intent.putExtra("Delivery_Time",estimated_time);
         }
         startActivity(intent);
     }
@@ -466,12 +467,8 @@ public class MapsActivity extends AppCompatActivity
         }
         else{
             intent = new Intent(MapsActivity.this, OrderCompleteActivity.class);
+            intent.putExtra("Delivery_Time",estimated_time);
         }
-        startActivity(intent);
-    }
-
-    public void clickHome(View view) {
-        Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
     }
 
