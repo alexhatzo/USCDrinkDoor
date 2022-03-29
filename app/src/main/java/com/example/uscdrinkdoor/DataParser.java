@@ -1,7 +1,9 @@
 package com.example.uscdrinkdoor;
         ;
 
-import com.google.android.gms.maps.model.LatLng;
+        import android.util.Log;
+
+        import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -64,15 +66,16 @@ public class DataParser {
                 jLegs = ((JSONObject) jRoutes.get(i)).getJSONArray("legs");
                 /** Traversing all legs */
                 for (int j = 0; j < jLegs.length(); j++) {
-                    time = time + Integer.parseInt(((JSONObject) jLegs.get(j)).getJSONArray("duration").getString(Integer.parseInt("value")));
+                    JSONObject a = (JSONObject) jLegs.get(j);
+                    JSONObject b = a.getJSONObject("duration");
+                    time += Integer.parseInt(b.getString("value"));
                 }
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
         int minutes = time / 60;
-        String c = ("Estimated Delivery Time: " + time);
-                //minutes + " minutes");
+        String c = String.valueOf(minutes);
         return c;
     }
 

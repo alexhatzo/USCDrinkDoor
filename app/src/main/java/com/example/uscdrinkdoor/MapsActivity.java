@@ -92,6 +92,7 @@ public class MapsActivity extends AppCompatActivity
     private PlacesClient placesClient;
 
     private Polyline currentPolyline;
+    private int estimated_time = 0;
 
 
     // The entry point to the Fused Location Provider.
@@ -109,7 +110,6 @@ public class MapsActivity extends AppCompatActivity
     private Location lastKnownLocation;
 
     private Marker clicked;
-    private Button order;
 
     // Keys for storing activity state.
     private static final String KEY_CAMERA_POSITION = "camera_position";
@@ -125,9 +125,6 @@ public class MapsActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        //order = findViewById(R.id.userOrder);
-
-
         DocumentReference docRef = db.collection("users").document(userEmail);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -142,17 +139,13 @@ public class MapsActivity extends AppCompatActivity
                             Button btn = (Button) findViewById(R.id.sellerMenu);
                             btn.setText("Cart");
                         }
-
                     } else {
                         Log.d("TAG", "No such document");
                     }
                 } else {
                     Log.d("TAG", "get failed with ", task.getException());
                 }
-
-
             }
-
         });
 
 
@@ -163,10 +156,6 @@ public class MapsActivity extends AppCompatActivity
             lastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
             cameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
         }
-
-        // Retrieve the content view that renders the map.
-
-
 
         // Construct a PlacesClient
         Places.initialize(getApplicationContext(), "AIzaSyDewc_xqcDgxGJNJAEb0D3ipsKtxD3KqOI");
@@ -179,7 +168,6 @@ public class MapsActivity extends AppCompatActivity
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
 
 //        Button account = findViewById(R.id.Account_Profile);
 //        //account button
@@ -404,20 +392,13 @@ public class MapsActivity extends AppCompatActivity
         drive.setVisibility(View.VISIBLE);
         walk.setVisibility(View.VISIBLE);
 
-//                playButton.setVisibility(View.GONE);
-//                stopButton.setVisibility(View.VISIBLE);
-
-
         if(clicked == null){
             clicked = marker;
             getRoute(marker, "driving");
-//            Toast.makeText(MapsActivity.this, "Email address is: "+ clicked.getTag().toString(), Toast.LENGTH_SHORT  ).show();
-
         }
         else if (clicked.equals(marker)){
             String sellerEmail = clicked.getTag().toString();
             clicked = null;
-
             Intent intent = new Intent(this, SellerMenu.class).putExtra("email", sellerEmail);
             startActivity(intent);
         }
@@ -447,9 +428,13 @@ public class MapsActivity extends AppCompatActivity
 
     @Override
     public void onSecondTaskDone(Object... values) {
+        if(estimated_time != 0){
+            estimated_time = 0;
+        }
+        estimated_time = Integer.parseInt((String) values[0]);
         Button btn = (Button) findViewById(R.id.esttime);
         btn.setVisibility(View.VISIBLE);
-        btn.setText((String) values[0]);
+        btn.setText("Estimated Delivery Time: " + estimated_time + " mins");
     }
 
     public void clickAccount(View view) {
