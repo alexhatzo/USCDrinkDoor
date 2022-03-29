@@ -3,8 +3,10 @@ package com.example.uscdrinkdoor;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -27,7 +29,7 @@ public class sellerWallet extends AppCompatActivity {
     private String TAG = "sellerWallet";
     private TextView revenue;
 
-    long revenueCount=0;
+    double revenueCount=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +51,7 @@ public class sellerWallet extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
-                                revenueCount += (long)document.get("Total Amount");
+                                revenueCount += (double)document.get("Total Amount");
                             }
 
                             revenue.append("$"+ revenueCount);
@@ -61,6 +63,27 @@ public class sellerWallet extends AppCompatActivity {
 
                 });
 
+    }
+
+
+    public void clickAccount(View view) {
+        Intent intent = new Intent(this, Seller_Profile.class);
+        startActivity(intent);
+    }
+
+    public void clickMenu(View view) {
+        Intent intent = new Intent(this, SellerMenu.class);
+        startActivity(intent);
+    }
+
+    public void viewOrders(View view){
+        Intent intent = new Intent(this, SellerOrderListActivity.class);
+        startActivity(intent);
+    }
+
+    public void clickHome(View view) {
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
     }
 
 
