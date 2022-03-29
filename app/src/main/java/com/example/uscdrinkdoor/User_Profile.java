@@ -107,7 +107,7 @@ public class User_Profile extends AppCompatActivity{
         userName.setText((String)document.get("name"));
         userEmail.setText((String)document.get("emailAddress"));
         userPhone.setText((String)document.get("phone"));
-        userCaffeine.setText("Caffeine Intake:" + document.get("Caffeine").toString());
+        userCaffeine.setText("Caffeine Intake:" + (String) document.get("Caffeine"));
 
     }
 

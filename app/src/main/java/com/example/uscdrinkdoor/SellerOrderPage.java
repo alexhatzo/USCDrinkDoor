@@ -7,6 +7,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -39,6 +41,9 @@ public class SellerOrderPage extends AppCompatActivity {
     private TextView orderTime;
     private TextView orderTotal;
 
+    private Button completeOrder;
+    private Button goBack;
+
 
     private ListView listview;
 
@@ -70,12 +75,18 @@ public class SellerOrderPage extends AppCompatActivity {
 
         listview = findViewById(R.id.orderLv);
 
+        completeOrder = findViewById(R.id.orderComplete);
+        goBack = findViewById(R.id.orderBack);
+
         DocumentReference docRef =  db.collection("users").document(currentEmail).collection("Orders").document(orderID);
                 docRef.get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         Log.d(TAG, "DocumentSnapshot data: " + documentSnapshot.getData());
+                        if((boolean)documentSnapshot.get("Completed") == true){
+                            completeOrder.setEnabled(false);
+                        }
 
                         updateUI(documentSnapshot);
                     }
@@ -115,6 +126,14 @@ public class SellerOrderPage extends AppCompatActivity {
 
                             }
                         });
+
+                completeOrder.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                      docRef.update("completed",true);
+                      }
+
+                });
 
     }
 
