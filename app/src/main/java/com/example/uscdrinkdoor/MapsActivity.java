@@ -110,7 +110,6 @@ public class MapsActivity extends AppCompatActivity
     private Location lastKnownLocation;
 
     private Marker clicked;
-    private Button order;
 
     // Keys for storing activity state.
     private static final String KEY_CAMERA_POSITION = "camera_position";
@@ -126,9 +125,6 @@ public class MapsActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        //order = findViewById(R.id.userOrder);
-
-
         DocumentReference docRef = db.collection("users").document(userEmail);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -143,17 +139,13 @@ public class MapsActivity extends AppCompatActivity
                             Button btn = (Button) findViewById(R.id.sellerMenu);
                             btn.setText("Cart");
                         }
-
                     } else {
                         Log.d("TAG", "No such document");
                     }
                 } else {
                     Log.d("TAG", "get failed with ", task.getException());
                 }
-
-
             }
-
         });
 
 
@@ -162,10 +154,6 @@ public class MapsActivity extends AppCompatActivity
             lastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
             cameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
         }
-
-        // Retrieve the content view that renders the map.
-
-
 
         // Construct a PlacesClient
         Places.initialize(getApplicationContext(), "AIzaSyDewc_xqcDgxGJNJAEb0D3ipsKtxD3KqOI");
@@ -178,7 +166,6 @@ public class MapsActivity extends AppCompatActivity
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
 
 //        Button account = findViewById(R.id.Account_Profile);
 //        //account button
@@ -406,13 +393,10 @@ public class MapsActivity extends AppCompatActivity
         if(clicked == null){
             clicked = marker;
             getRoute(marker, "driving");
-//            Toast.makeText(MapsActivity.this, "Email address is: "+ clicked.getTag().toString(), Toast.LENGTH_SHORT  ).show();
-
         }
         else if (clicked.equals(marker)){
             String sellerEmail = clicked.getTag().toString();
             clicked = null;
-
             Intent intent = new Intent(this, SellerMenu.class).putExtra("email", sellerEmail);
             startActivity(intent);
         }
