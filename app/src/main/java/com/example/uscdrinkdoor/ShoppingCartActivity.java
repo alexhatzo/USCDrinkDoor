@@ -3,8 +3,10 @@ package com.example.uscdrinkdoor;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -56,6 +58,8 @@ public class ShoppingCartActivity extends AppCompatActivity{
     String sellerEmail;
     
     int dailyCaffeine;
+    boolean cont = false;
+
 
     Map<String, Object> pastOrder = new HashMap<>();
 
@@ -118,8 +122,12 @@ public class ShoppingCartActivity extends AppCompatActivity{
         submitOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //FEATURE #2: Alexandros Hatzopoulos
+                //check if user has had too much caffeine
+                if( !checkCaffeine(emailAddress) ) {
+                    return;
+                }
                 //get buyer's information to pass on to seller
-
 
                 Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
@@ -150,7 +158,7 @@ public class ShoppingCartActivity extends AppCompatActivity{
                                pastOrder.put("Price", document.get("Price"));
                                pastOrder.put("Caffeine", document.get("Caffeine"));
                                pastOrder.put("Description", document.get("description"));
-                               pastOrder.put("Time Ordered", sdf3.format(timestamp));
+                               pastOrder.put("Time Ordered", timestamp);
 
                                 orderCaffeine += (long)document.get("Caffeine");
                                 orderTotal += (long) document.get("Price");
@@ -196,7 +204,8 @@ public class ShoppingCartActivity extends AppCompatActivity{
                             pastOrderInfo.put("Date", timestamp);
                             pastOrderInfo.put("Current", true);
 
-                            db.collection("users").document(emailAddress).collection("Past Orders").document(uuid16digits)
+
+                           db.collection("users").document(emailAddress).collection("Past Orders").document(uuid16digits)
                                    .set(pastOrderInfo)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
@@ -272,6 +281,53 @@ public class ShoppingCartActivity extends AppCompatActivity{
 
 
 
+    }
+
+
+    public boolean checkCaffeine(String email){
+
+
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+        builder1.setMessage("You seem to have been drinking too much coffee (over 400mg in the past 24hours!). Are you sure you want to continue?");
+        builder1.setCancelable(true);
+
+        builder1.setPositiveButton(
+                "Yes",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                       cont =true;
+                        dialog.cancel();
+
+                    }
+                });
+
+        builder1.setNegativeButton(
+                "No",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        cont = false;
+                        dialog.cancel();
+                    }
+                });
+
+
+        db.collection("users").document(email)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if((long)document.get("Caffeine") > 400){
+                                AlertDialog alert11 = builder1.create();
+                                alert11.show();
+                            }else {
+                                cont = true;
+                            }
+                        }
+                    }
+                });
+        return cont;
     }
 
 

@@ -16,11 +16,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class OrderCompleteActivity extends AppCompatActivity {
     ListView listview;
@@ -35,6 +37,7 @@ public class OrderCompleteActivity extends AppCompatActivity {
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     Integer estimated_time = 0;
+    long caffeine = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +59,9 @@ public class OrderCompleteActivity extends AppCompatActivity {
         listview = findViewById(R.id.listView);
 
 
+        updateCaffeine(emailAddress);
+
+        //show items only from current order
         CollectionReference colRef = db.collection("users").document(emailAddress).collection("Past Orders");
                 colRef.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -63,6 +69,7 @@ public class OrderCompleteActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
+                                //check if current
                                 if ((boolean) document.get("Current")) {
 
                                     Log.d(TAG, document.getId() + " => " + document.getData());
@@ -71,6 +78,7 @@ public class OrderCompleteActivity extends AppCompatActivity {
                                                 @Override
                                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                     if (task.isSuccessful()) {
+                                                        //populate list of ordered items
                                                         for (QueryDocumentSnapshot document : task.getResult()) {
 
                                                             Log.d(TAG, document.getId() + " => " + document.getData());
@@ -99,7 +107,36 @@ public class OrderCompleteActivity extends AppCompatActivity {
     }
 
 
+    public void updateCaffeine(String emailAddress){
+        //FEATURE #2: Alexandros Hatzopoulos
 
+        long currentTime = System.currentTimeMillis();
+        long timestampSeconds = TimeUnit.MILLISECONDS.toSeconds(currentTime);
+
+
+
+        db.collection("users").document(emailAddress).collection("Past Orders").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                com.google.firebase.Timestamp orderTime = document.getTimestamp("Date");
+
+                                long timeDiff = timestampSeconds - orderTime.getSeconds();
+                                long currentMinutes = timeDiff/60;
+                                long currentHours = currentMinutes/60;
+
+                                if(currentHours <24 ){
+                                    caffeine+= (long)document.get("Order Caffeine");
+                                    db.collection("users").document(emailAddress).update("Caffeine", caffeine);
+                                }
+                            }
+                        }
+
+                    }
+                });
+    }
     public void clickAccount(View view) {
         Intent intent = new Intent(this, User_Profile.class);
         intent.putExtra("Delivery_Time",estimated_time);

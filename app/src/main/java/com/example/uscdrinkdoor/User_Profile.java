@@ -16,6 +16,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.sql.Timestamp;
+import java.util.concurrent.TimeUnit;
 
 public class User_Profile extends AppCompatActivity{
 
@@ -30,6 +35,7 @@ public class User_Profile extends AppCompatActivity{
     private Button userPhone;
     private Button userLogoff;
 
+    long caffeine=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +63,11 @@ public class User_Profile extends AppCompatActivity{
                     if (document.exists()) {
 
                         Log.d("TAG", "DocumentSnapshot data: " + document.getData());
+
                         updateUI(document);
+
+                        //FEATURE #2: Alexandros Hatzopoulos
+                        updateCaffeine(docRef);
 
                     } else {
                         Log.d("TAG", "No such document");
@@ -72,26 +82,7 @@ public class User_Profile extends AppCompatActivity{
 
 
         });
-//       userOrder.setOnClickListener(new View.OnClickListener() {
-//           @Override
-//           public void onClick(View view) {
-//               Intent to orders
-//               Intent orders = new Intent(User_Profile.this, User_order.class);
-//                startActivity(orders);
-//           }
-//
-//       });
 
-
-//        userCart.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//               Intent to cart
-//               Intent cart = new Intent(User_Profile.this, cart.class);
-//                startActivity(cart);
-//            }
-//        });
-//
         userLogoff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -107,8 +98,40 @@ public class User_Profile extends AppCompatActivity{
         userName.setText((String)document.get("name"));
         userEmail.setText((String)document.get("emailAddress"));
         userPhone.setText((String)document.get("phone"));
-        userCaffeine.setText("Caffeine Intake:" + (long) document.get("Caffeine"));
 
+    }
+
+    public void updateCaffeine(DocumentReference docRef){
+        //FEATURE #2: Alexandros Hatzopoulos
+
+        long currentTime = System.currentTimeMillis();
+        long timestampSeconds = TimeUnit.MILLISECONDS.toSeconds(currentTime);
+
+
+
+        docRef.collection("Past Orders")
+            .get()
+            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            com.google.firebase.Timestamp orderTime = document.getTimestamp("Date");
+
+                            long timeDiff = timestampSeconds - orderTime.getSeconds();
+                            long currentMinutes = timeDiff/60;
+                            long currentHours = currentMinutes/60;
+
+                            if(currentHours <24 ){
+                                caffeine+=(long)document.get("Order Caffeine");
+                                docRef.update("Caffeine", caffeine);
+                            }
+                        }
+                    }
+                    userCaffeine.setText("Caffeine Intake:" + caffeine);
+
+                }
+            });
     }
 
     public void clickAccount(View view) {
