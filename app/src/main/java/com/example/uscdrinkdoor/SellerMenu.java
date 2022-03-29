@@ -52,12 +52,17 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
     //instantiate list for the seller.menu for layout
     ArrayList<Item> menu = new ArrayList<Item>();
     String emailAddress;
+    int estimated_time = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        emailAddress = getIntent().getStringExtra("email");
         String currentEmail = currentUser.getEmail();
+
+        Intent intent = getIntent();
+        emailAddress = intent.getStringExtra("email");
+        estimated_time = intent.getIntExtra("Delivery_Time",0);
+
 
         if(emailAddress == null){
             emailAddress = currentEmail;
@@ -240,6 +245,7 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
         }
         else{
             intent = new Intent(SellerMenu.this, User_Profile.class);
+            intent.putExtra("Delivery_Time",estimated_time);
         }
         startActivity(intent);
     }
@@ -251,6 +257,7 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
         }
         else{
             intent = new Intent(SellerMenu.this, ShoppingCart.class);
+            intent.putExtra("Delivery_Time",estimated_time);
         }
         startActivity(intent);
     }
@@ -262,6 +269,7 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
         }
         else{
             intent = new Intent(SellerMenu.this, OrderCompleteActivity.class);
+            intent.putExtra("Delivery_Time",estimated_time);
         }
         startActivity(intent);
     }

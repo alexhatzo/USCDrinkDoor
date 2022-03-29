@@ -251,21 +251,25 @@ public class ShoppingCartActivity extends AppCompatActivity{
 
     public void clickAccount(View view) {
         Intent intent = new Intent(this, User_Profile.class);
+        intent.putExtra("Delivery_Time",estimated_time);
         startActivity(intent);
     }
 
     public void clickOrder(View view){
         Intent intent = new Intent(this, OrderCompleteActivity.class);
+        intent.putExtra("Delivery_Time",estimated_time);
         startActivity(intent);
     }
 
     public void clickCart(View view) {
         Intent intent = new Intent(this, ShoppingCartActivity.class);
+        intent.putExtra("Delivery_Time",estimated_time);
         startActivity(intent);
     }
 
     public void clickHome(View view) {
         Intent intent = new Intent(this, MapsActivity.class);
+        intent.putExtra("Delivery_Time",estimated_time);
         startActivity(intent);
     }
 
