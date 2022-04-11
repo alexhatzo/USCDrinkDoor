@@ -41,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private String dbUser = "Admin";
     private String dbPassword = "1234";
+    private boolean store = false;
 
     private EditText email;
     private EditText password;
