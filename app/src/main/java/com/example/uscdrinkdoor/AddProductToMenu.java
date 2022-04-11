@@ -58,6 +58,8 @@ public class AddProductToMenu extends AppCompatActivity {
 
         //fill up form with saved data for when editing a product
         if(editProdName != null) {
+            EspressoIdlingResource.increment();
+
             DocumentReference docRef = db.collection("users").document(currentUser.getEmail()).collection("Menu").document(editProdName);
             docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
@@ -75,6 +77,8 @@ public class AddProductToMenu extends AppCompatActivity {
                     } else {
                         Log.d("TAG", "get failed with ", task.getException());
                     }
+
+                    EspressoIdlingResource.decrement();
 
 
                 }
@@ -104,6 +108,9 @@ public class AddProductToMenu extends AppCompatActivity {
                     product.put("Email", currentUser.getEmail());
 
                     Log.d(TAG, "onClick: " + ns + ps + cs+ ds);
+
+                    EspressoIdlingResource.increment();
+
                     //save new product to db
                     db.collection("users").document(currentUser.getEmail()).collection("Menu").document(ns)
                             .set(product)
@@ -114,13 +121,15 @@ public class AddProductToMenu extends AppCompatActivity {
                                     Toast.makeText(AddProductToMenu.this, "Product successfully added! ", Toast.LENGTH_SHORT  ).show();
 
                                     updateUIonSave();
+                                    EspressoIdlingResource.decrement();
+
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
                                     Log.w(TAG, "Error adding product", e);
-
+                                    EspressoIdlingResource.decrement();
                                 }
                             });
                 }

@@ -138,6 +138,8 @@ public class CreateAccount extends AppCompatActivity {
     }
 
     public void saveAccountInfo( Map<String, Object> user){
+        EspressoIdlingResource.increment();
+
         db.collection("users").document(emailAddress.getText().toString())
                 .set(user)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -145,6 +147,8 @@ public class CreateAccount extends AppCompatActivity {
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "DocumentSnapshot successfully written!");
                         updateUI();
+                        EspressoIdlingResource.decrement();
+
                     }
 
                 })

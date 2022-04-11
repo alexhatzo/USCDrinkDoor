@@ -110,14 +110,8 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
             }
         });
 
-        //need to receive intent for which seller id and user id
+        EspressoIdlingResource.increment();
 
-
-        //instantiate list for the seller.menu for layout
-        //ArrayList<Item> menu = new ArrayList<Item>();
-
-        //MUST ACCESS DB THROUGH EMAIL FROM INTENT! USER ALSO HAS EMAIL BUT NO MENU
-        //THIS MUST BE SOLVED WHEN WE FIX THE MAP STORES
         db.collection("users").document(emailAddress).collection("Menu")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -136,6 +130,8 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
+                        EspressoIdlingResource.decrement();
+
                     }
 
                 });
@@ -211,7 +207,7 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
         product.put("description", toAdd.getDescription());
         product.put("Email", toAdd.getSellerEmail());
 
-
+        EspressoIdlingResource.increment();
         //save new product to db
         db.collection("users").document(userEmail).collection("Cart").document(uuid.toString())
                 .set(product)
@@ -220,6 +216,7 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
                     public void onSuccess(Void unused) {
                         Log.d(TAG, "Product successfully added!");
                         Toast.makeText(SellerMenu.this, "Product added to cart! ", Toast.LENGTH_SHORT  ).show();
+                        EspressoIdlingResource.decrement();
 
                     }
                 })
@@ -227,6 +224,7 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.w(TAG, "Error adding product", e);
+                        EspressoIdlingResource.decrement();
 
                     }
                 });

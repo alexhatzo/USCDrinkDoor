@@ -52,6 +52,9 @@ public class User_Profile extends AppCompatActivity{
         userLogoff  = findViewById(R.id.userLogoff) ;
         userPhone = findViewById(R.id.userPhone);
 
+
+        EspressoIdlingResource.increment();
+
         DocumentReference docRef =  db.collection("users").document(currentUser.getEmail());
 
         //get general order data and display on screen
@@ -76,7 +79,7 @@ public class User_Profile extends AppCompatActivity{
                     Log.d("TAG", "get failed with ", task.getException());
                 }
 
-
+                EspressoIdlingResource.decrement();
             }
 
 
@@ -108,7 +111,7 @@ public class User_Profile extends AppCompatActivity{
         long timestampSeconds = TimeUnit.MILLISECONDS.toSeconds(currentTime);
 
 
-
+        EspressoIdlingResource.increment();
         docRef.collection("Past Orders")
             .get()
             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -129,7 +132,7 @@ public class User_Profile extends AppCompatActivity{
                         }
                     }
                     userCaffeine.setText("Caffeine Intake:" + caffeine);
-
+                    EspressoIdlingResource.decrement();
                 }
             });
     }

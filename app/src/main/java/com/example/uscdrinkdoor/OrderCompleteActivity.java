@@ -63,6 +63,7 @@ public class OrderCompleteActivity extends AppCompatActivity {
 
         updateCaffeine(emailAddress);
 
+        EspressoIdlingResource.increment();
         //show items only from current order
         CollectionReference colRef = db.collection("users").document(emailAddress).collection("Past Orders");
                 colRef.get()
@@ -103,6 +104,8 @@ public class OrderCompleteActivity extends AppCompatActivity {
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
+
+                        EspressoIdlingResource.decrement();
                     }
 
                 });
@@ -119,6 +122,7 @@ public class OrderCompleteActivity extends AppCompatActivity {
 
 
 
+        EspressoIdlingResource.increment();
         db.collection("users").document(emailAddress).collection("Past Orders").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -138,6 +142,7 @@ public class OrderCompleteActivity extends AppCompatActivity {
                             }
                         }
 
+                        EspressoIdlingResource.decrement();
                     }
                 });
     }

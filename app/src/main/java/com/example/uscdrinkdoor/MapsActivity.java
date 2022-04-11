@@ -1,23 +1,15 @@
 package com.example.uscdrinkdoor;
 
 import android.Manifest;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -36,41 +28,17 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-
 import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.model.PlaceLikelihood;
-import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
-import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.gson.JsonArray;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -124,6 +92,7 @@ public class MapsActivity extends AppCompatActivity
         setContentView(R.layout.activity_maps);
 
         DocumentReference docRef = db.collection("users").document(userEmail);
+        EspressoIdlingResource.increment();
 
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -138,12 +107,15 @@ public class MapsActivity extends AppCompatActivity
                             Button btn = (Button) findViewById(R.id.sellerMenu);
                             btn.setText("Cart");
                         }
+
                     } else {
                         Log.d("TAG", "No such document");
                     }
                 } else {
                     Log.d("TAG", "get failed with ", task.getException());
                 }
+                EspressoIdlingResource.decrement();
+
             }
         });
 
@@ -301,7 +273,7 @@ public class MapsActivity extends AppCompatActivity
 
     private void SearchNearby(){
         List<String> storeData = new ArrayList<>();
-
+        EspressoIdlingResource.increment();
         //Get store coordinates from database
         db.collection("users")
                 .get()
@@ -326,6 +298,9 @@ public class MapsActivity extends AppCompatActivity
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
+
+                        EspressoIdlingResource.decrement();
+
                     }
 
                 });
@@ -361,6 +336,7 @@ public class MapsActivity extends AppCompatActivity
     }
 
     private void getRoute(Marker marker, String transport) {
+        EspressoIdlingResource.increment();
         // marker.setSnippet(Estimated Delivery Time)
         String origin = "origin=" + lastKnownLocation.getLatitude() + "," + lastKnownLocation.getLongitude();
         String dest = "&destination=" + marker.getPosition().latitude + "," + marker.getPosition().longitude;
@@ -368,6 +344,8 @@ public class MapsActivity extends AppCompatActivity
         String key = "&key=AIzaSyDewc_xqcDgxGJNJAEb0D3ipsKtxD3KqOI";
         String urlrequest = "https://maps.googleapis.com/maps/api/directions/json?" + origin + dest + mode + key;
         new FetchURL(MapsActivity.this).execute(urlrequest, transport);
+        EspressoIdlingResource.decrement();
+
     }
 
     @Override

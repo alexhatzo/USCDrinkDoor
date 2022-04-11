@@ -6,12 +6,14 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.core.StringContains.containsString;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -127,6 +129,14 @@ public class OrderActivityTest {
                                 1),
                         isDisplayed()));
         materialButton5.perform(click());
+
+
+
+//        materialButton5.perform(click());
+        //cart has known number of items total==5
+        ViewInteraction materialButton6 = onView(withId((R.id.summary)))
+                .check(matches(withText(containsString("5"))));
+
     }
 
     private static Matcher<View> childAtPosition(

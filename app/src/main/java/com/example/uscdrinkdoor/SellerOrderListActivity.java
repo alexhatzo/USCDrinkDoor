@@ -43,6 +43,7 @@ public class SellerOrderListActivity extends AppCompatActivity implements OrderI
 
         listview = findViewById(R.id.listView);
 
+        EspressoIdlingResource.increment();
 
         db.collection("users").document(emailAddress).collection("Orders")
                 .get()
@@ -62,6 +63,8 @@ public class SellerOrderListActivity extends AppCompatActivity implements OrderI
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
+                        EspressoIdlingResource.decrement();
+
                     }
 
                 });

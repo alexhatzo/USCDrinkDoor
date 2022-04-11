@@ -46,6 +46,7 @@ public class Seller_Profile extends AppCompatActivity {
         sellerLogoff = findViewById(R.id.userLogoff);
 
 
+        EspressoIdlingResource.increment();
         DocumentReference docRef =  db.collection("users").document(currentUser.getEmail());
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -63,6 +64,7 @@ public class Seller_Profile extends AppCompatActivity {
                 } else {
                     Log.d("TAG", "get failed with ", task.getException());
                 }
+                EspressoIdlingResource.decrement();
 
 
             }

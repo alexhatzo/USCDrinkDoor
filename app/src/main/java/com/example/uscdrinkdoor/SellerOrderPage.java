@@ -80,6 +80,8 @@ public class SellerOrderPage extends AppCompatActivity {
         completeOrder = findViewById(R.id.orderComplete);
         goBack = findViewById(R.id.orderBack);
 
+        EspressoIdlingResource.increment();
+
         //HANDLE ORDER FOR SELLER SIDE
         DocumentReference docRef =  db.collection("users").document(currentEmail).collection("Orders").document(orderID);
                 docRef.get()
@@ -92,17 +94,23 @@ public class SellerOrderPage extends AppCompatActivity {
                         }
 
                         updateUI(documentSnapshot);
+                        EspressoIdlingResource.decrement();
+
                     }
+
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.w(TAG, "Error reading document", e);
+                        EspressoIdlingResource.decrement();
 
                     }
                 });
 
-                docRef.collection("Products")
+        EspressoIdlingResource.increment();
+
+        docRef.collection("Products")
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
@@ -121,11 +129,14 @@ public class SellerOrderPage extends AppCompatActivity {
                                     } else {
                                         Log.d(TAG, "Error getting documents: ", task.getException());
                                         }
-                                    }
+                                EspressoIdlingResource.decrement();
+
+                            }
                             })
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
+                                EspressoIdlingResource.decrement();
 
                             }
                         });
@@ -136,7 +147,10 @@ public class SellerOrderPage extends AppCompatActivity {
                         startActivity(intent);
                     }
                 });
-                //HANDLE ORDER FOR USER SIDE -> COMPLETED/PAST
+
+        EspressoIdlingResource.increment();
+
+        //HANDLE ORDER FOR USER SIDE -> COMPLETED/PAST
                 completeOrder.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -145,8 +159,9 @@ public class SellerOrderPage extends AppCompatActivity {
                         db.collection("users").document(customerEmail).collection("Past Orders").document(orderID)
                                 .update("Current", false);
                         Intent intent = new Intent(SellerOrderPage.this, SellerOrderPage.class).putExtra("id",orderID);
-                        startActivity(intent);
 
+                        startActivity(intent);
+                        EspressoIdlingResource.decrement();
                       }
 
                 });

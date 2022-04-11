@@ -88,6 +88,7 @@ public class ShoppingCartActivity extends AppCompatActivity{
         listview = findViewById(R.id.listView);
         submitOrder = findViewById(R.id.Submit_Order);
 
+        EspressoIdlingResource.increment();
         //access items added to cart by user
         db.collection("users").document(emailAddress).collection("Cart")
                 .get()
@@ -111,6 +112,7 @@ public class ShoppingCartActivity extends AppCompatActivity{
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
+                        EspressoIdlingResource.decrement();
                     }
 
                 });
@@ -144,6 +146,8 @@ public class ShoppingCartActivity extends AppCompatActivity{
                 String uuid = String.format("%040d", new BigInteger(UUID.randomUUID().toString().replace("-", ""), 16));
                 String uuid16digits = uuid.substring(uuid.length() - 16);
 
+
+                EspressoIdlingResource.increment();
 
                 //transfer current cart to past orders
                 CollectionReference colRef = db.collection("users").document(emailAddress).collection("Cart");
@@ -227,10 +231,11 @@ public class ShoppingCartActivity extends AppCompatActivity{
 
                        }
 
+                       EspressoIdlingResource.decrement();
                    }
                });
 
-
+                EspressoIdlingResource.increment();
                         //save new order to db on seller side
                         db.collection("users").document(sellerEmail).collection("Orders").document(uuid16digits)
                                 .set(order)
@@ -264,13 +269,14 @@ public class ShoppingCartActivity extends AppCompatActivity{
                                         Toast.makeText(ShoppingCartActivity.this, "Order successfully sent! ", Toast.LENGTH_SHORT).show();
                                         //send user to order complete page
                                         //                    updateUI();
-
+                                        EspressoIdlingResource.decrement();
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
                                         Log.w(TAG, "Error adding product", e);
+                                        EspressoIdlingResource.decrement();
                                     }
                                 });
 
@@ -311,6 +317,7 @@ public class ShoppingCartActivity extends AppCompatActivity{
                 });
 
 
+        EspressoIdlingResource.increment();
         db.collection("users").document(email)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -325,6 +332,7 @@ public class ShoppingCartActivity extends AppCompatActivity{
                                 cont = true;
                             }
                         }
+                        EspressoIdlingResource.decrement();
                     }
                 });
         return cont;

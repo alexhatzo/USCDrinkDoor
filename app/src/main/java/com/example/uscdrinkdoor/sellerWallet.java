@@ -41,6 +41,8 @@ public class sellerWallet extends AppCompatActivity {
 
         revenue = findViewById(R.id.walletRevenue);
 
+
+        EspressoIdlingResource.increment();
         //calculate store total revenues
         // FEATURE 3
         db.collection("users").document(emailAddress).collection("Orders")
@@ -59,6 +61,8 @@ public class sellerWallet extends AppCompatActivity {
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
+
+                        EspressoIdlingResource.decrement();
                     }
 
                 });
