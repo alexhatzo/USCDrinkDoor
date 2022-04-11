@@ -2,8 +2,13 @@ package com.example.uscdrinkdoor;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.test.espresso.idling.CountingIdlingResource;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -47,8 +52,11 @@ public class LoginActivity extends AppCompatActivity {
 
     boolean isValid = false;
 
+    CountingIdlingResource loginServerIdlingResource;
 
     int attemptCount = 3;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +78,9 @@ public class LoginActivity extends AppCompatActivity {
 
 
         attempts = findViewById(R.id.attempts);
+
+
+
 
         loginbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,6 +125,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void createAccount(String email, String password){
+        EspressoIdlingResource.increment();
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -129,12 +141,16 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this, "Authentication failed. E-mail is already in use.",
                                     Toast.LENGTH_SHORT).show();
                         }
+                        EspressoIdlingResource.decrement();
                         updateUI();
+
                     }
                 });
     }
 
     public void signIn(String email, String password){
+        EspressoIdlingResource.increment();
+
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -156,13 +172,15 @@ public class LoginActivity extends AppCompatActivity {
 
                             //null for refresh
                         }
+                        EspressoIdlingResource.decrement();
+
                         updateUILogin();
                     }
                 });
     }
 
-    public String authUser(String username, String password){
-         String[] dbPassword2 = {""};
+    public void authUser(String username, String password){
+
 
         DocumentReference docRef =  db.collection("users").document(username);
 
@@ -174,7 +192,6 @@ public class LoginActivity extends AppCompatActivity {
                     if (document.exists()) {
                         findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
 
-                        Log.d("TAG", "DocumentSnapshot data: " + document.getData());
 
                         if(password.equals(document.get("password"))){
                             isValid = true;
@@ -193,7 +210,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
         });
-            return dbPassword2[0];
     }
 
     public void updateUILogin(){
@@ -230,11 +246,14 @@ public class LoginActivity extends AppCompatActivity {
 
             attempts.setText("Sign up successful! Redirecting");
             Intent createAccount = new Intent(LoginActivity.this, CreateAccount.class);
-            startActivity(createAccount);
             findViewById(R.id.loadingPanel).setVisibility(View.GONE);
+            startActivity(createAccount);
+
 
         }
     }
+
+
 
 
 }

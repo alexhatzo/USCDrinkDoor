@@ -27,6 +27,8 @@ import java.util.concurrent.TimeUnit;
 public class OrderCompleteActivity extends AppCompatActivity {
     ListView listview;
 
+    private TextView totalText;
+
     final Context context = this;
 
     private static final String TAG = "OrderCompleteActivity";
@@ -39,6 +41,8 @@ public class OrderCompleteActivity extends AppCompatActivity {
     Integer estimated_time = 0;
     long caffeine = 0;
 
+    long totalCost = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,10 +54,8 @@ public class OrderCompleteActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         String emailAddress = currentUser.getEmail();
         TextView t = findViewById(R.id.time);
+        totalText = findViewById(R.id.summary);
         t.append(" " +estimated_time.toString());
-
-
-
 
 
         listview = findViewById(R.id.listView);
@@ -71,7 +73,7 @@ public class OrderCompleteActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 //check if current
                                 if ((boolean) document.get("Current")) {
-
+                                    totalCost += (Long) document.get("Order Total");
                                     Log.d(TAG, document.getId() + " => " + document.getData());
                                     colRef.document(document.getId()).collection("Products").get()
                                             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -94,6 +96,8 @@ public class OrderCompleteActivity extends AppCompatActivity {
 
                                 }
                             }
+
+                            totalText.append(" " + Long.toString(totalCost)+"$");
 
 
                         } else {

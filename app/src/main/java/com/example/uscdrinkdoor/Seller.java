@@ -1,12 +1,11 @@
-import android.location.Location;
+package com.example.uscdrinkdoor;
 
-import com.example.uscdrinkdoor.Item;
-import com.example.uscdrinkdoor.Order;
+import android.location.Location;
 
 import java.util.List;
 
 public class Seller extends User{
-    //User data
+    //com.example.uscdrinkdoor.User data
     int userID;
 
     //Store Information
@@ -55,6 +54,8 @@ public class Seller extends User{
     }
 
     public void sendOrder(){
+       //implemented on activity
+
         //get first order from current orders
         //send to API
         //remove from current orders

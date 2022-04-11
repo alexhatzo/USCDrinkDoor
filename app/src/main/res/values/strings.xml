@@ -12,7 +12,7 @@
     <string name="login_failed">"Login failed"</string>
     <string name="MAPS_API_KEY">"AIzaSyB2y2zZkPVbLTr-QFiEAMcXTspOJDaC5OY"</string>
 
-    // Seller Profile:
+    // com.example.uscdrinkdoor.Seller Profile:
     <string name="seller_name">Seller</string>
     <string name="seller_id">Seller ID:</string>
     <string name="seller_email">Email</string>
@@ -22,7 +22,7 @@
     <string name="wallet">Wallet</string>
     <string name="logoff">Sign Off</string>
 
-    // User Profile:
+    // com.example.uscdrinkdoor.User Profile:
     <string name="user_name">User</string>
     <string name="phone">Phone</string>
     <string name="user_email">Email</string>

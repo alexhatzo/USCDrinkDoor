@@ -1,5 +1,6 @@
 package com.example.uscdrinkdoor;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -94,7 +95,7 @@ public class MapsActivity extends AppCompatActivity
     private int estimated_time = 0;
 
 
-    // The entry point to the Fused Location Provider.
+    // The entry point to the Fused com.example.uscdrinkdoor.Location Provider.
     private FusedLocationProviderClient fusedLocationProviderClient;
 
     // Default location (USC) and default zoom when location permission not granted
@@ -103,7 +104,7 @@ public class MapsActivity extends AppCompatActivity
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean locationPermissionGranted;
     // The geographical location where the device is currently located. That is, the last-known
-    // location retrieved by the Fused Location Provider.
+    // location retrieved by the Fused com.example.uscdrinkdoor.Location Provider.
     private Location lastKnownLocation;
 
     private Marker clicked;
@@ -242,7 +243,7 @@ public class MapsActivity extends AppCompatActivity
         // Prompt the user for permission.
         getLocationPermission();
 
-        // Turn on the My Location layer and the related control on the map.
+        // Turn on the My com.example.uscdrinkdoor.Location layer and the related control on the map.
         updateLocationUI();
 
         // Get the current location of the device and set the position of the map.
@@ -300,7 +301,7 @@ public class MapsActivity extends AppCompatActivity
             locationPermissionGranted = true;
         } else {
             ActivityCompat.requestPermissions(this,
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
     }
@@ -340,7 +341,7 @@ public class MapsActivity extends AppCompatActivity
                 map.setMyLocationEnabled(false);
                 map.getUiSettings().setMyLocationButtonEnabled(false);
                 lastKnownLocation = null;
-                getLocationPermission();
+//                getLocationPermission();
             }
         } catch (SecurityException e)  {
             Log.e("Exception: %s", e.getMessage());

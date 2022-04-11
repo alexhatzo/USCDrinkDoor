@@ -80,6 +80,7 @@ public class SellerOrderPage extends AppCompatActivity {
         completeOrder = findViewById(R.id.orderComplete);
         goBack = findViewById(R.id.orderBack);
 
+        //HANDLE ORDER FOR SELLER SIDE
         DocumentReference docRef =  db.collection("users").document(currentEmail).collection("Orders").document(orderID);
                 docRef.get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -135,6 +136,7 @@ public class SellerOrderPage extends AppCompatActivity {
                         startActivity(intent);
                     }
                 });
+                //HANDLE ORDER FOR USER SIDE -> COMPLETED/PAST
                 completeOrder.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

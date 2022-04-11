@@ -1,3 +1,5 @@
+package com.example.uscdrinkdoor;
+
 public class Location {
     int x;
     int y;

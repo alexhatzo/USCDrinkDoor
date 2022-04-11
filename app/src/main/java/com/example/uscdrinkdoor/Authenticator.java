@@ -1,3 +1,5 @@
+package com.example.uscdrinkdoor;
+
 public class Authenticator {
     String username;
     String password;
