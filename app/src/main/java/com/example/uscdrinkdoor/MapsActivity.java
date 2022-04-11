@@ -82,7 +82,7 @@ public class MapsActivity extends AppCompatActivity
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
-    boolean store = false;
+    public boolean store = false;
 
     private static final String TAG = MapsActivity.class.getSimpleName();
     private GoogleMap map;

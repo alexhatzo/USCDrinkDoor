@@ -46,39 +46,44 @@ public class MapsActivity_Buyer {
             GrantPermissionRule.grant(
                     "android.permission.ACCESS_FINE_LOCATION");
 
-    @Test
-    public void Login() {
-        ViewInteraction appCompatEditText = onView(allOf(withId(R.id.email),
-                childAtPosition(childAtPosition(withId(android.R.id.content),
-                        0), 1), isDisplayed()));
-        appCompatEditText.perform(click());
+    @Before
+    public void SetUser(){
 
-        ViewInteraction appCompatEditText2 = onView(
-                allOf(withId(R.id.email), childAtPosition(
-                        childAtPosition(withId(android.R.id.content),
-                                0), 1), isDisplayed()));
-        appCompatEditText2.perform(replaceText("user@a.com"), closeSoftKeyboard());
-
-        ViewInteraction appCompatEditText3 = onView(
-                allOf(withId(R.id.password), childAtPosition(
-                        childAtPosition(withId(android.R.id.content),
-                                0), 2), isDisplayed()));
-        appCompatEditText3.perform(replaceText("123456"), closeSoftKeyboard());
-
-        ViewInteraction materialButton = onView(
-                allOf(withId(R.id.btnlogin), withText("Login"), childAtPosition(
-                        childAtPosition(withId(android.R.id.content),
-                                0), 4), isDisplayed()));
-        materialButton.perform(click());
     }
 
+//    @Test
+//    public void Login() {
+//        ViewInteraction appCompatEditText = onView(allOf(withId(R.id.email),
+//                childAtPosition(childAtPosition(withId(android.R.id.content),
+//                        0), 1), isDisplayed()));
+//        appCompatEditText.perform(click());
+//
+//        ViewInteraction appCompatEditText2 = onView(
+//                allOf(withId(R.id.email), childAtPosition(
+//                        childAtPosition(withId(android.R.id.content),
+//                                0), 1), isDisplayed()));
+//        appCompatEditText2.perform(replaceText("user@a.com"), closeSoftKeyboard());
+//
+//        ViewInteraction appCompatEditText3 = onView(
+//                allOf(withId(R.id.password), childAtPosition(
+//                        childAtPosition(withId(android.R.id.content),
+//                                0), 2), isDisplayed()));
+//        appCompatEditText3.perform(replaceText("123456"), closeSoftKeyboard());
+//
+//        ViewInteraction materialButton = onView(
+//                allOf(withId(R.id.btnlogin), withText("Login"), childAtPosition(
+//                        childAtPosition(withId(android.R.id.content),
+//                                0), 4), isDisplayed()));
+//        materialButton.perform(click());
+//    }
+
 
     @Test
-    public void FunctionButtons() {
+    public void Buttons() {
         ViewInteraction button = onView(allOf(withId(R.id.Home), withText("Home")));
         button.check(matches(isDisplayed()));
 
-        ViewInteraction button2 = onView(allOf(withId(R.id.sellerMenu), withText("Cart")));
+        ViewInteraction button2 = onView(allOf(withId(R.id.sellerMenu), withText("Menu")));
         button2.check(matches(isDisplayed()));
 
         ViewInteraction button3 = onView(allOf(withId(R.id.userOrder), withText("Order")));
@@ -87,12 +92,13 @@ public class MapsActivity_Buyer {
         ViewInteraction button5 = onView(allOf(withId(R.id.Account_Profile), withText("Account")));
         button5.check(matches(isDisplayed()));
     }
+
     @Test
     public void Map() {
-
         ViewInteraction view = onView(withId(R.id.map));
         view.check(matches(isDisplayed()));
     }
+
     @Test
     public void Location() {
 
