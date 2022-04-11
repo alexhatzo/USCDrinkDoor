@@ -148,8 +148,6 @@ public class MapsActivity extends AppCompatActivity
         });
 
 
-
-
         // Retrieve location and camera position from saved instance state.
         if (savedInstanceState != null) {
             lastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
@@ -167,53 +165,6 @@ public class MapsActivity extends AppCompatActivity
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-//        Button account = findViewById(R.id.Account_Profile);
-//        //account button
-//        account.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent;
-//                if(store){
-//                    intent = new Intent(MapsActivity.this, Seller_Profile.class);
-//                }
-//                else{
-//                    intent = new Intent(MapsActivity.this, User_Profile.class);
-//                }
-//                startActivity(intent);
-//            }
-//        });
-
-//        order.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent;
-//                if(store){
-//                    intent = new Intent(MapsActivity.this, SellerOrderListActivity.class);
-//                }
-//                else{
-//                    intent = new Intent(MapsActivity.this, OrderCompleteActivity.class);
-//                }
-//                startActivity(intent);
-//            }
-//        });
-
-        //cart or seller menu button
-//        btn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent;
-//                if(store){
-//                    intent = new Intent(MapsActivity.this, SellerMenu.class);
-//                }
-//                else{
-//                    intent = new Intent(MapsActivity.this, ShoppingCart.class);
-//                }
-//                startActivity(intent);
-//
-//            }
-//        });
-
 
 
     }
@@ -435,6 +386,10 @@ public class MapsActivity extends AppCompatActivity
         Button btn = (Button) findViewById(R.id.esttime);
         btn.setVisibility(View.VISIBLE);
         btn.setText("Estimated Delivery Time: " + estimated_time + " mins");
+    }
+
+    public void setStore(boolean s){
+        store = s;
     }
 
     public void clickAccount(View view) {

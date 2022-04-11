@@ -1,19 +1,14 @@
 package com.example.uscdrinkdoor;
 
-
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.*;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +31,7 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class MapsActivity_Buyer {
+public class MapsActivityTest_Seller {
 
     @Rule
     public ActivityTestRule<MapsActivity> mActivityTestRule = new ActivityTestRule<>(MapsActivity.class);
@@ -47,39 +42,15 @@ public class MapsActivity_Buyer {
                     "android.permission.ACCESS_FINE_LOCATION");
 
     @Before
-    public void SetUser(){
-
+    public void SetUserType(){
+        mActivityTestRule.getActivity().setStore(true);
     }
 
-//    @Test
-//    public void Login() {
-//        ViewInteraction appCompatEditText = onView(allOf(withId(R.id.email),
-//                childAtPosition(childAtPosition(withId(android.R.id.content),
-//                        0), 1), isDisplayed()));
-//        appCompatEditText.perform(click());
-//
-//        ViewInteraction appCompatEditText2 = onView(
-//                allOf(withId(R.id.email), childAtPosition(
-//                        childAtPosition(withId(android.R.id.content),
-//                                0), 1), isDisplayed()));
-//        appCompatEditText2.perform(replaceText("user@a.com"), closeSoftKeyboard());
-//
-//        ViewInteraction appCompatEditText3 = onView(
-//                allOf(withId(R.id.password), childAtPosition(
-//                        childAtPosition(withId(android.R.id.content),
-//                                0), 2), isDisplayed()));
-//        appCompatEditText3.perform(replaceText("123456"), closeSoftKeyboard());
-//
-//        ViewInteraction materialButton = onView(
-//                allOf(withId(R.id.btnlogin), withText("Login"), childAtPosition(
-//                        childAtPosition(withId(android.R.id.content),
-//                                0), 4), isDisplayed()));
-//        materialButton.perform(click());
-//    }
-
-
     @Test
-    public void Buttons() {
+    public void MapDisplay() {
+        ViewInteraction view = onView(withId(R.id.map));
+        view.check(matches(isDisplayed()));
+
         ViewInteraction button = onView(allOf(withId(R.id.Home), withText("Home")));
         button.check(matches(isDisplayed()));
 
@@ -94,9 +65,8 @@ public class MapsActivity_Buyer {
     }
 
     @Test
-    public void Map() {
-        ViewInteraction view = onView(withId(R.id.map));
-        view.check(matches(isDisplayed()));
+    public void Clickon() {
+
     }
 
     @Test
@@ -127,4 +97,5 @@ public class MapsActivity_Buyer {
             }
         };
     }
+
 }
