@@ -91,13 +91,13 @@ public class MapsActivityTest_Buyer {
     }
 
     @Test
-    public void Map_Displayed() {
+    public void Display_Map() {
         ViewInteraction view = onView(withId(R.id.map));
         view.check(matches(isDisplayed()));
     }
 
     @Test
-    public void Function_Buttons_Displayed() {
+    public void Display_Function_Buttons() {
         ViewInteraction button = onView(allOf(withId(R.id.Home)));
         button.check(matches(withText("Home")));
 
@@ -139,7 +139,7 @@ public class MapsActivityTest_Buyer {
     }
 
     @Test
-    public void Nearby_Stores_Displayed() {
+    public void Display_Nearby_Stores() {
         UiDevice uiDevice = UiDevice.getInstance(getInstrumentation());
         UiObject mMarker1 = uiDevice.findObject(new UiSelector().descriptionContains("Alex Hatzo"));
         UiObject mMarker2 = uiDevice.findObject(new UiSelector().descriptionContains("USC Tea Shop"));
@@ -249,8 +249,7 @@ public class MapsActivityTest_Buyer {
     }
 
     @Test
-    public void Location() {
-
+    public void Display_Current_Location() {
         ViewInteraction imageView = onView(
                 allOf(withContentDescription("My Location"),
                         withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.FrameLayout.class))),
