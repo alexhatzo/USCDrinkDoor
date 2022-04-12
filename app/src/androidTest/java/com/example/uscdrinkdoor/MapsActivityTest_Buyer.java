@@ -91,15 +91,12 @@ public class MapsActivityTest_Buyer {
     }
 
     @Test
-    public void Map_Displayed() {
+    public void Display_Map_And_Function_Buttons() {
         ViewInteraction view = onView(withId(R.id.map));
         view.check(matches(isDisplayed()));
-    }
 
-    @Test
-    public void Function_Buttons_Displayed() {
-        ViewInteraction button = onView(allOf(withId(R.id.Home)));
-        button.check(matches(withText("Home")));
+        ViewInteraction button1 = onView(allOf(withId(R.id.Home)));
+        button1.check(matches(withText("Home")));
 
         ViewInteraction button2 = onView(allOf(withId(R.id.sellerMenu)));
         button2.check(matches(withText("Cart")));
@@ -107,39 +104,18 @@ public class MapsActivityTest_Buyer {
         ViewInteraction button3 = onView(allOf(withId(R.id.userOrder)));
         button3.check(matches(withText("Order")));
 
-        ViewInteraction button5 = onView(allOf(withId(R.id.Account_Profile)));
-        button5.check(matches(withText("Account")));
+        ViewInteraction button4 = onView(allOf(withId(R.id.Account_Profile)));
+        button4.check(matches(withText("Account")));
     }
 
     @Test
-    public void Click_Cart_Button() {
-        ViewInteraction button2 = onView(allOf(withId(R.id.sellerMenu)));
-        Intents.init();
-        button2.perform(click());
-        intended(hasComponent(ShoppingCartActivity.class.getName()));
-        Intents.release();
-    }
+    public void Display_Current_Location_And_Nearby_Stores() {
+        ViewInteraction imageView = onView(
+                allOf(withContentDescription("My Location"),
+                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.FrameLayout.class))),
+                        isDisplayed()));
+        imageView.check(matches(isDisplayed()));
 
-    @Test
-    public void Click_Order_Button() {
-        ViewInteraction button2 = onView(allOf(withId(R.id.userOrder)));
-        Intents.init();
-        button2.perform(click());
-        intended(hasComponent(OrderCompleteActivity.class.getName()));
-        Intents.release();
-    }
-
-    @Test
-    public void Click_Account_Button() {
-        ViewInteraction button2 = onView(allOf(withId(R.id.Account_Profile)));
-        Intents.init();
-        button2.perform(click());
-        intended(hasComponent(User_Profile.class.getName()));
-        Intents.release();
-    }
-
-    @Test
-    public void Nearby_Stores_Displayed() {
         UiDevice uiDevice = UiDevice.getInstance(getInstrumentation());
         UiObject mMarker1 = uiDevice.findObject(new UiSelector().descriptionContains("Alex Hatzo"));
         UiObject mMarker2 = uiDevice.findObject(new UiSelector().descriptionContains("USC Tea Shop"));
@@ -147,7 +123,36 @@ public class MapsActivityTest_Buyer {
     }
 
     @Test
-    public void Display_Route_Time_TravelOptions() {
+    public void Click_Functions_Buttons() {
+        ViewInteraction button1 = onView(allOf(withId(R.id.Home)));
+        ViewInteraction button2 = onView(allOf(withId(R.id.sellerMenu)));
+        ViewInteraction button3 = onView(allOf(withId(R.id.userOrder)));
+        ViewInteraction button4 = onView(allOf(withId(R.id.Account_Profile)));
+
+        // Click Cart
+        Intents.init();
+        button2.perform(click());
+        intended(hasComponent(ShoppingCartActivity.class.getName()));
+        button1.perform(click());
+        Intents.release();
+
+        // Click Order
+        Intents.init();
+        button3.perform(click());
+        intended(hasComponent(OrderCompleteActivity.class.getName()));
+        button1.perform(click());
+        Intents.release();
+
+        // Click Account
+        Intents.init();
+        button4.perform(click());
+        intended(hasComponent(User_Profile.class.getName()));
+        button1.perform(click());
+        Intents.release();
+    }
+
+    @Test
+    public void Single_Click_Store_Display_Route_Time_TravelOptions() {
         UiDevice uiDevice = UiDevice.getInstance(getInstrumentation());
         UiObject mMarker1 = uiDevice.findObject(new UiSelector().descriptionContains("Alex Hatzo"));
         UiObject mMarker2 = uiDevice.findObject(new UiSelector().descriptionContains("USC Tea Shop"));
@@ -191,7 +196,7 @@ public class MapsActivityTest_Buyer {
     }
 
     @Test
-    public void Display_Store_Menu() {
+    public void Double_Click_Store_Display_Store_Menu() {
         UiDevice uiDevice = UiDevice.getInstance(getInstrumentation());
         UiObject mMarker1 = uiDevice.findObject(new UiSelector().descriptionContains("Alex Hatzo"));
         UiObject mMarker2 = uiDevice.findObject(new UiSelector().descriptionContains("USC Tea Shop"));
@@ -224,39 +229,8 @@ public class MapsActivityTest_Buyer {
         } catch (UiObjectNotFoundException e) {
             e.printStackTrace();
         }
-
-
-//        ViewInteraction view = onView(
-//                allOf(withContentDescription("Alex Hatzo. Click twice to see menu."),
-//                        withParent(allOf(withContentDescription("Google Map"),
-//                                withParent(IsInstanceOf.<View>instanceOf(android.widget.FrameLayout.class)))),
-//                        isDisplayed()));
-//        view.check(matches(isDisplayed()));
-//
-//        ViewInteraction view2 = onView(
-//                allOf(withContentDescription("USC Tea Shop. Click twice to see menu."),
-//                        withParent(allOf(withContentDescription("Google Map"),
-//                                withParent(IsInstanceOf.<View>instanceOf(android.widget.FrameLayout.class)))),
-//                        isDisplayed()));
-//        view2.check(matches(isDisplayed()));
-//
-//        ViewInteraction view3 = onView(
-//                allOf(withContentDescription("USCoffee. Click twice to see menu."),
-//                        withParent(allOf(withContentDescription("Google Map"),
-//                                withParent(IsInstanceOf.<View>instanceOf(android.widget.FrameLayout.class)))),
-//                        isDisplayed()));
-//        view3.check(matches(isDisplayed()));
     }
 
-    @Test
-    public void Location() {
-
-        ViewInteraction imageView = onView(
-                allOf(withContentDescription("My Location"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.FrameLayout.class))),
-                        isDisplayed()));
-        imageView.check(matches(isDisplayed()));
-    }
 
     private static Matcher<View> childAtPosition(
             final Matcher<View> parentMatcher, final int position) {
