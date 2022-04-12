@@ -7,7 +7,6 @@ import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
-import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -20,7 +19,6 @@ import android.view.ViewParent;
 
 import androidx.test.espresso.IdlingRegistry;
 import androidx.test.espresso.ViewInteraction;
-import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.rule.GrantPermissionRule;
@@ -37,7 +35,7 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class EditProductUI {
+public class UIEditProduct {
 
     @Before
     public void registerIdlingResource(){
@@ -59,7 +57,7 @@ public class EditProductUI {
                     "android.permission.ACCESS_FINE_LOCATION");
 
     @Test
-    public void editProductUI() {
+    public void uIEditProduct() {
         ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.email),
                         childAtPosition(
@@ -68,7 +66,7 @@ public class EditProductUI {
                                         0),
                                 1),
                         isDisplayed()));
-        appCompatEditText.perform(replaceText("test1@test.com"), closeSoftKeyboard());
+        appCompatEditText.perform(replaceText("tea@store.com"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText2 = onView(
                 allOf(withId(R.id.password),
@@ -78,7 +76,7 @@ public class EditProductUI {
                                         0),
                                 2),
                         isDisplayed()));
-        appCompatEditText2.perform(replaceText("1234567"), closeSoftKeyboard());
+        appCompatEditText2.perform(replaceText("123456"), closeSoftKeyboard());
 
         ViewInteraction materialButton = onView(
                 allOf(withId(R.id.btnlogin), withText("Login"),

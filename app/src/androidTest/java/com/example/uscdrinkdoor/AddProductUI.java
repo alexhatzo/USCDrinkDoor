@@ -138,15 +138,15 @@ public class AddProductUI {
                         isDisplayed()));
         textView.check(matches(withText("Add Product To Menu")));
 
-        ViewInteraction materialButton4 = onView(
-                allOf(withId(R.id.addProductbtn), withText("Save Product"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                5),
-                        isDisplayed()));
-        materialButton4.perform(click());
+//        ViewInteraction materialButton4 = onView(
+//                allOf(withId(R.id.addProductbtn), withText("Save Product"),
+//                        childAtPosition(
+//                                childAtPosition(
+//                                        withId(android.R.id.content),
+//                                        0),
+//                                5),
+//                        isDisplayed()));
+//        materialButton4.perform(click());
     }
 
     private static Matcher<View> childAtPosition(
