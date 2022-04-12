@@ -4,9 +4,7 @@ package com.example.uscdrinkdoor;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static androidx.test.espresso.action.ViewActions.pressImeActionButton;
 import static androidx.test.espresso.action.ViewActions.replaceText;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -37,7 +35,7 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class EditProductSuccessActivityTest {
+public class SuccessOrderCompletedActivityTest {
 
     @Before
     public void registerIdlingResource(){
@@ -50,7 +48,6 @@ public class EditProductSuccessActivityTest {
 
     }
 
-
     @Rule
     public ActivityTestRule<LoginActivity> mActivityTestRule = new ActivityTestRule<>(LoginActivity.class);
 
@@ -60,7 +57,7 @@ public class EditProductSuccessActivityTest {
                     "android.permission.ACCESS_FINE_LOCATION");
 
     @Test
-    public void editProductSuccessActivityTest() {
+    public void successOrderCompletedActivityTest() {
         ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.email),
                         childAtPosition(
@@ -69,7 +66,7 @@ public class EditProductSuccessActivityTest {
                                         0),
                                 1),
                         isDisplayed()));
-        appCompatEditText.perform(replaceText("test1@test.com"), closeSoftKeyboard());
+        appCompatEditText.perform(replaceText("tea@store.com"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText2 = onView(
                 allOf(withId(R.id.password),
@@ -79,7 +76,7 @@ public class EditProductSuccessActivityTest {
                                         0),
                                 2),
                         isDisplayed()));
-        appCompatEditText2.perform(replaceText("1234567"), closeSoftKeyboard());
+        appCompatEditText2.perform(replaceText("123456"), closeSoftKeyboard());
 
         ViewInteraction materialButton = onView(
                 allOf(withId(R.id.btnlogin), withText("Login"),
@@ -92,99 +89,45 @@ public class EditProductSuccessActivityTest {
         materialButton.perform(click());
 
         ViewInteraction materialButton2 = onView(
-                allOf(withId(R.id.sellerMenu), withText("Menu"),
+                allOf(withId(R.id.userOrder), withText("Order"),
                         childAtPosition(
                                 allOf(withId(R.id.function),
                                         childAtPosition(
                                                 withClassName(is("android.widget.RelativeLayout")),
                                                 1)),
-                                1),
+                                2),
                         isDisplayed()));
         materialButton2.perform(click());
 
         ViewInteraction materialButton3 = onView(
-                allOf(withId(R.id.Add), withText("Edit Product"),
+                allOf(withId(R.id.View), withText("View Order"),
                         childAtPosition(
                                 withParent(withId(R.id.listView)),
-                                4),
+                                2),
                         isDisplayed()));
         materialButton3.perform(click());
 
-        ViewInteraction appCompatEditText3 = onView(
-                allOf(withId(R.id.productCaffeine), withText("50"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                3),
-                        isDisplayed()));
-        appCompatEditText3.perform(click());
-
-        ViewInteraction appCompatEditText4 = onView(
-                allOf(withId(R.id.productCaffeine), withText("50"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                3),
-                        isDisplayed()));
-        appCompatEditText4.perform(replaceText("65"));
-
-        ViewInteraction appCompatEditText5 = onView(
-                allOf(withId(R.id.productCaffeine), withText("65"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                3),
-                        isDisplayed()));
-        appCompatEditText5.perform(closeSoftKeyboard());
-
-        ViewInteraction appCompatEditText6 = onView(
-                allOf(withId(R.id.productCaffeine), withText("65"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                3),
-                        isDisplayed()));
-        appCompatEditText6.perform(pressImeActionButton());
-
-        ViewInteraction appCompatEditText7 = onView(
-                allOf(withId(R.id.productDescription), withText("Hot black coffe"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                4),
-                        isDisplayed()));
-        appCompatEditText7.perform(pressImeActionButton());
-
         ViewInteraction materialButton4 = onView(
-                allOf(withId(R.id.addProductbtn), withText("Save Product"),
+                allOf(withId(R.id.orderComplete), withText("Complete Order"),
                         childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                5),
+                                allOf(withId(R.id.linearLayout2),
+                                        childAtPosition(
+                                                withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                                                2)),
+                                1),
                         isDisplayed()));
         materialButton4.perform(click());
 
         ViewInteraction materialButton5 = onView(
-                allOf(withId(R.id.Menu), withText("Menu"),
+                allOf(withId(R.id.orderBack), withText("Back"),
                         childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                                        6),
-                                1),
+                                allOf(withId(R.id.linearLayout2),
+                                        childAtPosition(
+                                                withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                                                2)),
+                                0),
                         isDisplayed()));
         materialButton5.perform(click());
-
-        ViewInteraction textView = onView(
-                allOf(withId(R.id.userCaffeine), withText("65 mg"),
-                        withParent(withParent(withId(R.id.listView))),
-                        isDisplayed()));
-        textView.check(matches(withText("65 mg")));
     }
 
     private static Matcher<View> childAtPosition(
