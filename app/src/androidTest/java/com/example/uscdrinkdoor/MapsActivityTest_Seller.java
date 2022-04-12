@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
+import androidx.test.espresso.IdlingRegistry;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
@@ -27,6 +28,7 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.hamcrest.core.IsInstanceOf;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -68,6 +70,17 @@ public class MapsActivityTest_Seller {
                         childAtPosition(withId(android.R.id.content),
                                 0), 4), isDisplayed()));
         materialButton.perform(click());
+    }
+
+    @Before
+    public void registerIdlingResource(){
+        IdlingRegistry.getInstance().register(EspressoIdlingResource.countingIdlingResource);
+    }
+
+    @After
+    public void unregisterIdlingResource(){
+        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.countingIdlingResource);
+
     }
 
     @Test
