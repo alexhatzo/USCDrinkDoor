@@ -100,6 +100,7 @@ public class AddProductToMenu extends AppCompatActivity {
                 if(ns.isEmpty() || ps==null || cs ==null || ds.isEmpty()){
                     Toast.makeText(AddProductToMenu.this, "Make sure you have filled all fields", Toast.LENGTH_SHORT  ).show();
                 }else{
+
                     Map<String, Object> product = new HashMap<>();
                     product.put("Name", ns);
                     product.put("Price", ps );

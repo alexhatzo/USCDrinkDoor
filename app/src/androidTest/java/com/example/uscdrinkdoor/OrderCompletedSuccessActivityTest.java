@@ -101,43 +101,43 @@ public class OrderCompletedSuccessActivityTest {
                         isDisplayed()));
         materialButton2.perform(click());
 
-        ViewInteraction materialButton3 = onView(
-                allOf(withId(R.id.View), withText("View Order"),
-                        childAtPosition(
-                                withParent(withId(R.id.listView)),
-                                2),
-                        isDisplayed()));
-        materialButton3.perform(click());
-
-        ViewInteraction materialButton4 = onView(
-                allOf(withId(R.id.orderBack), withText("Back"),
-                        childAtPosition(
-                                allOf(withId(R.id.linearLayout2),
-                                        childAtPosition(
-                                                withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                                                2)),
-                                0),
-                        isDisplayed()));
-        materialButton4.perform(click());
-
-        ViewInteraction materialButton5 = onView(
-                allOf(withId(R.id.View), withText("View Order"),
-                        childAtPosition(
-                                withParent(withId(R.id.listView)),
-                                2),
-                        isDisplayed()));
-        materialButton5.perform(click());
-
-        ViewInteraction materialButton6 = onView(
-                allOf(withId(R.id.orderBack), withText("Back"),
-                        childAtPosition(
-                                allOf(withId(R.id.linearLayout2),
-                                        childAtPosition(
-                                                withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                                                2)),
-                                0),
-                        isDisplayed()));
-        materialButton6.perform(click());
+//        ViewInteraction materialButton3 = onView(
+//                allOf(withId(R.id.View), withText("View Order"),
+//                        childAtPosition(
+//                                withParent(withId(R.id.listView)),
+//                                2),
+//                        isDisplayed()));
+//        materialButton3.perform(click());
+//
+//        ViewInteraction materialButton4 = onView(
+//                allOf(withId(R.id.orderBack), withText("Back"),
+//                        childAtPosition(
+//                                allOf(withId(R.id.linearLayout2),
+//                                        childAtPosition(
+//                                                withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+//                                                2)),
+//                                0),
+//                        isDisplayed()));
+//        materialButton4.perform(click());
+//
+//        ViewInteraction materialButton5 = onView(
+//                allOf(withId(R.id.View), withText("View Order"),
+//                        childAtPosition(
+//                                withParent(withId(R.id.listView)),
+//                                2),
+//                        isDisplayed()));
+//        materialButton5.perform(click());
+//
+//        ViewInteraction materialButton6 = onView(
+//                allOf(withId(R.id.orderBack), withText("Back"),
+//                        childAtPosition(
+//                                allOf(withId(R.id.linearLayout2),
+//                                        childAtPosition(
+//                                                withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+//                                                2)),
+//                                0),
+//                        isDisplayed()));
+//        materialButton6.perform(click());
 
         ViewInteraction materialButton7 = onView(
                 allOf(withId(R.id.View), withText("View Order"),
