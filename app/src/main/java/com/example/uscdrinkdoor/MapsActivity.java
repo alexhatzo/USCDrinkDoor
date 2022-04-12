@@ -103,12 +103,9 @@ public class MapsActivity extends AppCompatActivity
 
                         Log.d("TAG", "DocumentSnapshot data: " + document.getData());
                         store = (boolean) document.get("store");
-                        Button btn = (Button) findViewById(R.id.sellerMenu);
                         if (store == false){
+                            Button btn = (Button) findViewById(R.id.sellerMenu);
                             btn.setText("Cart");
-                        }
-                        else {
-                            btn.setText("Menu");
                         }
 
                     } else {
