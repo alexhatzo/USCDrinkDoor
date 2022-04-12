@@ -72,6 +72,7 @@
         android:layout_marginTop="10dp"
         android:text="Walking"
         android:onClick="SelectWalking"
+        android:textAllCaps="false"
         android:visibility="gone"
         android:textColor="@color/black"
         android:backgroundTint="@color/white"/>
@@ -83,6 +84,7 @@
         android:layout_marginStart="220dp"
         android:layout_marginTop="10dp"
         android:text="Driving"
+        android:textAllCaps="false"
         android:onClick="SelectDriving"
         android:visibility="gone"
         android:textColor="@color/black"

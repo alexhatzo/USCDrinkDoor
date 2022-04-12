@@ -91,13 +91,13 @@ public class MapsActivityTest_Buyer {
     }
 
     @Test
-    public void MapDisplay() {
+    public void MapDisplayed() {
         ViewInteraction view = onView(withId(R.id.map));
         view.check(matches(isDisplayed()));
     }
 
     @Test
-    public void ButtonsDisplay() {
+    public void ButtonsDisplayed() {
         ViewInteraction button = onView(allOf(withId(R.id.Home)));
         button.check(matches(withText("Home")));
 
@@ -139,16 +139,43 @@ public class MapsActivityTest_Buyer {
     }
 
     @Test
-    public void DisplayStores() {
+    public void StoresDisplayedClicked(){
         UiDevice uiDevice = UiDevice.getInstance(getInstrumentation());
         UiObject mMarker1 = uiDevice.findObject(new UiSelector().descriptionContains("Alex Hatzo"));
         UiObject mMarker2 = uiDevice.findObject(new UiSelector().descriptionContains("USC Tea Shop"));
         UiObject mMarker3 = uiDevice.findObject(new UiSelector().descriptionContains("USCoffee"));
 
+        // Click 1 time, display route, estimated delivery time, travel options
         try {
+            // Click on first store
             mMarker1.click();
+            ViewInteraction button1 = onView(allOf(withId(R.id.walking)));
+            ViewInteraction button2 = onView(allOf(withId(R.id.driving)));
+            ViewInteraction button3 = onView(allOf(withId(R.id.esttime)));
+            button1.check(matches(isDisplayed()));
+            button2.check(matches(isDisplayed()));
+            button3.check(matches(isDisplayed()));
+
+            // Check different travel options
+            button2.perform(click());
+            button1.perform(click());
+
+            // Click on second store
             mMarker2.click();
+            button1.check(matches(isDisplayed()));
+            button2.check(matches(isDisplayed()));
+            button3.check(matches(isDisplayed()));
+            button2.perform(click());
+            button1.perform(click());
+
+            // Click on third store
             mMarker3.click();
+            button1.check(matches(isDisplayed()));
+            button2.check(matches(isDisplayed()));
+            button3.check(matches(isDisplayed()));
+            button2.perform(click());
+            button1.perform(click());
+
         } catch (UiObjectNotFoundException e) {
             e.printStackTrace();
         }

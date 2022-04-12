@@ -308,7 +308,7 @@ public class MapsActivity extends AppCompatActivity
 
     @Override
     public boolean onMarkerClick(@NonNull Marker marker) {
-//
+        EspressoIdlingResource.increment();
         Button drive = (Button) findViewById(R.id.driving);
         Button walk = (Button) findViewById(R.id.walking);
         drive.setVisibility(View.VISIBLE);
@@ -329,6 +329,7 @@ public class MapsActivity extends AppCompatActivity
             clicked = marker;
             getRoute(marker, "driving");
         }
+        EspressoIdlingResource.decrement();
         return false;
     }
 
@@ -342,7 +343,6 @@ public class MapsActivity extends AppCompatActivity
         String urlrequest = "https://maps.googleapis.com/maps/api/directions/json?" + origin + dest + mode + key;
         new FetchURL(MapsActivity.this).execute(urlrequest, transport);
         EspressoIdlingResource.decrement();
-
     }
 
     @Override
