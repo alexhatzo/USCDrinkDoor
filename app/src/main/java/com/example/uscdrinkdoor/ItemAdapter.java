@@ -69,7 +69,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
         Button addToCart = convertView.findViewById(R.id.Add);
 
-
+        EspressoIdlingResource.increment();
         DocumentReference docRef = db.collection("users").document(userEmail);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -94,6 +94,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
                     Log.d("TAG", "get failed with ", task.getException());
                 }
 
+                EspressoIdlingResource.decrement();
 
             }
         });

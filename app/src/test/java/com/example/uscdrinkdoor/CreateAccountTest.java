@@ -50,7 +50,7 @@ public class CreateAccountTest {
 
 
 
-
+        //use the same logic as when passing to DB
         Map<String, Object> tUser = testAccount.testAccountInfo(user);
 
         assertEquals("Name: ", name, tUser.get("name").toString());

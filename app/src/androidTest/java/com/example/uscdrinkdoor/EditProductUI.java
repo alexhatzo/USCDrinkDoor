@@ -102,11 +102,7 @@ public class EditProductUI {
         materialButton2.perform(click());
 
         ViewInteraction materialButton3 = onView(
-                allOf(withId(R.id.Add), withText("Edit Product"),
-                        childAtPosition(
-                                withParent(withId(R.id.listView)),
-                                4),
-                        isDisplayed()));
+                allOf(withId(R.id.Add)));
         materialButton3.perform(click());
     }
 

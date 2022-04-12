@@ -17,12 +17,14 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class AddProductToMenu extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -45,6 +47,8 @@ public class AddProductToMenu extends AppCompatActivity {
 
         Intent intent = getIntent();
         String editProdName = intent.getStringExtra("name");
+        assert currentUser != null;
+        String currentEmail = currentUser.getEmail();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_product_to_menu);
@@ -56,11 +60,55 @@ public class AddProductToMenu extends AppCompatActivity {
 
         Button addProductbtn = findViewById(R.id.addProductbtn);
 
+
         //fill up form with saved data for when editing a product
+       setEditForm(editProdName, currentEmail);
+
+        //add or edit products to the menu
+        addProductbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               String ns = name.getText().toString();
+               long ps = Long.parseLong(price.getText().toString());
+               long cs =Long.parseLong(caffeine.getText().toString());
+               String ds = description.getText().toString();
+
+            //make sure fields are not empty
+                if(ns.isEmpty() || ps!=0 || cs!=0 || ds.isEmpty()){
+                    Toast.makeText(AddProductToMenu.this, "Make sure you have filled all fields", Toast.LENGTH_SHORT  ).show();
+                }else{
+                    Map<String, Object> product = new HashMap<>();
+                    product.put("Name", ns);
+                    product.put("Price", ps );
+                    product.put("Caffeine", cs);
+                    product.put("description", ds);
+                    product.put("Email", currentUser.getEmail());
+
+                    Log.d(TAG, "onClick: " + ns + ps + cs+ ds);
+
+                    EspressoIdlingResource.increment();
+                    assert currentEmail != null;
+                    CollectionReference colRef =  db.collection("users").document(currentEmail).collection("Menu");
+                    //save new product to db
+                    saveNewProduct(colRef, ns, product);
+
+                    //check for edited/double writing
+                    assert editProdName != null;
+                    checkForEdit(colRef, editProdName, ns);
+
+
+                }
+
+            }
+
+        });
+    }
+
+    public void setEditForm(String editProdName, String currentEmail){
         if(editProdName != null) {
             EspressoIdlingResource.increment();
 
-            DocumentReference docRef = db.collection("users").document(currentUser.getEmail()).collection("Menu").document(editProdName);
+            DocumentReference docRef = db.collection("users").document(currentEmail).collection("Menu").document(editProdName);
             docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -86,59 +134,50 @@ public class AddProductToMenu extends AppCompatActivity {
 
             });
         }
-
-        //add products to the menu
-        addProductbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               String ns = name.getText().toString();
-               Long ps = Long.parseLong(price.getText().toString());
-               Long cs =Long.parseLong(caffeine.getText().toString());
-               String ds = description.getText().toString();
-
-            //make sure fields are not empty
-                if(ns.isEmpty() || ps==null || cs ==null || ds.isEmpty()){
-                    Toast.makeText(AddProductToMenu.this, "Make sure you have filled all fields", Toast.LENGTH_SHORT  ).show();
-                }else{
-                    Map<String, Object> product = new HashMap<>();
-                    product.put("Name", ns);
-                    product.put("Price", ps );
-                    product.put("Caffeine", cs);
-                    product.put("description", ds);
-                    product.put("Email", currentUser.getEmail());
-
-                    Log.d(TAG, "onClick: " + ns + ps + cs+ ds);
-
-                    EspressoIdlingResource.increment();
-
-                    //save new product to db
-                    db.collection("users").document(currentUser.getEmail()).collection("Menu").document(ns)
-                            .set(product)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    Log.d(TAG, "Product successfully added!");
-                                    Toast.makeText(AddProductToMenu.this, "Product successfully added! ", Toast.LENGTH_SHORT  ).show();
-
-                                    updateUIonSave();
-                                    EspressoIdlingResource.decrement();
-
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.w(TAG, "Error adding product", e);
-                                    EspressoIdlingResource.decrement();
-                                }
-                            });
-                }
-
-            }
-
-        });
     }
 
+    public void saveNewProduct(CollectionReference colRef, String ns, Map<String, Object> product){
+        colRef.document(ns)
+                .set(product)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG, "Product successfully added!");
+                        Toast.makeText(AddProductToMenu.this, "Product successfully added! ", Toast.LENGTH_SHORT  ).show();
+
+                        updateUIonSave();
+                        EspressoIdlingResource.decrement();
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error adding product", e);
+                        EspressoIdlingResource.decrement();
+                    }
+                });
+    }
+
+    public void checkForEdit(CollectionReference colRef, String editProdName, String ns){
+        if(!editProdName.equals(ns)){
+            colRef.document(editProdName)
+                    .delete()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Log.w(TAG, "Product deleted successfully");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error deleting product", e);
+                        }
+                    });
+        }
+
+    }
     public void updateUIonSave(){
         name.setText("");
         price.setText("");

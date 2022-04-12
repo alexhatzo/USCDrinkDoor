@@ -77,6 +77,8 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
 
         Button btn = findViewById(R.id.Menu);
 
+        EspressoIdlingResource.increment();
+
         DocumentReference docRef = db.collection("users").document(currentEmail);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -106,6 +108,7 @@ public class SellerMenu extends AppCompatActivity implements ItemAdapter.ItemCli
                     Log.d("TAG", "get failed with ", task.getException());
                 }
 
+                EspressoIdlingResource.decrement();
 
             }
         });
