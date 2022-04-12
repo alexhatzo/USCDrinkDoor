@@ -11,7 +11,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
-import static org.junit.Assert.*;
+import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import android.view.ViewParent;
 
 import androidx.test.espresso.IdlingRegistry;
 import androidx.test.espresso.ViewInteraction;
+import androidx.test.espresso.intent.Intents;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.rule.GrantPermissionRule;
@@ -105,8 +107,30 @@ public class MapsActivityTest_Buyer {
     }
 
     @Test
-    public void ClickOnButtons() {
+    public void ClickCart() {
+        ViewInteraction button2 = onView(allOf(withId(R.id.sellerMenu)));
+        Intents.init();
+        button2.perform(click());
+        intended(hasComponent(ShoppingCartActivity.class.getName()));
+        Intents.release();
+    }
 
+    @Test
+    public void ClickOrder() {
+        ViewInteraction button2 = onView(allOf(withId(R.id.userOrder)));
+        Intents.init();
+        button2.perform(click());
+        intended(hasComponent(OrderCompleteActivity.class.getName()));
+        Intents.release();
+    }
+
+    @Test
+    public void ClickAccount() {
+        ViewInteraction button2 = onView(allOf(withId(R.id.Account_Profile)));
+        Intents.init();
+        button2.perform(click());
+        intended(hasComponent(User_Profile.class.getName()));
+        Intents.release();
     }
 
     @Test

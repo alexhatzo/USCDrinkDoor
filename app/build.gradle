@@ -58,7 +58,11 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics-buildtools:2.8.1'
     implementation 'androidx.test:monitor:1.4.0'
     implementation 'androidx.test.espresso:espresso-idling-resource:3.4.0'
+    implementation 'androidx.test.espresso:espresso-intents:3.4.0'
+    // Test (White-Box, JUnit)
     testImplementation 'junit:junit:4.13.2'
+
+    // Android Test (Black-Box, Espresso)
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     androidTestImplementation 'androidx.test:runner:1.4.0'

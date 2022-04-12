@@ -5,6 +5,8 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -19,6 +21,7 @@ import android.view.ViewParent;
 
 import androidx.test.espresso.IdlingRegistry;
 import androidx.test.espresso.ViewInteraction;
+import androidx.test.espresso.intent.Intents;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.rule.GrantPermissionRule;
@@ -80,7 +83,6 @@ public class MapsActivityTest_Seller {
     @After
     public void unregisterIdlingResource(){
         IdlingRegistry.getInstance().unregister(EspressoIdlingResource.countingIdlingResource);
-
     }
 
     @Test
@@ -105,8 +107,30 @@ public class MapsActivityTest_Seller {
     }
 
     @Test
-    public void ClickOnButtons() {
+    public void ClickCart() {
+        ViewInteraction button2 = onView(allOf(withId(R.id.sellerMenu)));
+        Intents.init();
+        button2.perform(click());
+        intended(hasComponent(SellerMenu.class.getName()));
+        Intents.release();
+    }
 
+    @Test
+    public void ClickOrder() {
+        ViewInteraction button2 = onView(allOf(withId(R.id.userOrder)));
+        Intents.init();
+        button2.perform(click());
+        intended(hasComponent(SellerOrderListActivity.class.getName()));
+        Intents.release();
+    }
+
+    @Test
+    public void ClickAccount() {
+        ViewInteraction button2 = onView(allOf(withId(R.id.Account_Profile)));
+        Intents.init();
+        button2.perform(click());
+        intended(hasComponent(Seller_Profile.class.getName()));
+        Intents.release();
     }
 
     @Test
