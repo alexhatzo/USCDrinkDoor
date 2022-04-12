@@ -91,13 +91,13 @@ public class MapsActivityTest_Buyer {
     }
 
     @Test
-    public void MapDisplayed() {
+    public void Map_Displayed() {
         ViewInteraction view = onView(withId(R.id.map));
         view.check(matches(isDisplayed()));
     }
 
     @Test
-    public void ButtonsDisplayed() {
+    public void Function_Buttons_Displayed() {
         ViewInteraction button = onView(allOf(withId(R.id.Home)));
         button.check(matches(withText("Home")));
 
@@ -112,7 +112,7 @@ public class MapsActivityTest_Buyer {
     }
 
     @Test
-    public void ClickCart() {
+    public void Click_Cart_Button() {
         ViewInteraction button2 = onView(allOf(withId(R.id.sellerMenu)));
         Intents.init();
         button2.perform(click());
@@ -121,7 +121,7 @@ public class MapsActivityTest_Buyer {
     }
 
     @Test
-    public void ClickOrder() {
+    public void Click_Order_Button() {
         ViewInteraction button2 = onView(allOf(withId(R.id.userOrder)));
         Intents.init();
         button2.perform(click());
@@ -130,7 +130,7 @@ public class MapsActivityTest_Buyer {
     }
 
     @Test
-    public void ClickAccount() {
+    public void Click_Account_Button() {
         ViewInteraction button2 = onView(allOf(withId(R.id.Account_Profile)));
         Intents.init();
         button2.perform(click());
@@ -139,7 +139,15 @@ public class MapsActivityTest_Buyer {
     }
 
     @Test
-    public void StoresDisplayedClicked(){
+    public void Nearby_Stores_Displayed() {
+        UiDevice uiDevice = UiDevice.getInstance(getInstrumentation());
+        UiObject mMarker1 = uiDevice.findObject(new UiSelector().descriptionContains("Alex Hatzo"));
+        UiObject mMarker2 = uiDevice.findObject(new UiSelector().descriptionContains("USC Tea Shop"));
+        UiObject mMarker3 = uiDevice.findObject(new UiSelector().descriptionContains("USCoffee"));
+    }
+
+    @Test
+    public void Display_Route_Time_TravelOptions() {
         UiDevice uiDevice = UiDevice.getInstance(getInstrumentation());
         UiObject mMarker1 = uiDevice.findObject(new UiSelector().descriptionContains("Alex Hatzo"));
         UiObject mMarker2 = uiDevice.findObject(new UiSelector().descriptionContains("USC Tea Shop"));
@@ -180,6 +188,44 @@ public class MapsActivityTest_Buyer {
             e.printStackTrace();
         }
 
+    }
+
+    @Test
+    public void Display_Store_Menu() {
+        UiDevice uiDevice = UiDevice.getInstance(getInstrumentation());
+        UiObject mMarker1 = uiDevice.findObject(new UiSelector().descriptionContains("Alex Hatzo"));
+        UiObject mMarker2 = uiDevice.findObject(new UiSelector().descriptionContains("USC Tea Shop"));
+        UiObject mMarker3 = uiDevice.findObject(new UiSelector().descriptionContains("USCoffee"));
+        // Click Twice, lead to menu
+        ViewInteraction home = onView(allOf(withId(R.id.Home)));
+
+        try {
+            Intents.init();
+            mMarker1.click();
+            mMarker1.click();
+            intended(hasComponent(SellerMenu.class.getName()));
+            home.perform(click());
+            Intents.release();
+
+            Intents.init();
+            mMarker2.click();
+            mMarker2.click();
+            intended(hasComponent(SellerMenu.class.getName()));
+            home.perform(click());
+            Intents.release();
+
+            Intents.init();
+            mMarker3.click();
+            mMarker3.click();
+            intended(hasComponent(SellerMenu.class.getName()));
+            home.perform(click());
+            Intents.release();
+
+        } catch (UiObjectNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
 //        ViewInteraction view = onView(
 //                allOf(withContentDescription("Alex Hatzo. Click twice to see menu."),
 //                        withParent(allOf(withContentDescription("Google Map"),
@@ -201,6 +247,7 @@ public class MapsActivityTest_Buyer {
 //                        isDisplayed()));
 //        view3.check(matches(isDisplayed()));
     }
+
     @Test
     public void Location() {
 
