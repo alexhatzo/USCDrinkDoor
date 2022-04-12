@@ -27,11 +27,13 @@ public class Item {
     public String getSellerEmail() { return this.sellerEmail; }
 
     //setters
-    public void changeName() {}
+    public void changeName(String name) {this.itemName = name;}
 
-    public void changeDescription() {}
+    public void changeDescription(String description) {this.description = description;}
 
-    public void changePrice() {}
+    public void changePrice(long price) {this.price = price;}
+
+    public void changeCaffeine(long caffeine) { this.caffeineMg = caffeine;}
 
 
 
