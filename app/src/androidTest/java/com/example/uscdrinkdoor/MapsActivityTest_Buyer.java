@@ -1,6 +1,9 @@
 package com.example.uscdrinkdoor;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
@@ -14,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
+import androidx.test.espresso.IdlingRegistry;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
@@ -24,6 +28,7 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.hamcrest.core.IsInstanceOf;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -34,67 +39,80 @@ import org.junit.runner.RunWith;
 public class MapsActivityTest_Buyer {
 
     @Rule
-    public ActivityTestRule<MapsActivity> mActivityTestRule = new ActivityTestRule<>(MapsActivity.class);
+    public ActivityTestRule<LoginActivity> mActivityTestRule = new ActivityTestRule<>(LoginActivity.class);
 
     @Rule
     public GrantPermissionRule mGrantPermissionRule =
             GrantPermissionRule.grant(
                     "android.permission.ACCESS_FINE_LOCATION");
 
-//    @Test
-//    public void Login() {
-//        ViewInteraction appCompatEditText = onView(allOf(withId(R.id.email),
-//                childAtPosition(childAtPosition(withId(android.R.id.content),
-//                        0), 1), isDisplayed()));
-//        appCompatEditText.perform(click());
-//
-//        ViewInteraction appCompatEditText2 = onView(
-//                allOf(withId(R.id.email), childAtPosition(
-//                        childAtPosition(withId(android.R.id.content),
-//                                0), 1), isDisplayed()));
-//        appCompatEditText2.perform(replaceText("user@a.com"), closeSoftKeyboard());
-//
-//        ViewInteraction appCompatEditText3 = onView(
-//                allOf(withId(R.id.password), childAtPosition(
-//                        childAtPosition(withId(android.R.id.content),
-//                                0), 2), isDisplayed()));
-//        appCompatEditText3.perform(replaceText("123456"), closeSoftKeyboard());
-//
-//        ViewInteraction materialButton = onView(
-//                allOf(withId(R.id.btnlogin), withText("Login"), childAtPosition(
-//                        childAtPosition(withId(android.R.id.content),
-//                                0), 4), isDisplayed()));
-//        materialButton.perform(click());
-//    }
+    @Before
+    public void Login() {
+        ViewInteraction appCompatEditText = onView(allOf(withId(R.id.email),
+                childAtPosition(childAtPosition(withId(android.R.id.content),
+                        0), 1), isDisplayed()));
+        appCompatEditText.perform(click());
+
+        ViewInteraction appCompatEditText2 = onView(
+                allOf(withId(R.id.email), childAtPosition(
+                        childAtPosition(withId(android.R.id.content),
+                                0), 1), isDisplayed()));
+        appCompatEditText2.perform(replaceText("user@a.com"), closeSoftKeyboard());
+
+        ViewInteraction appCompatEditText3 = onView(
+                allOf(withId(R.id.password), childAtPosition(
+                        childAtPosition(withId(android.R.id.content),
+                                0), 2), isDisplayed()));
+        appCompatEditText3.perform(replaceText("123456"), closeSoftKeyboard());
+
+        ViewInteraction materialButton = onView(
+                allOf(withId(R.id.btnlogin), withText("Login"), childAtPosition(
+                        childAtPosition(withId(android.R.id.content),
+                                0), 4), isDisplayed()));
+        materialButton.perform(click());
+    }
 
     @Before
-    public void SetUserType(){
-        mActivityTestRule.getActivity().setStore(false);
+    public void registerIdlingResource(){
+        IdlingRegistry.getInstance().register(EspressoIdlingResource.countingIdlingResource);
+    }
+
+    @After
+    public void unregisterIdlingResource(){
+        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.countingIdlingResource);
+
     }
 
     @Test
     public void MapDisplay() {
         ViewInteraction view = onView(withId(R.id.map));
         view.check(matches(isDisplayed()));
-
-        ViewInteraction button = onView(allOf(withId(R.id.Home), withText("Home")));
-        button.check(matches(isDisplayed()));
-
-        ViewInteraction button2 = onView(allOf(withId(R.id.sellerMenu), withText("Menu")));
-        button2.check(matches(isDisplayed()));
-
-        ViewInteraction button3 = onView(allOf(withId(R.id.userOrder), withText("Order")));
-        button3.check(matches(isDisplayed()));
-
-        ViewInteraction button5 = onView(allOf(withId(R.id.Account_Profile), withText("Account")));
-        button5.check(matches(isDisplayed()));
     }
 
     @Test
-    public void Clickon() {
+    public void ButtonsDisplay() {
+        ViewInteraction button = onView(allOf(withId(R.id.Home)));
+        button.check(matches(withText("Home")));
+
+        ViewInteraction button2 = onView(allOf(withId(R.id.sellerMenu)));
+        button2.check(matches(withText("Cart")));
+
+        ViewInteraction button3 = onView(allOf(withId(R.id.userOrder)));
+        button3.check(matches(withText("Order")));
+
+        ViewInteraction button5 = onView(allOf(withId(R.id.Account_Profile)));
+        button5.check(matches(withText("Account")));
+    }
+
+    @Test
+    public void ClickOnButtons() {
 
     }
 
+    @Test
+    public void ClickOnStores() {
+
+    }
     @Test
     public void Location() {
 

@@ -114,8 +114,6 @@ public class MapsActivity extends AppCompatActivity
                 } else {
                     Log.d("TAG", "get failed with ", task.getException());
                 }
-                EspressoIdlingResource.decrement();
-
             }
         });
 
@@ -137,8 +135,6 @@ public class MapsActivity extends AppCompatActivity
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-
     }
 
 
@@ -174,6 +170,7 @@ public class MapsActivity extends AppCompatActivity
 
         // Get nearby stores
         SearchNearby();
+        EspressoIdlingResource.decrement();
     }
 
     /**
@@ -364,10 +361,6 @@ public class MapsActivity extends AppCompatActivity
         Button btn = (Button) findViewById(R.id.esttime);
         btn.setVisibility(View.VISIBLE);
         btn.setText("Estimated Delivery Time: " + estimated_time + " mins");
-    }
-
-    public void setStore(boolean s){
-        store = s;
     }
 
     public void clickAccount(View view) {
