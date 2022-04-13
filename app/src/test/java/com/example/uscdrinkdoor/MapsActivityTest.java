@@ -3,9 +3,12 @@ package com.example.uscdrinkdoor;
 
 import static org.junit.Assert.*;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+
 
 
 @RunWith(JUnit4.class)
@@ -28,6 +31,15 @@ public class MapsActivityTest {
 
     public void SelectWalking() { traveloption = "walking"; }
     public void SelectDriving(){ traveloption = "driving"; }
+
+    public String GetURL(LatLng l, String t){
+        String origin = "origin=" + "34.0213" + "," + "-118.2824";
+        String dest = "&destination=" + l.latitude + "," + l.longitude;
+        String mode = "&mode=" + t;
+        String key = "&key=AIzaSyDewc_xqcDgxGJNJAEb0D3ipsKtxD3KqOI";
+        String urlrequest = "https://maps.googleapis.com/maps/api/directions/json?" + origin + dest + mode + key;
+        return urlrequest;
+    }
 
     @Test
     public void Test_On_Marker_Click_Logic(){
@@ -67,5 +79,29 @@ public class MapsActivityTest {
         assertEquals(traveloption, "driving");
         SelectDriving();
         assertEquals(traveloption, "driving");
+    }
+
+    @Test
+    public void URLTest(){
+        LatLng l = new LatLng(34.029496,-118.285165);
+        String c = GetURL(l, "walking");
+        assertEquals("https://maps.googleapis.com/maps/api/" +
+                "directions/json?origin=34.0213,-118.2824&destination=34.029496,-118.285165&mode=" +
+                "walking&key=AIzaSyDewc_xqcDgxGJNJAEb0D3ipsKtxD3KqOI", c );
+        c = GetURL(l, "driving");
+        assertEquals("https://maps.googleapis.com/maps/api/" +
+                "directions/json?origin=34.0213,-118.2824&destination=34.029496,-118.285165&mode=driving" +
+                "&key=AIzaSyDewc_xqcDgxGJNJAEb0D3ipsKtxD3KqOI", c);
+
+        LatLng l2 = new LatLng(34.0223,-118.2846);
+        c = GetURL(l2, "walking");
+        assertEquals("https://maps.googleapis.com/maps/api/" +
+                "directions/json?origin=34.0213,-118.2824&destination=34.0223,-118.2846&mode=walking" +
+                "&key=AIzaSyDewc_xqcDgxGJNJAEb0D3ipsKtxD3KqOI", c);
+
+        c = GetURL(l2, "driving");
+        assertEquals("https://maps.googleapis.com/maps/api/" +
+                "directions/json?origin=34.0213,-118.2824&destination=34.0223,-118.2846&mode=driving" +
+                "&key=AIzaSyDewc_xqcDgxGJNJAEb0D3ipsKtxD3KqOI", c);
     }
 }
