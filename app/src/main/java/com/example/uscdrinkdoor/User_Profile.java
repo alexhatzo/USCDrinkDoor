@@ -121,6 +121,7 @@ public class User_Profile extends AppCompatActivity{
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             com.google.firebase.Timestamp orderTime = document.getTimestamp("Date");
 
+                            assert orderTime != null;
                             long timeDiff = timestampSeconds - orderTime.getSeconds();
                             long currentMinutes = timeDiff/60;
                             long currentHours = currentMinutes/60;

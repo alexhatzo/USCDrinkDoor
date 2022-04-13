@@ -74,7 +74,7 @@ public class AddProductToMenu extends AppCompatActivity {
                String ds = description.getText().toString();
 
             //make sure fields are not empty
-                if(ns.isEmpty() || ps!=0 || cs!=0 || ds.isEmpty()){
+                if(ns.isEmpty() || ps==0 || cs==0 || ds.isEmpty()){
                     Toast.makeText(AddProductToMenu.this, "Make sure you have filled all fields", Toast.LENGTH_SHORT  ).show();
                 }else{
                     Map<String, Object> product = new HashMap<>();

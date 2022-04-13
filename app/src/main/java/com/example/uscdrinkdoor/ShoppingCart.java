@@ -32,7 +32,7 @@ public class ShoppingCart {
     public int Get_Cart_ID(){ return CartID; }
 
     public List<Item> Get_Items(){
-        return new ArrayList<>();
+        return items;
     }
 
     public float calculateTotal(){
@@ -43,10 +43,5 @@ public class ShoppingCart {
         return total;
     }
 
-    public void Submit_Order(){
-        // Create order object here
-        // Pass order object to seller
 
-
-    }
 }
