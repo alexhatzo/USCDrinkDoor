@@ -67,6 +67,5 @@ public class MapsActivityTest {
         assertEquals(traveloption, "driving");
         SelectDriving();
         assertEquals(traveloption, "driving");
-
     }
 }
