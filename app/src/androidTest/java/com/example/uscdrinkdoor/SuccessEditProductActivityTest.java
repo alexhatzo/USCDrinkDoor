@@ -109,7 +109,7 @@ public class SuccessEditProductActivityTest {
         materialButton3.perform(click());
 
         ViewInteraction appCompatEditText3 = onView(
-                allOf(withId(R.id.productName), withText("Green Tea"),
+                allOf(withId(R.id.productName), withText("Mint Tea"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
@@ -119,17 +119,17 @@ public class SuccessEditProductActivityTest {
         appCompatEditText3.perform(click());
 
         ViewInteraction appCompatEditText4 = onView(
-                allOf(withId(R.id.productName), withText("Green Tea"),
+                allOf(withId(R.id.productName), withText("Mint Tea"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
                                 1),
                         isDisplayed()));
-        appCompatEditText4.perform(replaceText("Mint Tea"));
+        appCompatEditText4.perform(replaceText("Change Tea"));
 
         ViewInteraction appCompatEditText5 = onView(
-                allOf(withId(R.id.productName), withText("Mint Tea"),
+                allOf(withId(R.id.productName), withText("Change Tea"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
@@ -139,7 +139,7 @@ public class SuccessEditProductActivityTest {
         appCompatEditText5.perform(closeSoftKeyboard());
 
         ViewInteraction appCompatEditText6 = onView(
-                allOf(withId(R.id.productDescription), withText("Green Tea with a hint of lemon"),
+                allOf(withId(R.id.productDescription), withText("No Tea with a hint of lemon"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
