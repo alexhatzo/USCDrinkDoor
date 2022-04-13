@@ -38,8 +38,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * An activity that displays a map showing the place at the device's current location.
@@ -53,7 +51,7 @@ public class MapsActivity extends AppCompatActivity
     public boolean store = false;
 
     private static final String TAG = MapsActivity.class.getSimpleName();
-    private GoogleMap map;
+    public GoogleMap map;
     private CameraPosition cameraPosition;
 
     // The entry point to the Places API.
@@ -269,7 +267,6 @@ public class MapsActivity extends AppCompatActivity
     }
 
     private void SearchNearby(){
-        List<String> storeData = new ArrayList<>();
         EspressoIdlingResource.increment();
         //Get store coordinates from database
         db.collection("users")
@@ -297,11 +294,8 @@ public class MapsActivity extends AppCompatActivity
                         }
 
                         EspressoIdlingResource.decrement();
-
                     }
-
                 });
-
         map.setOnMarkerClickListener(this);
     }
 
