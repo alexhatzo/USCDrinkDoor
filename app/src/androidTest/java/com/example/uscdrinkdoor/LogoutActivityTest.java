@@ -1,20 +1,16 @@
 package com.example.uscdrinkdoor;
 
 
-import static androidx.test.InstrumentationRegistry.getInstrumentation;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
-import static androidx.test.espresso.action.ViewActions.scrollTo;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.core.StringContains.containsString;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,15 +18,10 @@ import android.view.ViewParent;
 
 import androidx.test.espresso.IdlingRegistry;
 import androidx.test.espresso.ViewInteraction;
-import androidx.test.espresso.intent.Intents;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.rule.GrantPermissionRule;
 import androidx.test.runner.AndroidJUnit4;
-import androidx.test.uiautomator.UiDevice;
-import androidx.test.uiautomator.UiObject;
-import androidx.test.uiautomator.UiObjectNotFoundException;
-import androidx.test.uiautomator.UiSelector;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -43,8 +34,7 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class OrderActivityTest {
-
+public class LogoutActivityTest {
     @Before
     public void registerIdlingResource(){
         IdlingRegistry.getInstance().register(EspressoIdlingResource.countingIdlingResource);
@@ -55,7 +45,6 @@ public class OrderActivityTest {
         IdlingRegistry.getInstance().unregister(EspressoIdlingResource.countingIdlingResource);
 
     }
-
     @Rule
     public ActivityTestRule<LoginActivity> mActivityTestRule = new ActivityTestRule<>(LoginActivity.class);
 
@@ -65,9 +54,7 @@ public class OrderActivityTest {
                     "android.permission.ACCESS_FINE_LOCATION");
 
     @Test
-    public void orderActivityTest() {
-
-        //Login
+    public void logoutActivityTest() {
         ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.email),
                         childAtPosition(
@@ -97,69 +84,28 @@ public class OrderActivityTest {
                                 4),
                         isDisplayed()));
         materialButton.perform(click());
-        //end of login
-
-        UiDevice uiDevice = UiDevice.getInstance(getInstrumentation());
-
-        UiObject mMarker1 = uiDevice.findObject(new UiSelector().descriptionContains("USC Tea Shop"));
-        ViewInteraction home = onView(allOf(withId(R.id.Home)));
-
-        try {
-            Intents.init();
-            mMarker1.click();
-            mMarker1.click();
-            ViewInteraction addProduct = onView(allOf(withId(R.id.Add)));
-
-            addProduct.perform(click());
-            home.perform(click());
-
-
-        } catch (UiObjectNotFoundException e) {
-            e.printStackTrace();
-        }
-
 
         ViewInteraction materialButton2 = onView(
-                allOf(withId(R.id.sellerMenu), withText("Cart"),
+                allOf(withId(R.id.Account_Profile), withText("Account"),
                         childAtPosition(
                                 allOf(withId(R.id.function),
                                         childAtPosition(
                                                 withClassName(is("android.widget.RelativeLayout")),
                                                 1)),
-                                1),
+                                3),
                         isDisplayed()));
         materialButton2.perform(click());
 
         ViewInteraction materialButton3 = onView(
-                allOf(withId(R.id.Submit_Order), withText("Submit Order"),
+                allOf(withId(R.id.userLogoff), withText("Sign Off"),
                         childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                                        0),
-                                1),
+                                allOf(withId(R.id.User_Profile),
+                                        childAtPosition(
+                                                withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                                                0)),
+                                6),
                         isDisplayed()));
         materialButton3.perform(click());
-
-        ViewInteraction materialButton4 = onView(
-                allOf(withId(android.R.id.button1), withText("Yes"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.ScrollView")),
-                                        0),
-                                3)));
-        materialButton4.perform(scrollTo(), click());
-
-        ViewInteraction materialButton5 = onView(
-                allOf(withId(R.id.Submit_Order), withText("Submit Order"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                                        0),
-                                1),
-                        isDisplayed()));
-        materialButton5.perform(click());
-
-
     }
 
     private static Matcher<View> childAtPosition(

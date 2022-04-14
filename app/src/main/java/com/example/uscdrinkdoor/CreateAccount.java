@@ -110,7 +110,7 @@ public class CreateAccount extends AppCompatActivity {
                 user.put("store", storeAccount.isChecked());
                 user.put("lat", l.latitude);
                 user.put("long", l.longitude);
-                user.put("caffeine", 0);
+                user.put("Caffeine", 0);
                 Log.d(TAG, "onClick: " + ns + as + zs+ ps);
 
                 saveAccountInfo( user);

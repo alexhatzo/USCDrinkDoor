@@ -93,7 +93,6 @@ public class AddProductToMenu extends AppCompatActivity {
                     saveNewProduct(colRef, ns, product);
 
                     //check for edited/double writing
-                    assert editProdName != null;
                     checkForEdit(colRef, editProdName, ns);
 
 
@@ -160,23 +159,26 @@ public class AddProductToMenu extends AppCompatActivity {
     }
 
     public void checkForEdit(CollectionReference colRef, String editProdName, String ns){
-        if(!editProdName.equals(ns)){
-            colRef.document(editProdName)
-                    .delete()
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            Log.w(TAG, "Product deleted successfully");
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w(TAG, "Error deleting product", e);
-                        }
-                    });
-        }
 
+        if(editProdName!=null ) {
+            if (!editProdName.equals(ns)) {
+
+                colRef.document(editProdName)
+                        .delete()
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                Log.w(TAG, "Product deleted successfully");
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error deleting product", e);
+                            }
+                        });
+            }
+        }
     }
     public void updateUIonSave(){
         name.setText("");

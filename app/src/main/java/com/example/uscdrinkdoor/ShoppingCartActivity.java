@@ -325,9 +325,11 @@ public class ShoppingCartActivity extends AppCompatActivity{
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
-                            if((long)document.get("Caffeine") > 400){
-                                AlertDialog alert11 = builder1.create();
-                                alert11.show();
+                            if(document.get("Caffeine")!=null ){
+                                if((long)document.get("Caffeine") > 400){
+                                    AlertDialog alert11 = builder1.create();
+                                    alert11.show();
+                                }
                             }else {
                                 cont = true;
                             }
