@@ -8,7 +8,6 @@ import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
@@ -35,7 +34,7 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class SuccessOrderCompletedActivityTest {
+public class AccountOrderListActivityUI {
 
     @Before
     public void registerIdlingResource(){
@@ -47,7 +46,7 @@ public class SuccessOrderCompletedActivityTest {
         IdlingRegistry.getInstance().unregister(EspressoIdlingResource.countingIdlingResource);
 
     }
-
+    
     @Rule
     public ActivityTestRule<LoginActivity> mActivityTestRule = new ActivityTestRule<>(LoginActivity.class);
 
@@ -57,7 +56,7 @@ public class SuccessOrderCompletedActivityTest {
                     "android.permission.ACCESS_FINE_LOCATION");
 
     @Test
-    public void successOrderCompletedActivityTest() {
+    public void accountOrderListActivityUI() {
         ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.email),
                         childAtPosition(
@@ -66,7 +65,7 @@ public class SuccessOrderCompletedActivityTest {
                                         0),
                                 1),
                         isDisplayed()));
-        appCompatEditText.perform(replaceText("tea@store.com"), closeSoftKeyboard());
+        appCompatEditText.perform(replaceText("test1@test.com"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText2 = onView(
                 allOf(withId(R.id.password),
@@ -76,7 +75,7 @@ public class SuccessOrderCompletedActivityTest {
                                         0),
                                 2),
                         isDisplayed()));
-        appCompatEditText2.perform(replaceText("123456"), closeSoftKeyboard());
+        appCompatEditText2.perform(replaceText("1234567"), closeSoftKeyboard());
 
         ViewInteraction materialButton = onView(
                 allOf(withId(R.id.btnlogin), withText("Login"),
@@ -89,45 +88,26 @@ public class SuccessOrderCompletedActivityTest {
         materialButton.perform(click());
 
         ViewInteraction materialButton2 = onView(
-                allOf(withId(R.id.userOrder), withText("Order"),
+                allOf(withId(R.id.Account_Profile), withText("Account"),
                         childAtPosition(
                                 allOf(withId(R.id.function),
                                         childAtPosition(
                                                 withClassName(is("android.widget.RelativeLayout")),
                                                 1)),
-                                2),
+                                3),
                         isDisplayed()));
         materialButton2.perform(click());
 
         ViewInteraction materialButton3 = onView(
-                allOf(withId(R.id.View), withText("View Order"),
+                allOf(withId(R.id.sellerOrders), withText("Orders"),
                         childAtPosition(
-                                withParent(withId(R.id.listView)),
-                                2),
+                                allOf(withId(R.id.Seller_Profile),
+                                        childAtPosition(
+                                                withId(R.id.sellerId),
+                                                0)),
+                                4),
                         isDisplayed()));
         materialButton3.perform(click());
-
-        ViewInteraction materialButton4 = onView(
-                allOf(withId(R.id.orderComplete), withText("Complete Order"),
-                        childAtPosition(
-                                allOf(withId(R.id.linearLayout2),
-                                        childAtPosition(
-                                                withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                                                2)),
-                                1),
-                        isDisplayed()));
-        materialButton4.perform(click());
-
-        ViewInteraction materialButton5 = onView(
-                allOf(withId(R.id.orderBack), withText("Back"),
-                        childAtPosition(
-                                allOf(withId(R.id.linearLayout2),
-                                        childAtPosition(
-                                                withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                                                2)),
-                                0),
-                        isDisplayed()));
-        materialButton5.perform(click());
     }
 
     private static Matcher<View> childAtPosition(
