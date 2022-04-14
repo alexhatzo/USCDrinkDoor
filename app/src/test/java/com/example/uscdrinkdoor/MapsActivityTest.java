@@ -82,7 +82,7 @@ public class MapsActivityTest {
     }
 
     @Test
-    public void URLTest(){
+    public void Address_To_Coordinates(){
         LatLng l = new LatLng(34.029496,-118.285165);
         String c = GetURL(l, "walking");
         assertEquals("https://maps.googleapis.com/maps/api/" +

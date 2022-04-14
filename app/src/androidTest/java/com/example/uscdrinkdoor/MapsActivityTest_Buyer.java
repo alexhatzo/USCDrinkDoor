@@ -91,7 +91,7 @@ public class MapsActivityTest_Buyer {
     }
 
     @Test
-    public void Display_Map_And_Function_Buttons() {
+    public void Display_Map_And_Navigation_Buttons() {
         ViewInteraction view = onView(withId(R.id.map));
         view.check(matches(isDisplayed()));
 
@@ -123,7 +123,7 @@ public class MapsActivityTest_Buyer {
     }
 
     @Test
-    public void Click_Functions_Buttons() {
+    public void Click_Navigation_Buttons() {
         ViewInteraction button1 = onView(allOf(withId(R.id.Home)));
         ViewInteraction button2 = onView(allOf(withId(R.id.sellerMenu)));
         ViewInteraction button3 = onView(allOf(withId(R.id.userOrder)));
