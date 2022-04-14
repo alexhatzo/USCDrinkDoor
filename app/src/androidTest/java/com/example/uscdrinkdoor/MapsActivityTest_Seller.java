@@ -123,7 +123,7 @@ public class MapsActivityTest_Seller {
     }
 
     @Test
-    public void Click_Functions_Buttons() {
+    public void Click_Navigation_Buttons() {
         ViewInteraction button1 = onView(allOf(withId(R.id.Home)));
         ViewInteraction button2 = onView(allOf(withId(R.id.sellerMenu)));
         ViewInteraction button3 = onView(allOf(withId(R.id.userOrder)));
