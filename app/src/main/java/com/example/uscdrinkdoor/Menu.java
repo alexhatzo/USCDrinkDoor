@@ -20,6 +20,10 @@ public class Menu {
         return false;
     }
 
+    public void removeItem(Item item){
+        menu.remove(item);
+    }
+
     public void editItem(Item item, String name, String desc, long price, long caffeine){
         for (int i=0; i<menu.size(); i++){
             if (menu.get(i).getName().equals(item.getName())){

@@ -64,6 +64,29 @@ public class MenuTest {
 
     }
 
+    @Test
+    public void checkRemoveFromMenu(){
+        Item i1 = new Item("Coffee", "Hot", 5, 50, "a@a.com");
+        Item i2 = new Item("Tea", "Cold", 5, 20, "b@a.com");
+        Item i3 = new Item("Boba", "Cold", 5, 10, "c@a.com");
+
+        menuTest.addItem(i1);
+        menuTest.addItem(i2);
+        menuTest.addItem(i3);
+
+        assertEquals(true, menuTest.checkItem(i1));
+        assertEquals(true, menuTest.checkItem(i2));
+        assertEquals(true, menuTest.checkItem(i3));
+
+        menuTest.removeItem(i3);
+
+        assertEquals(true, menuTest.checkItem(i1));
+        assertEquals(true, menuTest.checkItem(i2));
+        assertEquals(false, menuTest.checkItem(i3));
+
+
+    }
+
 
 
 }

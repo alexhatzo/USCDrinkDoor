@@ -46,7 +46,7 @@ public class AccountOrderListActivityUI {
         IdlingRegistry.getInstance().unregister(EspressoIdlingResource.countingIdlingResource);
 
     }
-    
+
     @Rule
     public ActivityTestRule<LoginActivity> mActivityTestRule = new ActivityTestRule<>(LoginActivity.class);
 
