@@ -62,7 +62,12 @@ public class OrderIDAdapter extends ArrayAdapter<String> {
 
         //Button
         Button view = convertView.findViewById(R.id.View);
+        Boolean completed = false;
 
+        //check if order is complete and set button text accordingly
+       DocumentReference docRef =  db.collection("users").document(userEmail).collection("Orders").document(orderID);
+
+       updateButtonText(docRef, view);
 
 
 
@@ -78,6 +83,26 @@ public class OrderIDAdapter extends ArrayAdapter<String> {
 
 
         return convertView;
+    }
+
+    private void updateButtonText(DocumentReference docRef, Button view) {
+        docRef.get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            if( task.getResult().get("Completed") != null){
+                                if ((Boolean)task.getResult().get("Completed")){
+                                    view.setText("Order Completed");
+                                }else{
+                                    view.setText("View Order");
+                                }
+
+                            }
+                        }
+
+                    }
+                });
     }
 
     public interface OrderClickListener {

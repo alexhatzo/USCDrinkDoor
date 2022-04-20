@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -45,8 +46,8 @@ public class SellerOrderListActivity extends AppCompatActivity implements OrderI
 
         EspressoIdlingResource.increment();
 
-        db.collection("users").document(emailAddress).collection("Orders")
-                .get()
+        CollectionReference colRef = db.collection("users").document(emailAddress).collection("Orders");
+                colRef.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {

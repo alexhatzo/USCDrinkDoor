@@ -7,10 +7,8 @@ import android.content.Intent;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -18,6 +16,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -26,6 +25,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class SellerOrderPage extends AppCompatActivity {
 
@@ -38,7 +38,7 @@ public class SellerOrderPage extends AppCompatActivity {
     private TextView orderName;
     private TextView orderAddress;
     private TextView orderPhone;
-    private TextView orderEmail;
+    private TextView orderDeliveryTime;
     private TextView orderTime;
     private TextView orderTotal;
 
@@ -69,7 +69,7 @@ public class SellerOrderPage extends AppCompatActivity {
         orderName = findViewById(R.id.orderCustomer);
         orderAddress = findViewById(R.id.orderAddress);
         orderPhone = findViewById(R.id.orderPhone);
-        orderEmail = findViewById(R.id.orderEmail);
+        orderDeliveryTime = findViewById(R.id.orderDeliveryTime);
         orderTime = findViewById(R.id.orderTime);
         orderTotal = findViewById(R.id.orderTotal);
 
@@ -156,8 +156,37 @@ public class SellerOrderPage extends AppCompatActivity {
                     public void onClick(View view) {
 
                         docRef.update("Completed",true);
-                        db.collection("users").document(customerEmail).collection("Past Orders").document(orderID)
-                                .update("Current", false);
+                        //calculate time it took for order to be delivered
+                        DocumentReference userDocRef = db.collection("users").document(customerEmail).collection("Past Orders").document(orderID);
+
+
+                        userDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if(task.isSuccessful()){
+                                    Timestamp orderTime = task.getResult().getTimestamp("Date");
+                                    assert orderTime != null;
+
+                                    long currentTime = System.currentTimeMillis();
+                                    long timestampSeconds = TimeUnit.MILLISECONDS.toSeconds(currentTime);
+
+                                    long timeDiff = timestampSeconds - orderTime.getSeconds();
+                                    long currentMinutes = timeDiff/60;
+
+                                    docRef.update("Time to deliver", currentMinutes);
+
+                                    //update on user side
+
+                                    userDocRef.update("Current", false);
+                                    userDocRef.update("Time to deliver", currentMinutes);
+
+                                }
+                            }
+                        });
+
+
+                        //Time Ordered
+
                         Intent intent = new Intent(SellerOrderPage.this, SellerOrderPage.class).putExtra("id",orderID);
 
                         startActivity(intent);
@@ -176,7 +205,7 @@ public class SellerOrderPage extends AppCompatActivity {
         orderName.append(document.get("Customer Name").toString());
         orderAddress.append(document.get("Delivery Address").toString());
         orderPhone.append(document.get("Customer Phone").toString());
-        orderEmail.append(document.get("Customer Email").toString());
+        orderDeliveryTime.append(document.get("Time to deliver").toString() + " minutes");
         orderTotal.append(document.get("Total Amount").toString());
         orderTime.append(document.get("Time Ordered").toString());
     }

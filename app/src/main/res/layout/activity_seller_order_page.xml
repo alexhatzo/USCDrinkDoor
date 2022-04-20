@@ -54,19 +54,19 @@
             android:textSize="22sp" />
 
         <TextView
-            android:id="@+id/orderEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            android:text="Email:"
-            android:textSize="22sp" />
-
-        <TextView
             android:id="@+id/orderTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
             android:text="Time placed:"
+            android:textSize="22sp" />
+
+        <TextView
+            android:id="@+id/orderDeliveryTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:text="Time to deliver:"
             android:textSize="22sp" />
 
         <TextView

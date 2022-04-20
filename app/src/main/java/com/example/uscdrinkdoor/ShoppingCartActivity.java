@@ -126,9 +126,10 @@ public class ShoppingCartActivity extends AppCompatActivity{
             public void onClick(View view) {
                 //FEATURE #2: Alexandros Hatzopoulos
                 //check if user has had too much caffeine
-                if( !checkCaffeine(emailAddress) ) {
-                    return;
-                }
+//                if( !checkCaffeine(emailAddress) ) {
+//                    Log.d(TAG, "onClick: Caffeine check returns");
+//                    return;
+//                }
                 //get buyer's information to pass on to seller
 
                 Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -142,6 +143,7 @@ public class ShoppingCartActivity extends AppCompatActivity{
                 order.put("Completed", false);
                 order.put("Time Ordered", sdf3.format(timestamp));
                 order.put("Total Amount", newOrder.getTotal());
+                order.put("Time to deliver", "-");
 
                 String uuid = String.format("%040d", new BigInteger(UUID.randomUUID().toString().replace("-", ""), 16));
                 String uuid16digits = uuid.substring(uuid.length() - 16);
@@ -163,8 +165,10 @@ public class ShoppingCartActivity extends AppCompatActivity{
                                pastOrder.put("Caffeine", document.get("Caffeine"));
                                pastOrder.put("Description", document.get("description"));
                                pastOrder.put("Time Ordered", timestamp);
+                               pastOrder.put("Time to deliver", "Not delivered yet");
 
-                                orderCaffeine += (long)document.get("Caffeine");
+
+                               orderCaffeine += (long)document.get("Caffeine");
                                 orderTotal += (long) document.get("Price");
                                //add the cart to past orders
                                db.collection("users").document(emailAddress).collection("Past Orders").document(uuid16digits).collection("Products").document((String)document.get("Name"))
@@ -207,7 +211,7 @@ public class ShoppingCartActivity extends AppCompatActivity{
                             pastOrderInfo.put("Order Total" , orderTotal);
                             pastOrderInfo.put("Date", timestamp);
                             pastOrderInfo.put("Current", true);
-
+                            pastOrderInfo.put("Time to deliver", "Not delivered yet");
 
                            db.collection("users").document(emailAddress).collection("Past Orders").document(uuid16digits)
                                    .set(pastOrderInfo)
@@ -335,6 +339,7 @@ public class ShoppingCartActivity extends AppCompatActivity{
                             }
                         }
                         EspressoIdlingResource.decrement();
+
                     }
                 });
         return cont;
