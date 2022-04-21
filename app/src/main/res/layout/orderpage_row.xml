@@ -7,11 +7,10 @@
 
     <TextView
         android:id="@+id/userName"
+        style="@style/TextAppearance.AppCompat.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/TextAppearance.AppCompat.Title"
-        android:text="Name"
-        />
+        android:text="Name" />
 
     <TextView
         android:id="@+id/Description"
@@ -25,14 +24,13 @@
 
     <TextView
         android:id="@+id/Price"
+        style="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/Description"
         android:maxLength="50"
         android:singleLine="true"
-        style="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
-        android:text="Price"
-        />
+        android:text="Price" />
 
 
 

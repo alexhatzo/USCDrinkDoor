@@ -29,6 +29,9 @@
             android:name=".SellerOrderPage"
             android:exported="false" />
         <activity
+            android:name=".BuyerOrderPage"
+            android:exported="false" />
+        <activity
             android:name=".OrderCompleteActivity"
             android:exported="false" />
         <activity
@@ -64,6 +67,10 @@
         <activity
             android:name=".SellerOrderListActivity"
             android:exported="false" />
+        <activity
+            android:name=".BuyerOrderListActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>

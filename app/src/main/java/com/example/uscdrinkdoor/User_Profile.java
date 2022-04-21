@@ -149,7 +149,7 @@ public class User_Profile extends AppCompatActivity{
     }
 
     public void clickOrder(View view){
-        Intent intent = new Intent(this, OrderCompleteActivity.class);
+        Intent intent = new Intent(this, BuyerOrderListActivity.class);
         startActivity(intent);
     }
 

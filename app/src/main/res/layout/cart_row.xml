@@ -15,14 +15,13 @@
 
     <TextView
         android:id="@+id/Description"
+        style="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/userName"
         android:maxLength="50"
         android:singleLine="true"
-        style="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
-        android:text="Description"
-        />
+        android:text="Description" />
 
     <TextView
         android:id="@+id/Price"
@@ -37,14 +36,13 @@
 
     <TextView
         android:id="@+id/userCaffeine"
+        style="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/Price"
         android:maxLength="50"
         android:singleLine="true"
-        style="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
-        android:text="Caffeine"
-        />
+        android:text="Caffeine" />
 
 
 

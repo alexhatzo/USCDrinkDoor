@@ -122,7 +122,7 @@ public class SellerOrderPage extends AppCompatActivity {
                                         }
 //
 
-                                        OrderPageAdapter itemAdapter = new OrderPageAdapter(context, R.layout.cart_row, order);
+                                        OrderPageAdapter itemAdapter = new OrderPageAdapter(context, R.layout.orderpage_row, order);
 //
                                         listview.setAdapter(itemAdapter);
 

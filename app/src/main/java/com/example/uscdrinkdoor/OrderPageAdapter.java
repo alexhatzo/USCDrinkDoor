@@ -48,6 +48,7 @@ public class OrderPageAdapter extends ArrayAdapter<orderItem> {
         TextView name = convertView.findViewById(R.id.userName);
         TextView description = convertView.findViewById(R.id.Description);
         TextView price = convertView.findViewById(R.id.Price);
+        //TextView caffeine = convertView.findViewById(R.id.userCaffeine);
 
         String productName = getItem(position).getProductName();
 
@@ -56,6 +57,9 @@ public class OrderPageAdapter extends ArrayAdapter<orderItem> {
 
         String priceString = "$" + String.valueOf(getItem(position).getPrice());
         price.setText(priceString);
+
+//        String caffeineString = String.valueOf(getItem(position).getCaffeine()) + " mg";
+//        caffeine.setText(caffeineString);
 
         return convertView;
     }
