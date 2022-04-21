@@ -8,8 +8,9 @@
         <entry key="app/src/main/res/layout-w1240dp/activity_login.xml" value="0.15562248995983935" />
         <entry key="app/src/main/res/layout-w936dp/activity_login.xml" value="0.181640625" />
         <entry key="app/src/main/res/layout/activity_add_product_to_menu.xml" value="0.182518115942029" />
-        <entry key="app/src/main/res/layout/activity_buyer_order_list.xml" value="0.11372847011144883" />
+        <entry key="app/src/main/res/layout/activity_buyer_order_list.xml" value="0.26468977382238634" />
         <entry key="app/src/main/res/layout/activity_buyer_order_page.xml" value="0.23385416666666667" />
+        <entry key="app/src/main/res/layout/activity_chart.xml" value="0.23385416666666667" />
         <entry key="app/src/main/res/layout/activity_create_account.xml" value="0.24010416666666667" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.2421875" />
         <entry key="app/src/main/res/layout/activity_login2.xml" value="0.34434261598448823" />

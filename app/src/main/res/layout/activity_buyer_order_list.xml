@@ -29,7 +29,7 @@
         <ListView
             android:id="@+id/listView"
             android:layout_width="match_parent"
-            android:layout_height="594dp"
+            android:layout_height="552dp"
             android:layout_below="@id/Order_Confirmation"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -39,9 +39,28 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <LinearLayout
+            android:id="@+id/chartLayout"
+            android:layout_width="401dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="2dp"
+            android:orientation="horizontal"
+            android:layout_below="@id/listView">
+
+            <Button
+                android:id="@+id/viewChart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:insetLeft="5dp"
+                android:onClick="viewChart"
+                android:text="View Chart" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/listView">
+            android:layout_below="@id/chartLayout">
 
             <Button
                 android:id="@+id/Home"

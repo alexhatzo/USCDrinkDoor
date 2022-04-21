@@ -136,7 +136,7 @@ public class OrderCompleteActivity extends AppCompatActivity {
                                 long currentHours = currentMinutes/60;
 
                                 if(currentHours <24 ){
-                                    caffeine+= (long)document.get("Order Caffeine");
+                                    caffeine += (long)document.get("Order Caffeine");
                                     db.collection("users").document(emailAddress).update("Caffeine", caffeine);
                                 }
                             }

@@ -78,6 +78,11 @@ public class BuyerOrderListActivity extends AppCompatActivity implements BuyerOr
         startActivity(view);
     }
 
+    public void viewChart(View view){
+        Intent intent = new Intent(this, ChartActivity.class);
+        startActivity(intent);
+    }
+
     public void clickAccount(View view) {
         Intent intent = new Intent(this, User_Profile.class);
         startActivity(intent);
