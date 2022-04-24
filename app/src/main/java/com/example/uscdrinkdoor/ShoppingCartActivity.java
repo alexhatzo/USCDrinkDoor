@@ -126,10 +126,10 @@ public class ShoppingCartActivity extends AppCompatActivity{
             public void onClick(View view) {
                 //FEATURE #2: Alexandros Hatzopoulos
                 //check if user has had too much caffeine
-//                if( !checkCaffeine(emailAddress) ) {
-//                    Log.d(TAG, "onClick: Caffeine check returns");
-//                    return;
-//                }
+                if( !checkCaffeine(emailAddress) ) {
+                    Log.d(TAG, "onClick: Caffeine check returns");
+                    return;
+                }
                 //get buyer's information to pass on to seller
 
                 Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -333,6 +333,8 @@ public class ShoppingCartActivity extends AppCompatActivity{
                                 if((long)document.get("Caffeine") > 400){
                                     AlertDialog alert11 = builder1.create();
                                     alert11.show();
+                                }else{
+                                    cont=true;
                                 }
                             }else {
                                 cont = true;
