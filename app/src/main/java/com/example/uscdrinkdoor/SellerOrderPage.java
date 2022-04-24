@@ -180,6 +180,10 @@ public class SellerOrderPage extends AppCompatActivity {
                                     userDocRef.update("Current", false);
                                     userDocRef.update("Time to deliver", currentMinutes);
 
+                                    Intent intent = new Intent(SellerOrderPage.this, SellerOrderPage.class).putExtra("id",orderID);
+
+                                    startActivity(intent);
+                                    EspressoIdlingResource.decrement();
                                 }
                             }
                         });
@@ -187,10 +191,7 @@ public class SellerOrderPage extends AppCompatActivity {
 
                         //Time Ordered
 
-                        Intent intent = new Intent(SellerOrderPage.this, SellerOrderPage.class).putExtra("id",orderID);
 
-                        startActivity(intent);
-                        EspressoIdlingResource.decrement();
                       }
 
                 });

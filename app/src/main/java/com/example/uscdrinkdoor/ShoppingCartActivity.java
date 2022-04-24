@@ -129,163 +129,162 @@ public class ShoppingCartActivity extends AppCompatActivity{
                 if( !checkCaffeine(emailAddress) ) {
                     Log.d(TAG, "onClick: Caffeine check returns");
                     return;
-                }
-                //get buyer's information to pass on to seller
+                }else {
 
-                Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+                    //get buyer's information to pass on to seller
 
-                //record order data to send to seller db
-                Map<String, Object> order = new HashMap<>();
-                order.put("Customer Name", newOrder.getUserName());
-                order.put("Customer Email", newOrder.getUserEmail());
-                order.put("Customer Phone", newOrder.getPhone());
-                order.put("Delivery Address", newOrder.getAddress());
-                order.put("Completed", false);
-                order.put("Time Ordered", sdf3.format(timestamp));
-                order.put("Total Amount", newOrder.getTotal());
-                order.put("Time to deliver", "-");
+                    Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
-                String uuid = String.format("%040d", new BigInteger(UUID.randomUUID().toString().replace("-", ""), 16));
-                String uuid16digits = uuid.substring(uuid.length() - 16);
+                    //record order data to send to seller db
+                    Map<String, Object> order = new HashMap<>();
+                    order.put("Customer Name", newOrder.getUserName());
+                    order.put("Customer Email", newOrder.getUserEmail());
+                    order.put("Customer Phone", newOrder.getPhone());
+                    order.put("Delivery Address", newOrder.getAddress());
+                    order.put("Completed", false);
+                    order.put("Time Ordered", sdf3.format(timestamp));
+                    order.put("Total Amount", newOrder.getTotal());
+                    order.put("Time to deliver", "-");
+
+                    String uuid = String.format("%040d", new BigInteger(UUID.randomUUID().toString().replace("-", ""), 16));
+                    String uuid16digits = uuid.substring(uuid.length() - 16);
 
 
-                EspressoIdlingResource.increment();
+                    EspressoIdlingResource.increment();
 
-                //transfer current cart to past orders
-                CollectionReference colRef = db.collection("users").document(emailAddress).collection("Cart");
+                    //transfer current cart to past orders
+                    CollectionReference colRef = db.collection("users").document(emailAddress).collection("Cart");
                     colRef.get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                   @Override
-                   public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                       if (task.isSuccessful()) {
-                           for (QueryDocumentSnapshot document : task.getResult()) {
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
 
-                               pastOrder.put("Product Name", document.get("Name"));
-                               pastOrder.put("Price", document.get("Price"));
-                               pastOrder.put("Caffeine", document.get("Caffeine"));
-                               pastOrder.put("Description", document.get("description"));
-                               pastOrder.put("Time Ordered", timestamp);
-                               pastOrder.put("Time to deliver", "Not delivered yet");
-
-
-                               orderCaffeine += (long)document.get("Caffeine");
-                                orderTotal += (long) document.get("Price");
-                               //add the cart to past orders
-                               db.collection("users").document(emailAddress).collection("Past Orders").document(uuid16digits).collection("Products").document((String)document.get("Name"))
-                                       .set(pastOrder)
-                                       .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                           @Override
-                                           public void onSuccess(Void unused) {
-                                               Log.d(TAG, "Item successfully added to past orders!");
-
-                                           }
-                                       })
-                                       .addOnFailureListener(new OnFailureListener() {
-                                           @Override
-                                           public void onFailure(@NonNull Exception e) {
-                                               Log.d(TAG, "Item failed to add to past orders!");
-
-                                           }
-                                       });
-                               pastOrder.clear();
-                               //Deleting product from current user cart
-                               colRef.document(document.getId()).delete()
-                                       .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                           @Override
-                                           public void onSuccess(Void aVoid) {
-                                               Log.d(TAG, "DocumentSnapshot successfully deleted!");
-                                           }
-                                       })
-                                       .addOnFailureListener(new OnFailureListener() {
-                                           @Override
-                                           public void onFailure(@NonNull Exception e) {
-                                               Log.w(TAG, "Error deleting document", e);
-                                           }
-                                       });
-
-                           }
-
-                           //Updating order with general info
-                           Map<String, Object> pastOrderInfo = new HashMap<>();
-                            pastOrderInfo.put("Order Caffeine", orderCaffeine);
-                            pastOrderInfo.put("Order Total" , orderTotal);
-                            pastOrderInfo.put("Date", timestamp);
-                            pastOrderInfo.put("Current", true);
-                            pastOrderInfo.put("Time to deliver", "Not delivered yet");
-
-                           db.collection("users").document(emailAddress).collection("Past Orders").document(uuid16digits)
-                                   .set(pastOrderInfo)
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void unused) {
-                                            Log.d(TAG, "Info successfully added to past orders!");
-
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Log.d(TAG, "Info failed to add to past orders!");
-
-                                        }
-                                    });
+                                            pastOrder.put("Product Name", document.get("Name"));
+                                            pastOrder.put("Price", document.get("Price"));
+                                            pastOrder.put("Caffeine", document.get("Caffeine"));
+                                            pastOrder.put("Description", document.get("description"));
+                                            pastOrder.put("Time Ordered", timestamp);
+                                            pastOrder.put("Time to deliver", "Not delivered yet");
 
 
-
-
-                       }
-
-                       EspressoIdlingResource.decrement();
-                   }
-               });
-
-                EspressoIdlingResource.increment();
-                        //save new order to db on seller side
-                        db.collection("users").document(sellerEmail).collection("Orders").document(uuid16digits)
-                                .set(order)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-
-                                    public void onSuccess(Void unused) {
-                                        //must add products ordered to nested collection within order
-                                        Map<String, Object> products = new HashMap<>();
-                                        for (Item i : cart) {
-                                            products.put("Name", i.getName());
-                                            products.put("description", i.getDescription());
-                                            products.put("Price", i.getPrice());
-
-                                            db.collection("users").document(sellerEmail).collection("Orders")
-                                                    .document(uuid16digits.toString()).collection("Products")
-                                                    .add(products)
-                                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                            orderCaffeine += (long) document.get("Caffeine");
+                                            orderTotal += (long) document.get("Price");
+                                            //add the cart to past orders
+                                            db.collection("users").document(emailAddress).collection("Past Orders").document(uuid16digits).collection("Products").document((String) document.get("Name"))
+                                                    .set(pastOrder)
+                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                         @Override
-                                                        public void onSuccess(DocumentReference documentReference) {
-                                                            Log.d(TAG, "Item successfully added to order!");
+                                                        public void onSuccess(Void unused) {
+                                                            Log.d(TAG, "Item successfully added to past orders!");
+
+                                                        }
+                                                    })
+                                                    .addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                            Log.d(TAG, "Item failed to add to past orders!");
 
                                                         }
                                                     });
+                                            pastOrder.clear();
+                                            //Deleting product from current user cart
+                                            colRef.document(document.getId()).delete()
+                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void aVoid) {
+                                                            Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                                                        }
+                                                    })
+                                                    .addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                            Log.w(TAG, "Error deleting document", e);
+                                                        }
+                                                    });
+
                                         }
-                                        products.clear();
-                                        Intent orderComplete = new Intent(ShoppingCartActivity.this, OrderCompleteActivity.class).putExtra("Delivery_Time",estimated_time);
-                                        startActivity(orderComplete);
+
+                                        //Updating order with general info
+                                        Map<String, Object> pastOrderInfo = new HashMap<>();
+                                        pastOrderInfo.put("Order Caffeine", orderCaffeine);
+                                        pastOrderInfo.put("Order Total", orderTotal);
+                                        pastOrderInfo.put("Date", timestamp);
+                                        pastOrderInfo.put("Current", true);
+                                        pastOrderInfo.put("Time to deliver", "Not delivered yet");
+
+                                        db.collection("users").document(emailAddress).collection("Past Orders").document(uuid16digits)
+                                                .set(pastOrderInfo)
+                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void unused) {
+                                                        Log.d(TAG, "Info successfully added to past orders!");
+
+                                                    }
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Log.d(TAG, "Info failed to add to past orders!");
+
+                                                    }
+                                                });
 
 
-                                        Log.d(TAG, "Order successfully added!");
-                                        Toast.makeText(ShoppingCartActivity.this, "Order successfully sent! ", Toast.LENGTH_SHORT).show();
-                                        //send user to order complete page
-                                        //                    updateUI();
-                                        EspressoIdlingResource.decrement();
                                     }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Log.w(TAG, "Error adding product", e);
-                                        EspressoIdlingResource.decrement();
+
+                                    EspressoIdlingResource.decrement();
+                                }
+                            });
+
+                    EspressoIdlingResource.increment();
+                    //save new order to db on seller side
+                    db.collection("users").document(sellerEmail).collection("Orders").document(uuid16digits)
+                            .set(order)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+
+                                public void onSuccess(Void unused) {
+                                    //must add products ordered to nested collection within order
+                                    Map<String, Object> products = new HashMap<>();
+                                    for (Item i : cart) {
+                                        products.put("Name", i.getName());
+                                        products.put("description", i.getDescription());
+                                        products.put("Price", i.getPrice());
+
+                                        db.collection("users").document(sellerEmail).collection("Orders")
+                                                .document(uuid16digits.toString()).collection("Products")
+                                                .add(products)
+                                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                    @Override
+                                                    public void onSuccess(DocumentReference documentReference) {
+                                                        Log.d(TAG, "Item successfully added to order!");
+
+                                                    }
+                                                });
                                     }
-                                });
+                                    products.clear();
+                                    Intent orderComplete = new Intent(ShoppingCartActivity.this, OrderCompleteActivity.class).putExtra("Delivery_Time", estimated_time);
+                                    startActivity(orderComplete);
 
 
+                                    Log.d(TAG, "Order successfully added!");
+                                    Toast.makeText(ShoppingCartActivity.this, "Order successfully sent! ", Toast.LENGTH_SHORT).show();
+                                    //send user to order complete page
+                                    //                    updateUI();
+                                    EspressoIdlingResource.decrement();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Error adding product", e);
+                                    EspressoIdlingResource.decrement();
+                                }
+                            });
 
+
+                }
             }
         });
 
