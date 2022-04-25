@@ -75,6 +75,14 @@
             android:name=".ChartActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".ChartActivityWeek"
+            android:exported="false" />
+
+        <activity
+            android:name=".ChartActivityMonth"
+            android:exported="false" />
+
     </application>
 
 </manifest>

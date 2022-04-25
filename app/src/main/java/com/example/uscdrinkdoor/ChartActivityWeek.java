@@ -39,7 +39,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
-public class ChartActivity extends AppCompatActivity {
+public class ChartActivityWeek extends AppCompatActivity {
 
     FirebaseFirestore db;
     private FirebaseAuth mAuth;
@@ -89,7 +89,7 @@ public class ChartActivity extends AppCompatActivity {
                                 long currentMinutes = timeDiff/60;
                                 long currentHours = currentMinutes/60;
 
-                                if(currentHours <= 24 ){
+                                if(currentHours <= 168 ){
                                     totalCaffeine += (Long) document.get("Order Caffeine");
                                     totalCost += (Long) document.get("Order Total");
                                 }
@@ -168,3 +168,6 @@ public class ChartActivity extends AppCompatActivity {
         startActivity(intent);
     }
 }
+
+
+
