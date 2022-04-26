@@ -1,6 +1,7 @@
 package com.example.uscdrinkdoor;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -27,16 +28,20 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
 
 
 /**
@@ -79,12 +84,20 @@ public class MapsActivity extends AppCompatActivity
     private static final String KEY_CAMERA_POSITION = "camera_position";
     private static final String KEY_LOCATION = "location";
 
+    FirebaseUser currentUser;
+    String userEmail;
+    ArrayList<String> orderIDs = new ArrayList<String>();
+    ArrayList<orderItem> order = new ArrayList<orderItem>();
+    Button Recommend_Button;
+    orderItem Recommend_Item;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        String userEmail = currentUser.getEmail();
+        currentUser = mAuth.getCurrentUser();
+        userEmail = currentUser.getEmail();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
@@ -107,6 +120,8 @@ public class MapsActivity extends AppCompatActivity
                         if (store == false){
                             Button btn = (Button) findViewById(R.id.sellerMenu);
                             btn.setText("Cart");
+                            Recommend_Button = (Button) findViewById(R.id.recommend);
+                            Recommend_Button.setVisibility(View.VISIBLE);
                         }
 
                     } else {
@@ -402,5 +417,68 @@ public class MapsActivity extends AppCompatActivity
 
     public void SelectDriving(View view) {
         getRoute(clicked, "driving");
+    }
+
+    public void RetrieveOrderHistory() {
+        CollectionReference colRef = db.collection("users").document(userEmail).collection("Past Orders");
+        colRef.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                orderIDs.add((String)document.getId());
+                            }
+
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+        if (!orderIDs.isEmpty()) {
+            RetrieveProduct(orderIDs.get(0));
+        }
+    }
+
+    public void RetrieveProduct(String orderID) {
+
+        DocumentReference docRef = db.collection("users").document(userEmail).collection("Past Orders").document(orderID);
+        docRef.collection("Products")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                order.add(new orderItem((String) document.get("Product Name"), (long) document.get("Price"), (String) document.get("Description")));
+                            }
+
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+        if (!order.isEmpty()) {
+            Recommend_Item = order.get(0);
+        }
+    }
+
+    public void Recommend(View view) {
+        //RecommendDialog recommend = new RecommendDialog();
+        //recommend.show(getSupportFragmentManager(), "Frag");
+
+        RetrieveOrderHistory();
+        if (Recommend_Item != null){
+            Recommend_Button.setText(Recommend_Item.getProductName());
+        }
     }
 }
