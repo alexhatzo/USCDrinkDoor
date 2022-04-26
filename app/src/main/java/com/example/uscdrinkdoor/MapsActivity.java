@@ -409,9 +409,7 @@ public class MapsActivity extends AppCompatActivity
         getRoute(clicked, "walking");
     }
 
-    public void SelectDriving(View view) {
-        getRoute(clicked, "driving");
-    }
+    public void SelectDriving(View view) { getRoute(clicked, "driving"); }
 
     public void RetrieveOrderHistory() {
         CollectionReference colRef = db.collection("users").document(userEmail).collection("Past Orders");
@@ -422,7 +420,9 @@ public class MapsActivity extends AppCompatActivity
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
-                                orderIDs.add((String)document.getId());
+                                String s = (String)document.getId();
+                                orderIDs.add(s);
+                                RetrieveProduct(s);
                             }
 
                         } else {
@@ -456,23 +456,23 @@ public class MapsActivity extends AppCompatActivity
     public void Recommend(View view) {
         //RecommendDialog recommend = new RecommendDialog();
         //recommend.show(getSupportFragmentManager(), "Frag");
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Recommended Item:");
 
-        if (!orderIDs.isEmpty()){
-            // Select from a random past order
-            int random = (int) (Math.random() * 10) % orderIDs.size();
-            RetrieveProduct(orderIDs.get(random));
+        // Select a random product from that order
+        if (!order.isEmpty()){
+            int random2 = (int) (Math.random() * 10) % order.size();
+            orderItem rec = order.get(random2);
 
-            // Select a random product from that order
-            if (!order.isEmpty()){
-                int random2 = (int) (Math.random() * 10) % order.size();
-                orderItem rec = order.get(random2);
-
-                // Show Dialog Message
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Recommended Item:");
-                builder.setMessage(rec.getProductName());
-                builder.show();
-            }
+            // Show Dialog Message
+            String name = "Name: " + rec.getProductName();
+            String caffeine = "Caffeine: " + String.valueOf(rec.getCaffeine());
+            String price = "Price: $" + String.valueOf(rec.getPrice());
+            builder.setMessage(name + "\n" + caffeine + "\n" + price);
         }
+        else {
+            builder.setMessage("Please Make An Order First");
+        }
+        builder.show();
     }
 }
