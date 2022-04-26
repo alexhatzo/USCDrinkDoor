@@ -89,8 +89,6 @@ public class MapsActivity extends AppCompatActivity
     ArrayList<String> orderIDs = new ArrayList<String>();
     ArrayList<orderItem> order = new ArrayList<orderItem>();
     Button Recommend_Button;
-    orderItem Recommend_Item;
-
 
 
     @Override
@@ -111,25 +109,18 @@ public class MapsActivity extends AppCompatActivity
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-
                         Log.d("TAG", "DocumentSnapshot data: " + document.getData());
                         if(document.get("store")!=null){
                             store = (boolean) document.get("store");
                         }
-
                         if (store == false){
                             Button btn = (Button) findViewById(R.id.sellerMenu);
                             btn.setText("Cart");
                             Recommend_Button = (Button) findViewById(R.id.recommend);
                             Recommend_Button.setVisibility(View.VISIBLE);
                         }
-
-                    } else {
-                        Log.d("TAG", "No such document");
-                    }
-                } else {
-                    Log.d("TAG", "get failed with ", task.getException());
-                }
+                    } else { Log.d("TAG", "No such document"); }
+                } else { Log.d("TAG", "get failed with ", task.getException()); }
             }
         });
 
@@ -186,6 +177,9 @@ public class MapsActivity extends AppCompatActivity
 
         // Get nearby stores
         SearchNearby();
+
+        RetrieveOrderHistory();
+
         EspressoIdlingResource.decrement();
     }
 
@@ -436,13 +430,9 @@ public class MapsActivity extends AppCompatActivity
                         }
                     }
                 });
-        if (!orderIDs.isEmpty()) {
-            RetrieveProduct(orderIDs.get(0));
-        }
     }
 
     public void RetrieveProduct(String orderID) {
-
         DocumentReference docRef = db.collection("users").document(userEmail).collection("Past Orders").document(orderID);
         docRef.collection("Products")
                 .get()
@@ -454,31 +444,35 @@ public class MapsActivity extends AppCompatActivity
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                                 order.add(new orderItem((String) document.get("Product Name"), (long) document.get("Price"), (String) document.get("Description")));
                             }
-
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-
+                        } else { Log.d(TAG, "Error getting documents: ", task.getException()); }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                    }
+                    public void onFailure(@NonNull Exception e) { }
                 });
-        if (!order.isEmpty()) {
-            Recommend_Item = order.get(0);
-        }
     }
 
     public void Recommend(View view) {
         //RecommendDialog recommend = new RecommendDialog();
         //recommend.show(getSupportFragmentManager(), "Frag");
 
-        RetrieveOrderHistory();
-        if (Recommend_Item != null){
-            Recommend_Button.setText(Recommend_Item.getProductName());
+        if (!orderIDs.isEmpty()){
+            // Select from a random past order
+            int random = (int) (Math.random() * 10) % orderIDs.size();
+            RetrieveProduct(orderIDs.get(random));
+
+            // Select a random product from that order
+            if (!order.isEmpty()){
+                int random2 = (int) (Math.random() * 10) % order.size();
+                orderItem rec = order.get(random2);
+
+                // Show Dialog Message
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Recommended Item:");
+                builder.setMessage(rec.getProductName());
+                builder.show();
+            }
         }
     }
 }
