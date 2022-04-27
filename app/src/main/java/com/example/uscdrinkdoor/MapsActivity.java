@@ -466,9 +466,8 @@ public class MapsActivity extends AppCompatActivity
 
             // Show Dialog Message
             String name = "Name: " + rec.getProductName();
-            String caffeine = "Caffeine: " + String.valueOf(rec.getCaffeine());
             String price = "Price: $" + String.valueOf(rec.getPrice());
-            builder.setMessage(name + "\n" + caffeine + "\n" + price);
+            builder.setMessage(name + "\n" + price);
         }
         else {
             builder.setMessage("Please Make An Order First");
